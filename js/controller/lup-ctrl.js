@@ -268,7 +268,7 @@ controller('LUPCtrl', function($scope, $rootScope, $q, $location, $mdMedia, $mdS
 		UserSrvc.loggedIn(window.GWF_USER);
 		$rootScope.$broadcast('lup-menu-refresh', window.GWF_USER);
 		SettingsSrvc.withConfig().then(function(){
-			if ($scope.data.initialUrl?.includes('login')) {
+			if ($scope.data.initialUrl?.includes('login') || $scope.data.initialUrl === 'signup') {
 				$scope.data.initialUrl = '/locations';
 			}
 			var path = $scope.data.initialUrl ? $scope.data.initialUrl : '/locations';

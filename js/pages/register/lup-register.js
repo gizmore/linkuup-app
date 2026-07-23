@@ -6,7 +6,7 @@ angular.module('LUP').config(function($routeProvider) {
 			authCheck: false,
 		},
 	});
-}).controller('RegisterCtrl', function($scope, $location, $translate,
+}).controller('RegisterCtrl', function($scope, $rootScope, $location, $translate,
 		AuthSrvc, WebsocketSrvc, ConfigSrvc, TypeSrvc, ErrorSrvc) {
 	
 	$scope.data.title = 'TITLE_SIGNUP';
@@ -60,7 +60,7 @@ angular.module('LUP').config(function($routeProvider) {
 		console.log('RegisterCtrl.registerSuccess()', msg);
 		window.GWF_USER.update(JSON.parse(msg));
 		if (window.GWF_USER.authenticated(true)) {
-			$scope.$broadcast('lup-authenticated', window.GWF_USER);
+			$rootScope.$broadcast('lup-authenticated', window.GWF_USER);
 		} else {
 			$scope.data.tos  = null;
 			$scope.data.captcha  = '';
