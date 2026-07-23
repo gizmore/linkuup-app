@@ -17,42 +17,42 @@
     
 	<md-list class="md-dense" flex layout="column">
 
-	  <md-list-item class="md-1-line" ng-click="gotoNearbyRooms()" ng-if="data.user.isAuthed()">
+	  <md-list-item class="md-1-line" ng-click="gotoNearbyRooms()" ng-if="data.ownUser.isAuthed()">
 	    <img src='images/nearby.svg' />
 		<p>{{'TITLE_LOCATIONS'|translate}}</p>
 	  </md-list-item>
 	  
-	  <md-list-item class="md-1-line" ng-click="gotoRegister()" ng-if="!data.user.isAuthed()">
+	  <md-list-item class="md-1-line" ng-click="gotoRegister()" ng-if="!data.ownUser.isAuthed()">
 	    <img src='images/settings.svg' />
 		<p>{{'BTN_REGISTER'|translate}}</p>
 	  </md-list-item>
 
-		<md-list-item class="md-1-line" ng-click="gotoOwnProfile()" ng-if="data.user.isAuthed()">
+		<md-list-item class="md-1-line" ng-click="gotoOwnProfile()" ng-if="data.ownUser.isAuthed()">
 	    <img src='images/ic_person_48px.svg' />
 	    <p>{{'TITLE_OWN_PROFILE'|translate}}</p>
 	  </md-list-item>
 
-	  <md-list-item class="md-1-line" ng-click="gotoSettings()" ng-if="data.user.isAuthed()">
+	  <md-list-item class="md-1-line" ng-click="gotoSettings()" ng-if="data.ownUser.isAuthed()">
 	    <img src='images/settings.svg' />
 		<p>{{'TITLE_SETTINGS'|translate}}</p>
 	  </md-list-item>
 
-	  <md-list-item class="md-1-line" ng-click="gotoAccount()" ng-if="data.user.isAuthed()">
+	  <md-list-item class="md-1-line" ng-click="gotoAccount()" ng-if="data.ownUser.isAuthed()">
 	    <img src='images/ic_person_48px.svg' />
 		<p>{{'TITLE_ACCOUNT'|translate}}</p>
 	  </md-list-item>
 
-	  <md-list-item class="md-1-line" ng-click="gotoProfileSettings()" ng-if="data.user.isAuthed()">
+	  <md-list-item class="md-1-line" ng-click="gotoProfileSettings()" ng-if="data.ownUser.isAuthed()">
 	    <img src='images/ic_person_48px.svg' />
 		<p>{{'TITLE_PROFILE_SETTINGS'|translate}}</p>
 	  </md-list-item>
 
-	  <md-list-item class="md-1-line" ng-click="gotoFriends(data.ownUser)" ng-if="data.user.isAuthed()">
+	  <md-list-item class="md-1-line" ng-click="gotoFriends(data.ownUser)" ng-if="data.ownUser.isAuthed()">
 	    <img src='images/ic_people_48px.svg' />
 		<p>{{'TITLE_FRIENDS'|translate}}</p>
 	  </md-list-item>
 	  
-	  <md-list-item class="md-1-line" ng-click="logout()" ng-if="data.user.isAuthed()">
+	  <md-list-item class="md-1-line" ng-click="logout()" ng-if="data.ownUser.isAuthed()">
 	    <img src='images/logout.svg' />
 		<p>{{'BTN_LOGOUT'|translate}}</p>
 	  </md-list-item>
