@@ -200,7 +200,7 @@ service('PositionSrvc', function($q, $rootScope, LoadingSrvc, RequestSrvc) {
 	};
 	
 	PositionSrvc.LAST = { lat: 0.0, lng: 0.0 };
-	PositionSrvc.EVENT_TOLERANCE = 0.010;
+	PositionSrvc.EVENT_TOLERANCE_KM = 0.025;
 	PositionSrvc.setCoordinates = function(lat, lng) {
 		console.log('PositionSrvc.setCoordinates()', lat, lng);
 		var c = PositionSrvc.CURRENT;
@@ -222,10 +222,10 @@ service('PositionSrvc', function($q, $rootScope, LoadingSrvc, RequestSrvc) {
 			return result;
 		}
 		
-		// Real positioning works with a threshold EVENT_TOLERANCE
+		// Only notify the server after moving at least 25 metres.
 		var last = PositionSrvc.LAST;
 		var distance = PositionSrvc.distanceBetween(current.lat, current.lng, last.lat, last.lng);
-		if (distance >= PositionSrvc.EVENT_TOLERANCE) {
+		if (distance >= PositionSrvc.EVENT_TOLERANCE_KM) {
 			console.log('PositionSrvc.hasPositionChangedSignificantly()', distance);
 			last.lat = current.lat;
 			last.lng = current.lng;
@@ -281,7 +281,7 @@ service('PositionSrvc', function($q, $rootScope, LoadingSrvc, RequestSrvc) {
 		var rad2deg = function(rad) { return rad * 180.0 / Math.PI; }
 		var degrees = rad2deg(acos((sin(deg2rad(lat1))*sin(deg2rad(lat2))) + (cos(deg2rad(lat1))*cos(deg2rad(lat2))*cos(deg2rad(lng1-lng2)))));
 		var distance = degrees * 111.13384;
-		return Math.round(distance*10) / 10;
+		return distance;
 	};
 	
 	//////////////
@@ -299,4 +299,3 @@ service('PositionSrvc', function($q, $rootScope, LoadingSrvc, RequestSrvc) {
 		return defer.promise;
 	};
 });
-
