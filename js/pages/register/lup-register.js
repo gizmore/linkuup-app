@@ -49,7 +49,7 @@ angular.module('LUP').config(function($routeProvider) {
 				gwsMessage.writeString(data.email);
 			}
 			if (ConfigSrvc.tosForced()) {
-				gwsMessage.write8(data.tos?1:0);
+				gwsMessage.write16(data.tos?1:0);
 			}
 			if (ConfigSrvc.signupCaptcha()) {
 				gwsMessage.writeString(data.captcha);

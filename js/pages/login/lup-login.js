@@ -146,7 +146,7 @@ angular.module('LUP').config(function($routeProvider) {
 			$scope.data.errors = {};
 			var gwsMessage = new GWS_Message().cmd(0x0101).sync().writeString($scope.data.nickname);
 			if (ConfigSrvc.tosForced()) {
-				gwsMessage.write8($scope.data.tos?1:0);
+				gwsMessage.write16($scope.data.tos?1:0);
 			}
 			return WebsocketSrvc.sendBinary(gwsMessage).then($scope.loginSuccess, $scope.loginFailure);
 		});
