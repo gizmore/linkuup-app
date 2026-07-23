@@ -117,7 +117,9 @@ controller('LUPCtrl', function($scope, $rootScope, $q, $location, $mdMedia, $mdS
 		}
 		else {
 			GWF_USER = new GWF_User(response.data.data.user);
+			$scope.data.user = GWF_USER;
 			$scope.data.ownUser = GWF_USER;
+			$scope.data.authenticated = GWF_USER.authenticated(true);
 			console.log('Got user', GWF_USER);
 			UserSrvc.CACHE[GWF_USER.id()] = GWF_USER;
 			
