@@ -6,7 +6,10 @@ service('PositionSrvc', function($q, $rootScope, LoadingSrvc, RequestSrvc) {
 	
 	PositionSrvc.MAX_TRY = 0;
 	PositionSrvc.MAX_TRIES = 5;
-	PositionSrvc.MAX_TRY_TIMEOUT = 15;
+	PositionSrvc.MAX_TRY_TIMEOUT = 15 * 1000;
+	PositionSrvc.PERMISSION_DENIED = 1;
+	PositionSrvc.POSITION_UNAVAILABLE = 2;
+	PositionSrvc.TIMEOUT = 3;
 
 	PositionSrvc.PROBED = false;
 	PositionSrvc.HIGH_PRECISION = true;
@@ -65,6 +68,7 @@ service('PositionSrvc', function($q, $rootScope, LoadingSrvc, RequestSrvc) {
 			defer.reject('Browser has no geolocation');
 		}
 		else {
+			PositionSrvc.MAX_TRY = 0;
 			PositionSrvc.sendProbe(defer);
 		}
 		return defer.promise;
@@ -92,6 +96,9 @@ service('PositionSrvc', function($q, $rootScope, LoadingSrvc, RequestSrvc) {
 	PositionSrvc.probeFailure = function(defer, error) {
 		console.log('PositionSrvc.probeFailure()', defer, error);
 		LoadingSrvc.stopTask('positioning');
+		if (error && error.code === PositionSrvc.PERMISSION_DENIED) {
+			return defer.reject(error);
+		}
 		PositionSrvc.MAX_TRY++;
 		if (PositionSrvc.MAX_TRY >= PositionSrvc.MAX_TRIES) {
 			defer.reject(error);
@@ -114,6 +121,9 @@ service('PositionSrvc', function($q, $rootScope, LoadingSrvc, RequestSrvc) {
 	
 	PositionSrvc.stop = function() {
 		console.log('PositionSrvc.stop()');
+		if (PositionSrvc.INTERVAL !== null) {
+			navigator.geolocation.clearWatch(PositionSrvc.INTERVAL);
+		}
 		PositionSrvc.INTERVAL = null;
 	};
 	
@@ -206,7 +216,7 @@ service('PositionSrvc', function($q, $rootScope, LoadingSrvc, RequestSrvc) {
 	PositionSrvc.hasPositionChangedSignificantly = function(current) {
 		
 		// On a patched debug position we randomly send an event
-		if (PositionSrvc.PATCHED) {
+		if (PositionSrvc.patching()) {
 			var result = Math.floor(Math.random() * 100) > 80;
 			console.log('PositionSrvc.hasPositionChangedSignificantly() PATCHED=', result);
 			return result;
@@ -289,5 +299,4 @@ service('PositionSrvc', function($q, $rootScope, LoadingSrvc, RequestSrvc) {
 		return defer.promise;
 	};
 });
-
 

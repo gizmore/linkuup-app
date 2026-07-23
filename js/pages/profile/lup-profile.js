@@ -89,7 +89,6 @@ angular.module('LUP').config(function($routeProvider) {
 	$scope.onFileUploaded = function($file, $flow, $msg) {
 		console.log('ProfileCtrl.onFileUploaded()', $file, $flow, $msg);
 		return $scope.sendAvatarUploadCommand().then(function(response) {
-			debugger;
 			$flow.removeFile($file);
 			return $scope.avatarUploadSuccess(response);
 			}, $scope.avatarUploadFailure);

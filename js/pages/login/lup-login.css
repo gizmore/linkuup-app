@@ -8,7 +8,30 @@ md-input-container:not(.md-input-invalid).md-input-focused label {
 }
 
 .login input[type=text] {
-    color: rgba(0, 0, 0, 0.38);
+	color: rgba(0, 0, 0, 0.87);
+}
+
+.login md-input-container > label,
+.signup,
+.pwforgot a {
+	color: #616161;
+}
+
+.signup a,
+.pwforgot a {
+	color: #6741d0;
+	font-weight: 500;
+}
+
+.login a:hover {
+	text-decoration: underline;
+}
+
+.login a:focus-visible,
+.login input:focus-visible,
+.login button:focus-visible {
+	outline: 2px solid #6741d0;
+	outline-offset: 2px;
 }
 
 .md-button.md-raised:not([disabled]) {
@@ -126,8 +149,16 @@ md-input-container:not(.md-input-invalid).md-input-focused label {
 }
 
 .pwforgot a {
-    color: #999999;
-    text-decoration: none;
+	text-decoration: none;
+}
+
+.lup-login-choice-dialog md-toolbar {
+	background: linear-gradient(to top, #b712ff 0%, #9c1cd1 100%);
+}
+
+.lup-login-choice-dialog md-dialog-actions .md-button:last-child {
+	color: #6741d0;
+	font-weight: 500;
 }
 
 

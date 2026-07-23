@@ -8,6 +8,9 @@
 "err_websocket_connection": "Die Verbindung zum Server ist fehlgeschlagen.",
 "err_no_guest_avatar": "Nur Mitglieder können Avatare verwenden.",
 "err_no_connection": "Die Verbindung zum Chatserver kann nicht hergestellt werden.",
+"err_position_permission_denied": "Der Standortzugriff ist blockiert. Erlauben Sie LinkUUp den Standortzugriff in den Browser-Einstellungen und versuchen Sie es erneut.",
+"err_position_unavailable": "Ihr Standort konnte nicht ermittelt werden. Prüfen Sie, ob die Standortdienste aktiviert sind, und versuchen Sie es erneut.",
+"err_position_timeout": "Die Standortermittlung hat zu lange gedauert. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
 
 "HELP_LOCATIONS": "Hier findest du alle Locations in deiner Nähe<br/>Du kannst nur Chats beitreten wenn du in der nähe bist.",
 "HELP_LOCATION": "Klicke auf die Sterne um eine Bewertung abzugeben. Klicke auf die Bewertung um mehr zu sehen.",

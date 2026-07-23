@@ -8,6 +8,9 @@
 "err_websocket_connection": "The connection to the server failed.",
 "err_no_guest_avatar": "Only members are allowed to set their avatar.",
 "err_no_connection": "The chatserver connection could not be established.",
+"err_position_permission_denied": "Location access is blocked. Allow location access for LinkUUp in your browser settings and try again.",
+"err_position_unavailable": "Your location could not be determined. Check that location services are enabled and try again.",
+"err_position_timeout": "Determining your location took too long. Check your connection and try again.",
 
 "HELP_LOCATIONS": "Here you will find all locations near you<br/>You can only join chats within the chat radius.",
 "HELP_LOCATION": "Click on the stars to rate this room. Click on the ratings to view more of them.",

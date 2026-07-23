@@ -181,7 +181,14 @@ controller('LUPCtrl', function($scope, $rootScope, $q, $location, $mdMedia, $mdS
 	
 	$scope.failedPosition = function(error) {
 		console.log('LUPCtrl.failedPosition()', error);
-		return ErrorSrvc.showError("Sie müssen GPS aktiviert haben.<br/>" + error.message, 'Position').
+		var key = 'err_position_unavailable';
+		if (error && error.code === PositionSrvc.PERMISSION_DENIED) {
+			key = 'err_position_permission_denied';
+		}
+		else if (error && error.code === PositionSrvc.TIMEOUT) {
+			key = 'err_position_timeout';
+		}
+		return ErrorSrvc.showError($translate.instant(key), 'Position').
 			then(function(){
 				$scope.gotoLogin();
 				throw "GPS Error";
