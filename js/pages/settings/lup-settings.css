@@ -1,0 +1,3 @@
+.lup-settings-list md-list-item:nth-child(odd) {
+	background: #f8f8f8;
+}

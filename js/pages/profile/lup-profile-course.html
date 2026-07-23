@@ -1,0 +1,26 @@
+<md-content flex style="height:100%;"
+ class="scroll-course"
+>
+<md-list flex
+ infinite-scroll="showNextCoursePage()"
+ infinite-scroll-container="'.scroll-course'"
+ infinite-scroll-use-document-bottom="false"
+ infinite-scroll-distance="1"
+ infinite-scroll-disabled="data.course.working"
+>
+  <md-list-item
+   class="md-2-line no-right"
+   ng-repeat="visit in data.course.visits"
+   ng-click="gotoRoom(visit.room())">
+    
+    <lup-room-icon ng-room="visit.room()"></lup-room-icon>
+
+	<div>
+      <h3 class="room-name">{{visit.room().name()}}</h3>
+      <p class="room-visit-date">{{visit.visited()|msgDate}}</p>
+	</div>
+
+  </md-list-item>
+
+</md-list>
+</md-content>

@@ -1,0 +1,29 @@
+<md-list flex>
+  
+  <md-subheader class="md-no-sticky">
+    <div
+     translate="SUBHEADER_COURSE"
+     translate-value-user="{{data.courseUser.displayName()}}"
+     translate-value-count="{{data.course.length}}"></div>
+  </md-subheader>
+  
+  <md-list-item
+   class="md-2-line"
+   ng-repeat="visit in data.course">
+    <img class="md-avatar"
+     ng-src="{{visit.room.iconImageURI()}}"
+     ng-click="gotoRoom(visit.room)" />
+    <div class="md-list-item-text">
+      <p
+       translate="ROOM_COURSE_VISITS"
+       translate-value-count="{{visit.visit_count}}"
+       translate-value-room="{{visit.room.name()}}">
+      </p>
+      <h5
+       translate="ROOM_COURSE_VISIT"
+       translate-value-last="{{visit.visit_last|msgDate}}"></h5>
+    
+    </div>
+  </md-list-item>
+  
+</md-list>

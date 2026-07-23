@@ -1,0 +1,15 @@
+<md-toolbar class="lup-top-bar">
+  <div class="md-toolbar-tools">
+  
+    <i class="material-icons" ng-click="openLeft()">menu</i>
+  
+    <md-button class="md-icon-button" aria-label="Back" ng-click="gotoReferrer()">
+      <i class="material-icons">arrow_back</i>
+    </md-button>
+
+    <h2 flex md-truncate>{{'TITLE_DEBUG'|translate}}</h2>
+	
+    <ng-include src="'js/pages/topnav/lup-topnav-notifications.html?v='+V"></ng-include>
+
+  </div>
+</md-toolbar>

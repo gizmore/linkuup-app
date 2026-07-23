@@ -1,0 +1,37 @@
+<section layout="row" flex class="notification">
+
+  <ng-include src="'js/pages/sidenav/lup-sidenav.html?v='+V"></ng-include>
+
+  <md-content layout="column" flex>
+
+    <ng-include src="'js/pages/notifications/lup-notifications-header.html?v='+V"></ng-include>
+      
+    <!-- CONTENT -->
+    <md-tabs
+     flex
+     class="notification-tabs"
+     md-selected="data.activeTab3"
+      xxmd-dynamic-height
+      xxmd-border-bottom
+     md-stretch-tabs="always">
+    
+      <md-tab
+       md-tab-class="lup-queries-tab"
+       label="{{'TAB_QUERIES'|translate}}"
+       md-on-select="loadChats()">
+        <ng-include src="'js/pages/notifications/lup-messages-tab.html?v='+V"></ng-include>
+      </md-tab>
+
+      <md-tab
+       md-tab-class="lup-notifications-tab"
+       label="{{'TAB_NOTIFICATIONS'|translate}}"
+       md-on-select="showNotifications()">
+        <ng-include src="'js/pages/notifications/lup-notifications-tab.html?v='+V"></ng-include>
+      </md-tab>
+    
+    </md-tabs>
+
+  </md-content>
+  <!-- END CONTENT -->
+	
+</section>

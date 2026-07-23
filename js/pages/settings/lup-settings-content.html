@@ -1,0 +1,81 @@
+<md-list class="lup-settings-list">
+
+ <md-subheader class="md-no-sticky">{{"SUBHEADER_DATA_PERMISSIONS"|translate}}</md-subheader>
+ 
+ <md-list-item class="md-2-line">
+   <div class="md-list-item-text" layout="column">
+     <h3 translate="SETTING_FRIEND_REQUESTS"></h3>
+     <p translate="SETTING_FRIEND_REQUESTS_INFOs"></p>
+   </div>
+   <md-select ng-model="data.friend_who" ng-change="changeSetting('friend_who')">
+     <md-option value="acl_all" translate="SETTING_ALL"></md-option>
+     <md-option value="acl_members" translate="SETTING_MEMBERS"></md-option>
+     <md-option value="acl_noone" translate="SETTING_NONE"></md-option>
+   </md-select>
+ </md-list-item>
+
+ <md-list-item class="md-2-line">
+   <div class="md-list-item-text" layout="column">
+     <h3 translate="SETTING_FRIEND_LIST"></h3>
+     <p translate="SETTING_FRIEND_LIST_INFO"></p>
+   </div>
+   <md-select ng-model="data.friends_show" ng-change="changeSetting('friends_show')">
+<!--      <md-option value="acl_all" translate="SETTING_ALL"></md-option> -->
+     <md-option value="acl_members" translate="SETTING_MEMBERS"></md-option>
+     <md-option value="acl_friends" translate="SETTING_FRIENDS"></md-option>
+     <md-option value="acl_noone" translate="SETTING_NONE"></md-option>
+   </md-select>
+ </md-list-item>
+ 
+ <md-list-item class="md-2-line">
+   <div class="md-list-item-text" layout="column">
+     <h3 translate="SETTING_GALLERY"></h3>
+     <p translate="SETTING_GALLERY_INFO"></p>
+   </div>
+   <md-select ng-model="data.gallery_acl" ng-change="changeSetting('gallery_acl')">
+     <md-option value="acl_all" translate="SETTING_ALL"></md-option>
+     <md-option value="acl_members" translate="SETTING_MEMBERS"></md-option>
+     <md-option value="acl_friends" translate="SETTING_FRIENDS"></md-option>
+     <md-option value="acl_noone" translate="SETTING_NONE"></md-option>
+   </md-select>
+ </md-list-item>
+
+ <md-list-item class="md-2-line">
+   <div class="md-list-item-text" layout="column">
+     <h3 translate="SETTING_COURSE"></h3>
+     <p translate="SETTING_COURSE_INFO"></p>
+   </div>
+   <md-select ng-model="data.lup_course_visible" ng-change="changeSetting('lup_course_visible')">
+     <md-option value="acl_all" translate="SETTING_ALL"></md-option>
+     <md-option value="acl_members" translate="SETTING_MEMBERS"></md-option>
+     <md-option value="acl_friends" translate="SETTING_FRIENDS"></md-option>
+     <md-option value="acl_noone" translate="SETTING_NONE"></md-option>
+   </md-select>
+ </md-list-item>
+  
+ <md-list-item class="md-2-line">
+   <div class="md-list-item-text" layout="column">
+     <h3 translate="SETTING_PROFILE"></h3>
+     <p translate="SETTING_PROFILE_INFO"></p>
+   </div>
+   <md-select ng-model="data.profile_visibility" ng-change="changeSetting('profile_visibility')">
+     <md-option value="acl_all" translate="SETTING_ALL"></md-option>
+     <md-option value="acl_members" translate="SETTING_MEMBERS"></md-option>
+     <md-option value="acl_friends" translate="SETTING_FRIENDS"></md-option>
+     <md-option value="acl_noone" translate="SETTING_NONE"></md-option>
+   </md-select>
+ </md-list-item>
+ 
+ <md-divider></md-divider>
+ <md-divider></md-divider>
+ 
+ <md-list-item class="md-2-line" ng-click="gotoProfileSettings()">
+   <div class="md-list-item-text" layout="column">
+     <h3 translate="TITLE_PROFILE_SETTINGS"></h3>
+     <p translate="EDIT_YOUR_PROFILE"></p>
+   </div>
+ </md-list-item>
+
+ <md-divider></md-divider>
+
+</md-list>

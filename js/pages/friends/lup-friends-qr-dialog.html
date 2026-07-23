@@ -1,0 +1,26 @@
+<md-dialog aria-label="{{'QR_FRIEND_DIALOG_TITLE'|translate}}">
+    <form ng-cloak>
+
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{'QR_FRIEND_DIALOG_TITLE'|translate}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="material-icons">close</i>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <p>{{'QR_FRIEND_DIALOG_PARAGRAPH'|translate}}</p>
+                <div><img class="qrcode" src="{{data.url}}" /></div>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">{{'OK'|translate}}</md-button>
+        </md-dialog-actions>
+
+    </form>
+</md-dialog>

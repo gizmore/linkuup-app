@@ -1,0 +1,30 @@
+<section layout="row" flex class="login">
+
+  <md-content flex>
+  
+	<section layout="column" layout-padding flex>
+		<img class="logo" src="js/pages/login/images/lup-logo.png"/>
+	</section>
+
+    <!-- CONTENT -->
+    <ng-include src="'js/pages/login/lup-login-form.html?v='+V" flex></ng-include>
+	
+    <!-- END CONTENT -->
+	<section layout="column" layout-padding flex>
+		<div class="login-bottom login-page">
+		  <md-list-item class="md-1-line" ng-click="gotoImpressum()">
+			<p class="impressum">{{'IMPRESSUM'|translate}}</p>
+		  </md-list-item>
+<!--
+		  <md-list-item class="md-1-line" ng-click="gotoTOS()">
+			<p class="tos">{{'TOS'|translate}}</p>
+		  </md-list-item>
+-->
+		  <md-list-item class="md-1-line" ng-click="gotoPrivacy()">
+			<p class="privacy">{{'PRIVACY'|translate}}</p>
+		  </md-list-item>
+		</div>
+	</section>
+  </md-content>
+  
+</section>

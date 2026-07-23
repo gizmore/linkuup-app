@@ -1,0 +1,29 @@
+<h1 translate="TITLE_RECOVERY"></h1>
+
+<md-input-container class="md-icon-float md-block" ng-if="ConfigSrvc.recoveryLogin()">
+  <label translate="USERNAME"></label>
+  <input ng-model="data.login" type="text">
+  <div class="error">{{data.errors.login}}</div>
+</md-input-container>
+
+<md-input-container class="md-icon-float md-block" ng-if="ConfigSrvc.recoveryEmail()">
+  <label translate="EMAIL"></label>
+  <input ng-model="data.email" type="email">
+  <div class="error">{{data.errors.email}}</div>
+</md-input-container>
+
+<md-input-container class="md-icon-float md-block" ng-if="ConfigSrvc.recoveryCaptcha()">
+  <img ng-src="{{captchaUrl()}}" />
+</md-input-container>
+<md-input-container class="md-icon-float md-block" ng-if="ConfigSrvc.recoveryCaptcha()">
+  <label translate="CAPTCHA"></label>
+  <input ng-model="data.captcha" type="text">
+  <div class="error">{{data.errors.captcha}}</div>
+</md-input-container>
+
+<section layout="row" flex>
+  <md-button type="submit" class="md-primary md-raised login-button" ng-click="recover()" translate="BTN_RECOVER"></md-button>
+</section>
+<section layout="row" flex>
+  <md-button ng-click="gotoLogin()" class="md-primary md-raised backtologin" translate="BACK_TO_LOGIN"></md-button>
+</section>

@@ -1,0 +1,17 @@
+<md-toolbar class="md-hue-2 lup-top-bar" style="background:#333;">
+  <div class="md-toolbar-tools">
+
+    <i class="material-icons" ng-click="openLeft()">menu</i>
+
+    <md-button class="md-icon-button" aria-label="Nearby" ng-click="gotoReferrer()">
+      <i class="material-icons">arrow_back</i>
+    </md-button>
+
+    <h2 flex md-truncate>{{data.title|translate}}</h2>
+
+    <ng-include src="'js/pages/topnav/lup-topnav-notifications.html?v='+V"></ng-include>
+
+	<lup-avatar ng-user="data.ownUser" aria-label="Your own profile" ng-click="gotoOwnProfile()"></lup-avatar>
+
+  </div>
+</md-toolbar>

@@ -1,0 +1,28 @@
+<md-dialog aria-label="Delete Image">
+  <form ng-cloak>
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2 translate="DLGT_DELETE_FRIEND"></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <p translate="DLGP_DELETE_FRIEND" translate-value-friend="{{data.friend.displayName()}}"></p>
+        <lup-avatar ng-user="data.friend"></lup-avatar>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="cancel()" translate="BTN_CANCEL"></md-button>
+      <span flex></span>
+      <md-button ng-click="ok()" translate="BTN_DELETE"></md-button>
+    </md-dialog-actions>
+    
+  </form>
+</md-dialog>

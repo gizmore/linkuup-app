@@ -1,0 +1,119 @@
+<section
+ ng-class="{'has-own-user':data.user.isSelf()}"
+ class="profile-page " layout="row" flex>
+
+  <ng-include class="left-sidebar"src="'js/pages/sidenav/lup-sidenav.html?v='+V"></ng-include>
+
+  <md-content layout="column" class="user-profile-page" flex>
+  
+    <ng-include class="inc-top-profile" src="'js/pages/profile/header-bar-profile.html?v='+V"></ng-include>
+      
+    <!-- CONTENT -->
+    <div ng-if="data.user.isVIP()" class="lup-profile-premium">premium</div>
+    
+    <!-- Other's avatar -->
+	<div class="avatar-bg">
+		<div class="avatar" ng-if="!canUploadProfile()">
+		  <lup-avatar
+		   class="large-avatar"
+		   ng-user="data.user"
+		   ng-click="clickAvatarError()"></lup-avatar>
+		</div>
+
+    <!-- Own avatar with upload -->
+
+		<div class="avatar" ng-if="canUploadProfile()">
+			  <div
+			   ng-init="initConfig({maxSize: 512000})"
+			   ng-controller="GDOUploadCtrl"
+			   flow-init="{target: data.avatarAction, singleFile: true, fileParameterName: 'avatar_file_id', withCredentials: true, testChunks: false, query: {flowField:'avatar_file_id'}, allowDuplicateUploads: true}"
+			   flow-file-progress="onFlowProgress($file, $flow, $message);"
+			   flow-file-success="onFlowSuccess($file, $flow, $message);"
+			   flow-file-removed="onRemoveFile($file, $flow);"
+			   flow-file-error="onFlowError($file, $flow, $message);"
+			   xxxflow-error="onFlowError($file, $flow, $message);"
+			   flow-files-submitted="onFlowSubmitted($flow);">
+				 <!--<i class="material-icons edit" flow-btn>edit</i>-->
+				 <lup-avatar flow-btn class="large-avatar" ng-user="data.user"></lup-avatar>
+			  </div>
+		</div>
+	</div>
+		
+		<div class="user-top-information" ng-class="{ownuserprofile: data.user.isSelf()}">
+			<div class="countitems">
+				<p class="countitem" ng-click="gotoUserCourse(data.user)"><span class="count">{{data.user.visits()}}</span><span class="item">{{'LOCATIONS'|translate}}</span></p>
+				<p class="countitem" ng-click="gotoLikes(data.user)"><span class="count">{{data.user.likes()}}</span><span class="item">{{"UP's"|translate}}</span></p>
+				<p class="countitem" ng-click="gotoUserFriends(data.user)"><span class="count">{{data.user.friends()}}</span><span class="item">{{'FRIENDS'|translate}}</span></p>
+				<p class="countitem" ng-click="gotoUserCuddles(data.user)"><span class="count">{{data.user.cuddles()}}</span><span class="item">{{'CUDDLES'|translate}}</span></p>
+			</div>
+		</div>
+	 
+	  <div class="profile-actions">
+		  <div class="content-center">
+            <i class="md-secondary usericon qrcode-dummy" ng-click="showQRCode()">QR</i>
+			<i ng-if="!data.user.isSelf()" class="md-secondary usericon likeuser" ng-click="LikeSrvc.likeUser(data.user)"></i>
+            <i ng-if="(!data.user.isSelf()) && data.user.isMember() && data.ownUser.isMember() && (!data.user.isFriend()) && (data.user.JSON.relation_pending)" class="md-secondary usericon addfriend pendingfriend"></i>
+			<i ng-if="(!data.user.isSelf()) && data.user.isMember() && data.ownUser.isMember() && (!data.user.isFriend()) && (!data.user.JSON.relation_pending)" class="md-secondary usericon addfriend" ng-click="FriendSrvc.addFriend(data.user)"></i>
+			<i ng-if="(!data.user.isSelf()) && data.user.isMember() && data.ownUser.isMember() && (data.user.isFriend())" class="md-secondary usericon removefriend" ng-click="FriendSrvc.removeFriend(data.user)"></i>
+			<i ng-if="!data.user.isSelf()" class="md-secondary usericon sendmessage" ng-click="openQuery(data.user)"></i>
+   		    <i id="gallery-add-area"
+			   ng-if="data.user.isSelf() && data.user.isMember()&& data.selectedTab == 1"
+			   ng-controller="GDOUploadCtrl"
+			   ng-init="initConfig({maxSize: 65535, success:'onGalleryUploaded'})"
+			   flow-init="{target: data.galleryAction, withCredentials: true, singleFile: true, fileParameterName: 'gallery_files', testChunks: false, query: {flowField:'gallery_files'}}"
+			   flow-file-progress="onFlowProgress($file, $flow, $message);"
+			   flow-file-success="onFlowSuccess($file, $flow, $message);"
+			   flow-file-removed="onRemoveFile($file, $flow);"
+			   flow-file-error="onFlowError($file, $flow, $message);"
+			   flow-files-submitted="onFlowSubmitted($flow);">
+				  <span flow-btn>+ Bild hinzufügen</span>
+			  </i>
+			  <i id="profile-logo"
+				 ng-if="data.user.isSelf() && data.user.isMember()&& data.selectedTab == 0"
+				 ng-click="gotoProfileSettings()">
+			  </i>
+		</div>
+	</div>
+	
+	<div class="cb"></div>
+	
+	  <md-tabs
+	   ng-if="data.user.isMember()"
+	   class="information-tabs"
+       md-selected="data.selectedTab"
+       md-dynamic-height
+       md-border-bottom
+       md-stretch-tabs="always"
+       layout="column">
+
+		  <md-tab
+		   label="{{'SHD_PROFILE_ABOUT'|translate}}"
+		   flex layout="column"
+		   md-on-select="loadInformation()">
+			<ng-include src="'js/pages/profile/lup-profile-information.html?v='+V"></ng-include>
+		  </md-tab>
+		  
+<!-- 	  <md-tab
+           label="{{'TAB_COURSE'|translate}}"
+           md-on-select="showCourse()"
+           flex layout="column">
+			<ng-include src="'js/pages/profile/lup-profile-course.html?v='+V"></ng-include>
+		  </md-tab>  -->
+		  
+		  <md-tab
+		   label="{{'TAB_GALLERY'|translate}}"
+		   md-on-select="showGallery()"
+		   flex layout="column">
+			<ng-include src="'js/pages/profile/lup-profile-gallery.html?v='+V"></ng-include>
+		  </md-tab>
+		  
+	  </md-tabs>
+
+	  <div class="only-registered" ng-if="(data.user.isSelf()) && !data.ownUser.isMember()">
+		{{'ERR_ONLY_REGISTERED'|translate}}
+	  </div>
+
+  </md-content>
+  <!-- END CONTENT -->
+
+</section>

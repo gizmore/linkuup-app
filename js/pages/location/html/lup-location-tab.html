@@ -1,0 +1,139 @@
+<!-- Designs Image 2 -->
+<!--
+<md-content class="md-padding layout-fill ng-scope _md layout-column flex" layout="column">
+  <div class="singlelocation">
+	<div class="room-head">
+		<div class="categoryicon" ng-bind-html="data.room.categoryIcon()"></div>
+		<div class="room-name">{{data.room.name()}}</div>	  
+		<div class="homepage-link"><a style="background:{{data.room.color()}};" target="blank" href="{{data.room.www()}}">{{"zur Website"|translate}}</a></div>
+  </div>
+  <hr/>
+  <div class="lup-room-votes" ng-controller="RoomVoteCtrl">
+	<p style="color:{{data.room.color()}};">	
+		<span class="rating-procent">{{data.room.rating()|votePercent}}</span>
+		<jk-rating-stars max-rating="5" rating="data.room.rating()" read-only="true" on-rating="onVoteRoom(rating)"></jk-rating-stars>
+    </p>
+    <md-button class="gotobewertungen" ng-click="gotoComments(data.room)">
+		<span>{{data.room.comments()}} {{'Bewertungen'|translate}}</span>
+		<span style="background:{{data.room.color()}};" class="arrow"></span>
+    </md-button>
+  </div>
+  <div ng-bind-html="data.room.image()"></div>
+  <p class="roomdescription">{{data.room.info()}}</p>
+  <div class="roominfosingle">
+	<a class="address" ng-href="{{mapsHref(data.room)}}" style="display: block;" target="__blank">
+		<div style="background:{{data.room.color()}};" class="addressmap"></div>
+		<p>{{data.room.street()}}</p>
+		<p>{{data.room.zip()}} {{data.room.city()}}</p>
+	</a>
+	<div class="phone">
+		<div style="background:{{data.room.color()}};" class="addressphone"></div>
+		<p>{{data.room.phone()}}</p>
+	</div>
+	<div class="opening">
+		<div style="background:{{data.room.color()}};" class="addressopening"></div>
+	</div>
+  </div>
+  <div class="roomcomments">
+	<p>{{'Bewertungen'|translate}} ({{data.topComment.totalComments}})</p>
+	<md-button style="background:{{data.room.color()}};" ng-click="data.showInput = !data.showInput">{{'Bewerten'|translate}}</md-button>
+	
+	<ng-include src="'js/pages/comments/lup-new-comment.html?v='+V"></ng-include>
+	
+	<lup-comment class="comments-preview" ng-if="data.topComment.user()">
+		<lup-avatar ng-user="data.topComment.user()" ng-click="gotoProfile(data.topComment.user())"></lup-avatar>
+		<lup-comment-text>"{{data.topComment.text()}}"</lup-comment-text>
+    </lup-comment>
+  </div>
+</div>
+</md-content>
+-->
+
+
+<!-- V2
+
+<md-content layout="column" flex>
+  <div class="singlelocation">
+
+  <div ng-bind-html="data.room.image()"></div>
+   <div class="roominfosingle">
+	<a class="address" ng-href="{{mapsHref(data.room)}}" style="display: block;" target="__blank">
+		<div style="background:{{data.room.color()}};" class="addressmap"></div>
+		<p>{{data.room.street()}}</p>
+		<p>{{data.room.zip()}} {{data.room.city()}}</p>
+	</a>
+	<div class="phone">
+		<a href="tel:{{data.room.phone()}}"><span style="background:{{data.room.color()}};" class="addressphone"></span></a>
+
+	</div>
+	<div class="opening" ng-click="showOpenTimes($event)">
+		<div style="background:{{data.room.color()}};" class="addressopening"></div>
+	</div>
+  </div> 
+ 
+  <p class="roomdescription">{{data.room.info()}}</p>
+    <div class="lup-room-votes" ng-controller="RoomVoteCtrl">
+	<p style="color:{{data.room.color()}};">	
+		<span class="rating-procent">{{data.room.rating()|votePercent}}</span>
+		<jk-rating-stars max-rating="5" rating="data.room.rating()" read-only="true" on-rating="onVoteRoom(rating)"></jk-rating-stars>
+    </p>
+    <md-button class="gotobewertungen" ng-click="gotoComments(data.room)">
+		<span>{{data.room.comments()}} {{'Bewertungen'|translate}}</span>
+		<span style="background:{{data.room.color()}};" class="arrow"></span>
+    </md-button>
+  </div>
+  <div class="roomcomments">
+	<p>{{'Bewertungen'|translate}} ({{data.topComments.length}})</p>
+	<md-button style="background:{{data.room.color()}};" ng-click="data.showInput = !data.showInput">{{'Bewerten'|translate}}</md-button>
+	
+	<ng-include src="'js/pages/comments/lup-new-comment.html?v='+V"></ng-include>
+	
+	<lup-comment class="comments-preview" ng-repeat="comment in data.topComments">
+		<lup-avatar ng-user="comment.user()" ng-click="gotoProfile(comment.user())"></lup-avatar>
+		<lup-comment-text>"{{comment.text()}}"</lup-comment-text>
+    </lup-comment>
+  </div>
+</div>
+</md-content>
+ -->
+<md-content layout="column" flex layout-fill>
+  
+  <div class="lup-room-large-image" flex>
+    <img ng-src="{{data.room.largeImageURI()}}" />
+  </div>
+  
+  <div class="roominfosingle" flex=10 layout="row">
+	<a class="address" ng-href="{{mapsHref(data.room)}}" target="__blank" flex ng-if="data.room.showDistance()">
+		<div style="background-color: #333;" class="addressmap"></div>
+<!--	<p>{{data.room.street()}}</p>
+		<p>{{data.room.zip()}} {{data.room.city()}}</p>  -->
+    <div>
+      <a class="qrcode-dummy" ng-click="onShowQRCode()">QR</a>
+    </div>
+	<div class="phone" flex ng-if="data.room.phone()">
+        <div class="addressphone" ng-click="onOpenPhone()" ng-class="{'no-phone': !data.room.phone()}"></div>
+	</div>
+	<div class="opening" ng-click="showOpenTimes($event)" flex>
+        <div ng-class="{'room-open': data.room.isOpen() === true, 'room-closed': data.room.isOpen() === false, 'room-unknown': data.room.isOpen() === null}"></div>
+	</div>
+  </div> 
+
+  <div flex=10 style="position: relative; max-height: 55px;" ng-click="onVoteDialog()">
+    <jk-rating-stars max-rating="5" rating="data.room.rating()" read-only="true" on-rating="onVoteRoom(rating)" class="lup-location-rating"></jk-rating-stars>
+  </div>
+  
+  <div flex=10>
+    <md-list>
+      <md-list-item class="md-2-line comments-preview" ng-repeat="comment in data.topComments" ng-click="gotoComments(data.room)">
+	    <lup-avatar ng-user="comment.user()" ng-if="!comment.isBlankComment()"></lup-avatar>
+        <div class="md-list-item-text" layout="column">
+  	      <lup-comment-text ng-bind-html="comment.text()"></lup-comment-text>
+  	    </div>
+  	    <md-button class="md-secondary md-icon-button" aria-label="goto comments">
+    	    <i class="material-icons">chevron_right</i>
+    	 </md-button>
+      </md-list-item>
+    </md-list>
+  </div>
+
+</md-content>

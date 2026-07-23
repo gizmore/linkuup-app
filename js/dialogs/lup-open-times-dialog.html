@@ -1,0 +1,21 @@
+<md-dialog aria-label="{{'OPEN_TIMES'|translate}}">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'OPEN_TIMES'|translate}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+			<i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <p translate="OPEN_TIMES_IN" ng-if="room.openTimes()" translate-values={open_times:room.openTimes(), room_name:room.name()}></p>
+        <p translate="OPEN_TIMES_NONE" ng-if="!room.openTimes()"></p>
+        <pre>{{room.openTimes()}}</pre>
+    </md-dialog-content>
+
+  </form>
+</md-dialog>

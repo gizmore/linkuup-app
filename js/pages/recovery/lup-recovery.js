@@ -1,0 +1,57 @@
+angular.module('LUP').config(function($routeProvider) {
+	$routeProvider.when('/recovery', {
+		templateUrl: 'js/pages/recovery/lup-recovery.html?v='+window.LUP_BUILD,
+		controller: 'RecoveryCtrl',
+		params: {
+			authCheck: false,
+		},
+	});
+}).controller('RecoveryCtrl', function($scope, $location, WebsocketSrvc, ConfigSrvc, ErrorSrvc) {
+	
+	$scope.data.title = 'TITLE_RECOVERY';
+	
+	$scope.data.login  = '';
+	$scope.data.email  = '';
+	$scope.data.captcha = '';
+
+	$scope.data.error = null;
+	$scope.data.errors = {};
+
+	$scope.ConfigSrvc = ConfigSrvc;
+	
+	$scope.init = function() {
+		console.log('RecoveryCtrl.init()');
+	};
+	
+	$scope.captchaUrl = function() {
+		return window.LUP_CONFIG.server + '/index.php?_mo=Captcha&_me=Image&_ajax=1';
+	};
+	
+	$scope.recover = function() {
+		console.log('RecoveryCtrl.recover()');
+		var gwsMessage = new GWS_Message().cmd(0x0106).sync();
+		if (ConfigSrvc.recoveryLogin()) {
+			gwsMessage.writeString($scope.data.login);
+		}
+		if (ConfigSrvc.recoveryEmail()) {
+			gwsMessage.writeString($scope.data.email);
+		}
+		if (ConfigSrvc.recoveryCaptcha()) {
+			gwsMessage.writeString($scope.data.captcha);
+		}
+		return WebsocketSrvc.sendBinary(gwsMessage).then(
+				$scope.recoverySuccess,
+				$scope.recoveryFailure);
+	};
+
+	$scope.recoverySuccess = function(data) {
+		console.log('RecoveryCtrl.recoverySuccess()', data);
+		ErrorSrvc.showMessage("Wir haben eine E-Mail mit weiteren Anweisungen versendet.", 'Recovery');
+	};
+
+	$scope.recoveryFailure = function(response) {
+		console.log('RecoveryCtrl.recoveryFailure()', response);
+		ErrorSrvc.populateScope($scope, response)
+	};
+	
+});

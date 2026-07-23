@@ -1,0 +1,47 @@
+.scroll-notifications {
+	height: 100%;
+}
+
+md-list-item.lup-notification-unread, .lup-notification-unread {
+	background: cornsilk;
+}
+
+.notification md-tabs-canvas {
+	background: #333333;
+}
+
+.navnotification-count {
+	background-color: #ff1456;
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+	display: block;
+	margin: 0;
+	position: absolute;
+	left: 2px;
+	top: 13px;
+}
+.md-tab-content > div{
+	background: #fff;
+}
+
+/** Tab highlight **/
+.lup-tab-alerted {
+	background-color: #ff1456;
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+	display: inline-block;
+	position: relative;
+	left: -2px;
+}
+
+/** Links inside text **/
+.lup-notification-list a {
+	color: blue;
+}
+
+/** Comment Dialog **/
+#lup-notification-comment-dialog p {
+	margin-bottom: 32px;
+}

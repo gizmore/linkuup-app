@@ -1,0 +1,21 @@
+<md-dialog aria-label="{{data.title|translate}}" class="lup-agb-dialog">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{data.title|translate}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+			<i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div
+       class="md-dialog-content"
+       ng-bind-html="data.html">
+      </div>
+    </md-dialog-content>
+
+  </form>
+</md-dialog>

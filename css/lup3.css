@@ -1,0 +1,91 @@
+html, body {
+    height: 100%;
+}
+
+md-content.md-default-theme,
+md-content {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #fff;
+}
+
+ng-view {
+    display: block;
+}
+
+md-select {
+	min-width: 172px;
+}
+
+.md-list-item-text p {
+	min-height: 1.5em;
+}
+
+.authpage {
+	max-width: 800px;
+}
+
+.authlogo {
+}
+
+.authlogo img {
+	margin: auto;
+}
+
+.error {
+	color: red;
+    padding: 0 16px;
+}
+
+/** Message häkcken **/
+.lup-message-state {
+	position: absolute;
+	bottom: 3px;
+	right: 8px;
+	display: inline-block;
+}
+
+.lup-own-msg .lup-message-state {
+	right: auto;
+	left: 15px;
+}
+
+.lup-message-state.lms-1:after {
+	color: gray;
+	content: '✓';
+}
+
+.lup-message-state.lms-2:after {
+	color: gray;
+	content: '✓✓';
+	letter-spacing: -6px;
+    top: -6px;
+    left: 5px;
+    position:relative;
+}
+
+.lup-message-state.lms-3:after {
+	color: blue;
+	content: '✓✓';
+	letter-spacing: -6px;
+    top: -6px;
+    left: 5px;
+    position:relative;
+}
+
+/** Country select **/
+
+.country-input b,
+.country-option b {
+	font-weight: normal;
+	position: relative;
+	top: -6px;
+}
+
+.country-input img,
+.country-option img,
+img.country-image {
+	display: inline-block;
+	width: 32px;
+	height: 24px;
+	border: 1px solid black;
+}

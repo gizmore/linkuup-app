@@ -1,0 +1,15 @@
+<section layout="row" flex>
+
+  <ng-include src="'js/pages/sidenav/lup-sidenav.html?v='+V"></ng-include>
+
+  <md-content layout="column" flex>
+  
+    <ng-include src="'js/pages/query/lup-query-header.html?v='+V"></ng-include>
+    
+    <ng-include
+     layout="row"
+     src="'js/pages/query/lup-query-content.html?v='+V"
+     flex></ng-include>
+    
+  </md-content>
+</section>

@@ -1,0 +1,26 @@
+.md-sidenav-left {
+	background: #333;
+}
+
+.md-sidenav-left md-list {
+	background: #333;
+	color: #eee;
+}
+
+.md-sidenav-left md-list-item {
+	border-bottom: 1px inset #444;
+}
+
+.md-sidenav-left .md-subheader {
+	background: #444;
+	color: #eee;
+	margin-top: 24px;
+}
+
+.md-sidenav-left .md-list-item-inner img{
+	margin-right: 15px;
+}
+
+.left-sidebar{
+	background: #333;
+}

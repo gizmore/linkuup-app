@@ -1,0 +1,48 @@
+<ng-include
+ ng-if="data.frienduser.isSelf()"
+ src="'js/pages/friends/lup-friends-search.html?v='+V"></ng-include>
+
+<!-- Begin user list -->
+<md-list flex>
+  
+  <md-subheader class="md-no-sticky">
+    <div
+     translate="SUBHEADER_FRIENDS"
+     translate-value-user="{{data.frienduser.displayName()}}"
+     translate-value-count="{{data.pagemenu.nItems}}"></div>
+  </md-subheader>
+
+  <div class="lup-user-list">
+    <md-list-item
+     class="md-2-line"
+     ng-repeat="user in sortedFriends()"
+     on-long-press="deleteFriend(user)"
+     class="no-right">
+      <lup-avatar ng-user="user" ng-click="gotoProfile(user)"></lup-avatar>
+      <div class="md-list-item-text" layout="column">
+        <p class="username">{{ user.displayName(); }}</p>
+        <p class="lup-user-status">{{ user.status(); }}</p>
+      </div>
+      <div>
+<!--
+        <i
+         class="md-secondary usericon likeuser"
+         aria-label="Like this user"
+         ng-click="LikeSrvc.likeUser(user)"
+         ng-if="!user.isSelf() && user.isMember()"></i>
+		 -->
+        <i
+         class="md-secondary usericon removefriend"
+         aria-label="Remove a friend"
+         ng-click="deleteFriend(user)"
+         ng-if="!user.isSelf() && user.isMember() && user.isFriend()"></i>
+        <i
+         class="md-secondary usericon sendmessage"
+         aria-label="Chat with this user"
+         ng-click="gotoQuery(user)"
+         ng-if="!user.isSelf()"></i>
+      </div>
+    </md-list-item>
+  </div>
+</md-list>
+<!-- End of user list -->

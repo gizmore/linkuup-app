@@ -1,0 +1,40 @@
+*, :before, :after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+
+b, a, i, em, span, img {
+	display: inline-block; }
+
+body {
+  background: #fff;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 14px; 
+  }
+  
+
+::-webkit-scrollbar { 
+    display: none;  }
+    
+.cb {
+	clear: both; }
+
+/** Room **/
+.lup-room-icon {
+	height: 48px;
+	width: 48px;
+}
+
+.lup-room-icon img {
+	height: 44px;
+	width: 44px;
+}
+
+.login h1, .register-title{
+	margin-bottom:20px;
+}
+
+div.lup-error {
+	white-space: pre-wrap;
+	font-family: monospace;
+}

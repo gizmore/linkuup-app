@@ -1,0 +1,13 @@
+<md-toolbar class="md-hue-2 lup-top-bar" style="background:#333;background:{{ChatSrvc.CHATROOM.color()}};">
+  <div class="md-toolbar-tools">
+  
+    <i class="material-icons" ng-click="openLeft()">menu</i>
+
+    <h2 flex md-truncate></h2>
+
+    <ng-include src="'js/pages/topnav/lup-topnav-notifications.html?v='+V"></ng-include>
+
+    <lup-avatar ng-user="data.ownUser" aria-label="Profile" ng-click="gotoOwnProfile()"></lup-avatar>
+
+  </div>
+</md-toolbar>

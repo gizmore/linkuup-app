@@ -1,0 +1,70 @@
+<section layout="row" flex>
+
+  <ng-include class="left-sidebar" src="'js/pages/sidenav/lup-sidenav.html?v='+V"></ng-include>
+
+  <md-content layout="column" flex>
+  
+    <ng-include src="'js/pages/location/html/header-bar-location.html?v='+V"></ng-include>
+
+    <md-tabs
+     hide
+     show-xs
+     style="background:#333;"
+     md-selected="data.selectedTab"
+     flex
+     ccmd-dynamic-height
+     ccmd-border-bottom
+     md-stretch-tabs="always"
+     layout="column">
+     
+      <md-tab label="{{'TAB_LOCATION'|translate}}">
+        <ng-include src="'js/pages/location/html/lup-location-tab.html?v='+V"></ng-include>
+      </md-tab>
+    
+      <md-tab label="{{'TAB_CHAT'|translate}}" ng-disabled="!inChatRange()" md-on-select="chatVisible()">
+        <ng-include src="'js/pages/location/html/lup-location-chat.html?v='+V"></ng-include>
+      </md-tab>
+
+      <md-tab label="{{'TAB_ONLINE'|translate}}" ng-disabled="!inChatRange()" md-on-select="visitorsVisible()">
+        <ng-include src="'js/pages/location/html/lup-location-visitors.html?v='+V"></ng-include>
+      </md-tab>
+
+    </md-tabs>
+
+    <md-tabs
+     hide
+     show-sm
+     style="background:#333;"
+     md-selected="data.selectedTab2"
+     flex
+     ccmd-dynamic-height
+     ccmd-border-bottom
+     md-stretch-tabs="always"
+     layout="column">
+     
+      <md-tab label="{{'TAB_LOCATION'|translate}}">
+        <ng-include src="'js/pages/location/html/lup-location-tab.html?v='+V"></ng-include>
+      </md-tab>
+    
+      <md-tab label="{{'TAB_CHAT'|translate}}" md-on-select="chatVisible()" ng-disabled="!inChatRange()">
+        <div layout="row" flex layout-fill>
+          <ng-include src="'js/pages/location/html/lup-location-chat.html?v='+V" layout-fill flex=60></ng-include>
+          <ng-include src="'js/pages/location/html/lup-location-visitors.html?v='+V" layout-fill flex=40></ng-include>
+        </div>
+      </md-tab>
+
+    </md-tabs>
+
+	<div
+     hide
+     show-gt-sm
+     style="background:#333;"
+     flex
+     layout="row">
+	    <ng-include src="'js/pages/location/html/lup-location-tab.html?v='+V" layout-fill flex=25></ng-include>
+        <ng-include src="'js/pages/location/html/lup-location-chat.html?v='+V" layout-fill flex=45></ng-include>
+        <ng-include src="'js/pages/location/html/lup-location-visitors.html?v='+V" layout-fill flex=30></ng-include>
+	</div>
+
+  </md-content>
+</section>

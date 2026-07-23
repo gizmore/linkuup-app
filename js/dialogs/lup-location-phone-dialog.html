@@ -1,0 +1,19 @@
+<md-dialog aria-label="{{'PHONE'|translate}}">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2 translate="PHONE_HEAD" translate-values="{room_name:room.name()}"></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+			<i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <p translate="PHONE_TEXT" ng-if="room.phone()" translate-values="{'phone': room.phone(), 'room_name': room.name()}"></p>
+        <p><a href="tel:{{room.phone()}}" ng-if="room.phone()">{{room.phone()}}</a></p>
+        <p translate="PHONE_NONE" ng-if="!room.phone()" translate-values={room_name:room.name()}"></p>
+    </md-dialog-content>
+  </form>
+</md-dialog>

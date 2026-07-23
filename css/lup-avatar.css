@@ -1,0 +1,66 @@
+/** Most avatars **/
+.lup-avatar {
+    border-radius: 50%;
+    background: #999;
+    padding: 2px;
+    width: 36px;
+    height: 36px;
+    display: inline-block;
+    position: relative;
+}
+
+.lup-avatar .img, .lup-avatar span {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+	top: 2px;
+	left: 2px;
+	background-size: cover;
+    background-position: center;
+}
+
+.lup-avatar span {
+	background: #999;
+}
+
+/** Large profile avatars **/
+.lup-avatar.large-avatar {
+	width: 192px;
+	height: 192px;
+	display: block;
+	margin: auto;
+}
+.lup-avatar.large-avatar .img,
+.lup-avatar.large-avatar span {
+	width: 188px;
+	height: 188px;
+}
+
+/** List avatars **/
+md-list .lup-avatar {
+	width: 46px!important;
+	height: 46px!important;
+	margin: auto;
+	margin-right: 10px;
+}
+md-list .lup-avatar .img,
+md-list .lup-avatar span {
+	width: 46px!important;
+	height: 46px!important;
+	margin: 0!important;
+}
+
+/** Header avatars **/
+.lup-top-bar div.lup-avatar {
+	position: relative;
+	top: 2px;
+}
+
+/** Gender colors **/
+.lup-avatar.lup-male {
+	background: #3030af;
+}
+.lup-avatar.lup-female {
+	background: #FF69B4;
+}

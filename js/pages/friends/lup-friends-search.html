@@ -1,0 +1,33 @@
+
+<div class="search-input-wrap" ng-controller="SearchFriendsCtrl">
+<i class="qrcode-dummy" ng-click="showQRCode()">QR</i>
+  <input
+   type="text"
+   class="search-input"
+   placeholder="{{'SEARCH_NEW_FRIENDS'|translate}}"
+   ng-keyup="searchFriends(data.friendsearch)"
+   ng-model="data.friendsearch" />
+</div>
+
+<md-list ng-if="data.friendsearchusers.length">
+    <md-list-item class="md-2-line" ng-repeat="user in data.friendsearchusers" class="no-right">
+      <lup-avatar ng-user="user" ng-click="gotoProfile(user)"></lup-avatar>
+      <div class="md-list-item-text" layout="column">
+        <p class="username">{{ user.displayName(); }}</p>
+        <p class="lup-user-status">{{ user.status(); }}</p>
+      </div>
+<!--       <div> -->
+<!--         <i -->
+<!--          class="md-secondary usericon likeuser" -->
+<!--          aria-label="Like this user" -->
+<!--          ng-click="LikeSrvc.likeUser(user)" -->
+<!--          ng-if="!user.isSelf() && user.isMember()"></i> -->
+<!--         <i -->
+<!--          class="md-secondary usericon sendmessage" -->
+<!--          aria-label="Chat with this user" -->
+<!--          ng-click="gotoQuery(user)" -->
+<!--          ng-if="!user.isSelf()"></i> -->
+<!--       </div> -->
+    </md-list-item>
+  
+</md-list>

@@ -1,0 +1,23 @@
+<md-dialog aria-label="{{'DLG_LOGIN_CHOICE'|translate}}" class="lup-login-choice-dialog">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'DLG_LOGIN_CHOICE_HEAD'|translate}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+			<i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="column">
+        <p>{{'DLG_LOGIN_CHOICE_PARAGRAPH'|translate}}</p>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="cancel()">{{'BTN_LOGIN_NORMAL'|translate}}</md-button>
+      <md-button ng-click="gotoGuestLogin()">{{'BTN_LOGIN_GUEST'|translate}}</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

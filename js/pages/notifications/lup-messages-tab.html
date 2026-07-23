@@ -1,0 +1,32 @@
+<md-content layout="column" flex>
+  <md-list md-dense flex>
+    
+    <md-list-item
+     class="md-2-line"
+     ng-click="gotoQuery(query.user)" aria-label="goto private chat"
+     ng-repeat="query in sortedQueries()"
+     on-long-press="deleteChat(query)"
+     ng-class="{'lup-notification-unread':query.unreadCount()>0}">
+     
+      <lup-avatar ng-user="query.user" ng-click="gotoProfile(query.user)"></lup-avatar>
+
+      <div class="md-list-item-text">
+        <h4>{{query.user.displayName()}}</h4>
+        <p>{{query.lastText()}}</p>
+      </div>
+
+  	  <md-button class="md-secondary md-icon-button"
+  	   ng-click="gotoQuery(query.user)" aria-label="goto private chat">
+        <i class="material-icons">chevron_right</i>
+      </md-button>
+      
+    </md-list-item>
+    
+    <md-list-item class="md-1-line" ng-if="!sortedQueries().length">
+      <div class="md-list-item-text">
+        <p>Du hast noch keine privaten Nachrichten ausgetauscht.</p>
+      </div>
+    </md-list-item>
+    
+  </md-list>
+</md-content>

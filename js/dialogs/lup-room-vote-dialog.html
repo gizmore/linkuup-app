@@ -1,0 +1,32 @@
+<md-dialog aria-label="{{'ROOM_VOTE'|translate}}" class="lup-comment-dialog">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'ROOM_VOTE'|translate}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+			<i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="column">
+
+        <jk-rating-stars max-rating="5" rating="data.rating" reset-allowed="false"></jk-rating-stars>
+      
+        <md-input-container flex>
+          <textarea ng-model="data.comment" rows="4" style="width: 100%;" flex>
+          </textarea>
+        </md-input-container>
+      
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="cancel()">{{'BTN_CANCEL'|translate}}</md-button>
+      <md-button ng-click="vote()">{{'BTN_SAVE'|translate}}</md-button>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

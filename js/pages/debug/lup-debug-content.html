@@ -1,0 +1,93 @@
+<md-content layout="column" flex layout-padding>
+  <div layout="row" layout-wrap layout-align="start center">
+    <md-button class="md-raised md-primary" ng-click="refreshDebug()">
+      <i class="material-icons">refresh</i> Refresh snapshot
+    </md-button>
+    <md-button class="md-raised" ng-click="copyDebug()">
+      <i class="material-icons">content_copy</i> Copy JSON
+    </md-button>
+    <span>Captured: {{debug.capturedAt}}</span>
+  </div>
+
+  <md-card>
+    <md-card-title><md-card-title-text><span class="md-headline">Current user</span></md-card-title-text></md-card-title>
+    <md-card-content>
+      <p>
+        ID: <strong>{{debug.user.JSON.user_id}}</strong> ·
+        Name: <strong>{{debug.user.JSON.user_name || '-'}}</strong> ·
+        Guest name: <strong>{{debug.user.JSON.user_guest_name || '-'}}</strong> ·
+        Type: <strong>{{debug.user.JSON.user_type || '-'}}</strong> ·
+        Ghost flag: <strong>{{debug.user.GHOST}}</strong>
+      </p>
+      <p>Same object as UserSrvc.CACHE[current id]: <strong>{{debug.userIdentity.isCachedAsCurrent}}</strong></p>
+      <pre>{{debug.user | json}}</pre>
+    </md-card-content>
+  </md-card>
+
+  <md-card>
+    <md-card-title><md-card-title-text><span class="md-headline">Browser/session</span></md-card-title-text></md-card-title>
+    <md-card-content>
+      <h4>Cookie visible to JavaScript</h4>
+      <pre>{{debug.cookie}}</pre>
+      <h4>localStorage</h4>
+      <pre>{{debug.localStorage | json}}</pre>
+      <h4>sessionStorage</h4>
+      <pre>{{debug.sessionStorage | json}}</pre>
+    </md-card-content>
+  </md-card>
+
+  <md-card>
+    <md-card-title><md-card-title-text><span class="md-headline">User cache</span></md-card-title-text></md-card-title>
+    <md-card-content><pre>{{debug.userCache | json}}</pre></md-card-content>
+  </md-card>
+
+  <md-card>
+    <md-card-title><md-card-title-text><span class="md-headline">WebSocket</span></md-card-title-text></md-card-title>
+    <md-card-content><pre>{{debug.websocket | json}}</pre></md-card-content>
+  </md-card>
+
+  <md-card>
+    <md-card-title><md-card-title-text><span class="md-headline">Angular caches and root data</span></md-card-title-text></md-card-title>
+    <md-card-content>
+      <h4>$cacheFactory</h4>
+      <pre>{{debug.angularCaches | json}}</pre>
+      <h4>$templateCache</h4>
+      <pre>{{debug.templateCache | json}}</pre>
+      <h4>$rootScope.data</h4>
+      <pre>{{debug.rootData | json}}</pre>
+    </md-card-content>
+  </md-card>
+
+  <md-card>
+    <md-card-title><md-card-title-text><span class="md-headline">All service caches</span></md-card-title-text></md-card-title>
+    <md-card-content><pre>{{debug.serviceCaches | json}}</pre></md-card-content>
+  </md-card>
+
+  <md-card>
+    <md-card-title><md-card-title-text><span class="md-headline">All JS services</span></md-card-title-text></md-card-title>
+    <md-card-content><pre>{{debug.services | json}}</pre></md-card-content>
+  </md-card>
+
+  <md-card>
+    <md-card-title><md-card-title-text><span class="md-headline">GWF / GDO / GWS / LUP globals</span></md-card-title-text></md-card-title>
+    <md-card-content><pre>{{debug.globals | json}}</pre></md-card-content>
+  </md-card>
+
+  <md-card>
+    <md-card-title><md-card-title-text><span class="md-headline">Existing debug actions</span></md-card-title-text></md-card-title>
+    <md-card-content layout="row" layout-wrap>
+      <md-button ng-click="resetHelp()">Reset help</md-button>
+      <md-button ng-click="resetQueries()">Reset queries</md-button>
+      <md-button ng-click="resetStorage()">Flush storage</md-button>
+      <md-button ng-click="showCurrentRooms()">Log current rooms</md-button>
+      <md-button ng-click="partAllRooms()">Part all rooms</md-button>
+      <md-button ng-click="debugCommand()">Server debug command</md-button>
+      <md-button ng-click="logStorage()">Log storage</md-button>
+    </md-card-content>
+  </md-card>
+
+  <md-card>
+    <md-card-title><md-card-title-text><span class="md-headline">Complete snapshot</span></md-card-title-text></md-card-title>
+    <md-card-content><pre style="white-space:pre-wrap;overflow-wrap:anywhere">{{debugJSON}}</pre></md-card-content>
+  </md-card>
+</md-content>

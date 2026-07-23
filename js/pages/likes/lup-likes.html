@@ -1,0 +1,36 @@
+<section layout="row" flex>
+
+    <ng-include class="left-sidebar" src="'js/pages/sidenav/lup-sidenav.html?v='+V"></ng-include>
+
+	<md-content layout="column" flex>
+
+		<ng-include src="'js/pages/likes/lup-likes-header.html?v='+V"></ng-include>
+		
+		<md-list flex class="md-dense">
+		  
+		  <md-subheader class="md-no-sticky">
+		    <div
+		     translate="SUBHEADER_LIKES"
+		     translate-value-user="{{data.likeuser.displayName()}}"
+		     translate-value-count="{{data.pagemenu.nItems}}"
+		    ></div>
+		  </md-subheader>
+		  
+		  <div class="lup-user-list">
+			  <md-list-item class="md-2-line" ng-repeat="user in data.likes" class="no-right">
+				<lup-avatar ng-user="user" ng-click="gotoProfile(user)"></lup-avatar>
+				<div class="md-list-item-text" layout="column">
+				  <p class="username">{{ user.displayName(); }} ({{ user.likedMe }} times)</p>
+				  <p class="lup-user-status">{{ user.status(); }}</p>
+				</div>
+				<div>
+<!-- 				  <i class="md-secondary usericon likeuser" ng-click="LikeSrvc.likeUser(user)" ng-if="!user.isSelf() && user.isMember()"></i> -->
+				  <i class="md-secondary usericon sendmessage" ng-click="gotoQuery(user)" ng-if="!user.isSelf()"></i>
+				</div>
+			  </md-list-item>
+		   </div>
+		</md-list>
+
+	</md-content>
+
+</section>

@@ -1,0 +1,356 @@
+.container{
+	width: 85%;
+	margin: 0 auto;
+	max-width: 725px;
+}
+.user-profile-page .md-toolbar-tools {
+	position: fixed;
+	z-index: 20;
+}
+.user-profile-page .avatar {
+	margin: 0 auto;
+	width: max-content;
+
+	z-index: 11;
+	position: relative;
+}
+.user-profile-page .avatar .edit{
+	color: #fff;
+	position: absolute;
+	right: -25px;
+}
+.user-profile-page md-toolbar._md-toolbar-transitions {
+
+	background: #333;
+}
+
+.user-top-information {
+	width: 85%;
+	margin: 0 auto;
+	padding-top: 25px;
+	box-shadow: 0px 10px 10px 0px #f0f0f0;
+	border-radius: 20px;
+	z-index: 10;
+	background: #fff;
+	text-align: center;
+	float: left;
+	margin-top: -50px;
+	display: block;
+	position: relative;
+	background: rgb(255,255,255); /* Old browsers */
+	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(243,243,243,1) 50%, rgba(237,237,237,1) 51%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */	
+}
+.profile-page md-tabs-wrapper.md-stretch-tabs md-pagination-wrapper{
+	background:#fff;
+	border: 0;
+}
+.user-top-information .username {
+	font-weight: 500;
+	font-size: 1.6rem;
+	margin: 0;
+}
+
+.user-top-information .city {
+	color: #999999;
+	font-size: 0.7rem;
+}
+
+.user-top-information .countitems {
+	float: left;
+	margin-bottom: 40px;
+	width: 100%;
+	margin-top: 0;
+}
+.user-top-information .countitem .count {
+	float: left;
+	width: 100%;
+	font-weight: 500;
+	font-size: 1.6rem;
+}
+
+.user-top-information .countitem .item {
+	float: left;
+	width: 100%;
+	color: #999999;
+	font-size: 0.7rem;
+}
+
+.user-top-information .countitem {
+	float: left;
+	width: 25%;
+}
+
+.user-top-information img.country-image {
+	position: relative;
+	top: 3px;
+	margin-right: -3px;
+}
+
+.profile-actions {
+	width: 60%;
+	margin: -25px 20%;
+	z-index: 11;
+	min-height: 56px;
+}
+.has-own-user.profile-actions {
+	display:none;
+}
+.profile-actions .content-center {
+	width: max-content;
+	margin: 0 auto;
+}
+
+.profile-actions i {
+	float: left;
+	margin:0 5px;
+}
+
+.profile-actions button {
+	margin-bottom: 0;
+	float: left;
+	border: 2px solid;
+	border-radius: 35px;
+	background: #fff;
+	margin-top: 0;
+	height: 48px;
+}
+/** Tabs **/
+.information-tabs{
+	margin-bottom:50px;
+}
+.information-tabs md-tab-item {
+	color: #000;
+}
+.information-tabs md-tab-item.md-active {
+	color: #000;
+	background-image: linear-gradient(to right, #b80fff 0%, #3c7cff 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.only-registered{
+	padding: 50px 15px;
+	text-align: center;
+}
+.information-tabs md-tabs-canvas{
+	height: 105px;
+}
+.information-tabs md-pagination-wrapper{
+	height: 105px;
+}
+.information-tabs md-tab-item {
+    height: 105px;
+    line-height: 135px;
+}
+
+.has-own-user .information-tabs md-tabs-canvas{
+	height: 130px;
+}
+
+.has-own-user .information-tabs md-pagination-wrapper{
+	height: 120px;
+}
+
+.has-own-user .information-tabs md-tab-item {
+    height: 130px;
+    line-height: 185px;
+}
+
+
+
+.information-tabs md-tab-item:first-child{
+	border-right: 1px solid #dedede;
+}
+.information-tabs md-tab-item{
+	width:50%;
+}
+
+#profile-logo {
+    background: url(../../../images/edit.svg) 0 0 no-repeat;
+    width: 56px;
+    height: 56px;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    top: 55px;
+}
+
+
+/** Gallery **/
+#gallery-add-area {
+    background: url(../../../images/takephoto.svg) 0 0 no-repeat;
+    width: 56px;
+    height: 56px;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    top: 55px;
+}
+#gallery-add-area span{
+		width:56px;
+		height:56px;
+		display:block;
+		color:transparent;
+    z-index: 10000;
+    position: relative;
+}
+.gallery-list {
+	width: 85%;
+	margin: 0 auto;
+}
+.gallery-slide img {
+	max-width: 100%;
+	max-height: 100%;
+	margin: auto;
+}
+
+.gallery-image-wrap {
+	position: relative;
+}
+
+.gallery-image-wrap > i {
+	position: absolute;
+	font-weight: 900;
+	font-size: 16px;
+	display: inline-block;
+	color: red;
+}
+
+.gallery-slide {
+	width: 160px;
+	height: 120px;
+	float: left;
+	background: #D26;
+	border: 2px solid #333;
+	border-color: hsla(0, 0%, 0%, 0.5);
+	border-radius: 5px;
+}
+
+.inc-top-profile{
+	position: relative;
+	z-index: 100;
+	display: block;
+}
+.avatar-bg{
+	background-color: #333333;
+	padding: 25px 0 80px 0;
+}
+.profile-page{
+	width: 100%;
+	overflow-x: hidden;
+}
+
+.profile-statusline {
+	position: relative;
+	top: -15px;
+	text-align: left;
+	padding: 0 12px;
+	pointer-events: none;
+}
+
+.profile-statusline span {
+	display: inline-block;
+	width: 100%;
+	padding: 6px;
+	color: #333;
+	border: 1px dotted gray;
+	border-radius: 6px;
+}
+
+.profile-about-me {
+	white-space: pre-wrap;
+}
+
+.comments-template .lup-avatar{
+	margin: 0 10px 0 0;
+}
+
+.profile-information{
+	padding:10px 0;
+}
+.profile-information .half{
+	float:left;
+	width:50%;
+}
+
+
+@media (max-width: 768px) {
+	.profile-actions .content-center {
+		width: max-content;
+		margin: 0 auto;
+		position: relative;
+		display: block;
+		z-index: 20;
+		top: -20px;
+	}
+	.user-profile-page{
+		display:block;
+	}
+	.user-profile-page .user-top-information{
+		left: 7.5%;
+		right: 7.5%;
+		transition:all 0.2s linear;
+	}
+	.user-profile-page .user-top-information.ownuserprofile{
+		margin-bottom: 0px;
+	}	
+	.user-profile-page .user-top-information.scroll{
+		width: 100%;
+		left: 0;
+		position: fixed;
+		top: 56px;
+		padding: 0;
+		border-radius: 0;
+		box-shadow: none;
+		margin-top: 0;
+		margin-bottom: 0;
+		z-index: 100;
+	}
+	.user-profile-page .user-top-information.scroll .username{
+		width: 40%;
+		font-size: 1.2rem;
+		float:left;
+		padding: 17px 0px;
+	}
+	.user-profile-page .user-top-information.scroll .countitems{
+		width: 60%;
+		font-size: 1.2rem;
+		float:left;
+		padding: 5px 0;
+	}
+	
+	.user-profile-page .user-top-information.scroll .countitem .count {
+		float: left;
+		width: 100%;
+		font-weight: 500;
+		font-size: 1.2rem;
+	}
+	.user-profile-page .avatar-bg.scroll{
+		padding:0;
+	}
+
+	.user-top-information.scroll .countitems{
+		margin-bottom:0;
+	}
+	.information-tabs.scroll{
+		top:80px;
+		width:100%;
+	}
+	.information-tabs{
+		top: -70px;
+		width: 100%;
+		display: block;
+		position: relative;
+	}
+
+}
+
+/** IOS Lupe fix **/
+div.ug-tile {
+	-webkit-touch-callout: none;
+	-webkit-text-size-adjust: none;
+	-webkit-user-select: none;
+}

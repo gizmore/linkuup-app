@@ -1,0 +1,259 @@
+/* TODO: Clean up */
+.login md-input-container > label {
+    padding-left: 8px !important;
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused label {
+    color: #000;
+}
+
+.login input[type=text] {
+    color: rgba(0, 0, 0, 0.38);
+}
+
+.md-button.md-raised:not([disabled]) {
+    box-shadow: none;
+}
+
+.md-button.md-raised:not([disabled]).guest-button {
+    border: 1px solid rgba(0,0,0,0.12);
+}
+
+.fb_iframe_widget {
+    margin-top: 4px;
+    /* 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); */
+}
+
+.logo {
+    width: 200px;
+    margin: 0 auto;
+}
+.md-icon-float.md-block{
+	margin:0;
+}
+.headtitle {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.subtitle {
+    color: #999;
+    font-size: 18px;
+}
+
+.signup {
+    width: 55%;
+    color: #999;
+}
+
+.signup a {
+    color: #6741d0;
+    text-decoration: none;
+}
+.signup span{
+	width:100%;
+	float:left;
+}
+.pwforgot {
+    width: 45%;
+    text-align: right;
+}
+
+.login-button,
+.facebook-button,
+.instagram-button,
+.guest-button {
+    width: 100%;
+    margin: 0 8px;
+    border-radius: 5px;
+    padding: 15px;
+	height:66px;
+    font-size: 18px;
+}
+.instagram-button,
+.facebook-button
+{
+    width: 50%;
+}
+
+.login-button {
+    background-image: linear-gradient(to top, #b712ff 0%, #9c1cd1 100%);
+    text-transform: none;
+}
+
+.facebook-button {
+    background-color: #4267b2 !important;
+    text-transform: none;
+    color: #fff !important;
+	padding: 5px 0 5px 0;
+}
+.facebook-button span{
+	width: 48px;
+    height: 48px;
+	background:url(../../../images/facebook.svg);
+    margin: 0 auto;
+    display: block;
+}
+.instagram-button{
+	background: linear-gradient(to right, rgb(236, 145, 35) 0%, rgb(177, 42, 160) 50%, rgb(105, 14, 224) 100%);
+	padding: 5px 0 5px 0;
+}
+.instagram-button span{
+	width: 48px;
+    height: 48px;
+	background:url(../../../images/instagram.svg);
+	margin: 0 auto;
+    display: block;
+}
+.guest-button {
+    background-color: #fff !important;
+    text-transform: none;
+    color: #000;
+}
+
+.backtologin {
+    width: 100%;
+    background-color: #fff !important;
+    font-size: 1.5em;
+    text-transform: none;
+    padding: 15px;
+    border-radius: 10px;
+    color: #000 !important;
+}
+
+.label {
+    color: #000 !important;
+}
+
+.pwforgot a {
+    color: #999999;
+    text-decoration: none;
+}
+
+
+
+.check{
+  cursor: pointer;
+  position: relative;
+  margin: auto;
+  width: 18px;
+  height: 18px;
+  float: left;
+  -webkit-tap-highlight-color: transparent;
+  transform: translate3d(0,0,0);
+} 
+.check:before{
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(#223254,.03);
+    opacity: 0;
+    transition: opacity .2s ease;
+} 
+.check svg{
+    position: relative;
+    z-index: 1;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: #C8CCD4;
+    stroke-width: 1.5;
+    transform: translate3d(0,0,0);
+    transition: all .2s ease;
+}
+.check path{
+      stroke-dasharray: 60;
+      stroke-dashoffset: 0;
+}
+.check polyline {
+      stroke-dasharray: 22;
+      stroke-dashoffset: 66;
+}
+.check:hover:before{
+      opacity: 1;
+}
+.check:hover svg{
+      stroke: #4285F4;
+}
+
+#cbx:checked + .check svg{
+    stroke: rgb(57,73,171);
+}
+#cbx:checked + .check path{
+      stroke-dashoffset: 60;
+      transition: all .3s linear;
+}
+#cbx:checked + .check polyline{
+      stroke-dashoffset: 42;
+      transition: all .2s linear;
+      transition-delay: .15s;
+}
+
+:focus{
+	outline:none;
+}
+
+.login-bottom{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+	float: left;
+    display: block;
+}
+.login-bottom.login-page{
+	position: relative;
+}
+
+.login-bottom .md-button{
+	text-align: center;
+}
+.login-bottom ._md-button-wrap{
+    float: left;
+    width: 50%;
+}
+.login-bottom .md-list-item-inner{
+	text-align: center;
+}
+.tos-line{
+    width: 100%;
+    height: 60px;
+}
+.tos-line span{
+/*     float: left; */
+/*     width: 90%; */
+	display: block;
+    padding-left: 30px;
+	font-size: 0.9rem;
+    line-height: 24px;
+	color: rgba(0,0,0,0.38);
+}
+
+section.login, .authpage {
+/* 	margin: auto; */
+	justify-content: center;
+}
+section.login md-content {
+	max-width: 800px;
+}
+
+.lup-tos-line a {
+    color: rgba(0,0,0,0.38);
+    text-decoration: underline;
+    cursor:pointer;
+}
+
+.tos-line .error {
+	position: relative;
+	top: 12px;
+	left: -16px;
+}
+.register-title{
+	margin:15px 0;
+}
+.register-form-register{
+	margin-bottom:120px;
+}

@@ -1,0 +1,29 @@
+# Eclipse
+/.project
+/.buildpath
+/.settings/
+
+# Acme
+/.well-known/
+
+# Ignore macOS files
+.DS_Store
+
+# Ignore PhpStorm files
+.idea
+
+# LinkUUp
+/bower_components/
+/config/lup-app-config.js
+/config/lup-php-config.php
+/app/
+/index.php
+
+# Yarn
+/node_modules/
+yarn-error.log
+yarn.lock
+package-lock.json
+
+# bundle.sh
+*code.tar.gz

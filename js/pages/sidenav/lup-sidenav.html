@@ -1,0 +1,89 @@
+<md-sidenav
+ style="overflow: scroll;"
+ class="md-sidenav-left"
+ md-component-id="left"
+ md-is-locked-open="$mdMedia('gt-lg')"
+ md-whiteframe="4"
+ flex>
+
+  <md-toolbar>
+   <div class="md-toolbar-tools">
+    <i class="material-icons" ng-click="closeLeft()" ng-if="!$mdMedia('gt-lg')">menu</i>
+    <h1>LinkUUp App</h1>
+   </div>
+  </md-toolbar>
+
+  <md-content>
+    
+	<md-list class="md-dense" flex layout="column">
+
+	  <md-list-item class="md-1-line" ng-click="gotoNearbyRooms()" ng-if="data.user.isAuthed()">
+	    <img src='images/nearby.svg' />
+		<p>{{'TITLE_LOCATIONS'|translate}}</p>
+	  </md-list-item>
+	  
+	  <md-list-item class="md-1-line" ng-click="gotoRegister()" ng-if="!data.user.isAuthed()">
+	    <img src='images/settings.svg' />
+		<p>{{'BTN_REGISTER'|translate}}</p>
+	  </md-list-item>
+
+		<md-list-item class="md-1-line" ng-click="gotoOwnProfile()" ng-if="data.user.isAuthed()">
+	    <img src='images/ic_person_48px.svg' />
+	    <p>{{'TITLE_OWN_PROFILE'|translate}}</p>
+	  </md-list-item>
+
+	  <md-list-item class="md-1-line" ng-click="gotoSettings()" ng-if="data.user.isAuthed()">
+	    <img src='images/settings.svg' />
+		<p>{{'TITLE_SETTINGS'|translate}}</p>
+	  </md-list-item>
+
+	  <md-list-item class="md-1-line" ng-click="gotoAccount()" ng-if="data.user.isAuthed()">
+	    <img src='images/ic_person_48px.svg' />
+		<p>{{'TITLE_ACCOUNT'|translate}}</p>
+	  </md-list-item>
+
+	  <md-list-item class="md-1-line" ng-click="gotoProfileSettings()" ng-if="data.user.isAuthed()">
+	    <img src='images/ic_person_48px.svg' />
+		<p>{{'TITLE_PROFILE_SETTINGS'|translate}}</p>
+	  </md-list-item>
+
+	  <md-list-item class="md-1-line" ng-click="gotoFriends(data.ownUser)" ng-if="data.user.isAuthed()">
+	    <img src='images/ic_people_48px.svg' />
+		<p>{{'TITLE_FRIENDS'|translate}}</p>
+	  </md-list-item>
+	  
+	  <md-list-item class="md-1-line" ng-click="logout()" ng-if="data.user.isAuthed()">
+	    <img src='images/logout.svg' />
+		<p>{{'BTN_LOGOUT'|translate}}</p>
+	  </md-list-item>
+
+      <!-- Debug -->
+      <div ng-if="LUP_CONFIG.debug">
+		  <md-subheader class="md-no-sticky">{{'DEBUG'|translate}}</md-subheader>
+		  <md-list-item class="md-1-line" ng-click="gotoDebug()">
+			<p>{{'TITLE_DEBUG'|translate}}</p>
+		  </md-list-item>
+	  </div>
+
+      <!-- Admin -->
+      <div ng-if="hasPermission('staff', 'owner')">
+		  <md-list-item class="md-1-line" ng-click="gotoBackend()">
+			<p>{{'BTN_BACKEND'|translate}}</p>
+		  </md-list-item>
+	  </div>
+
+      <!-- Fineprint -->
+      <md-subheader class="md-no-sticky">{{'Legal'|translate}}</md-subheader>
+	  <md-list-item class="md-1-line" ng-click="DialogSrvc.openImpressum()">
+		<p class="impressum">{{'IMPRESSUM'|translate}}</p>
+	  </md-list-item>
+      <md-list-item class="md-1-line" ng-click="DialogSrvc.openTermsOfService()">
+		<p class="tos">{{'TOS'|translate}}</p>
+	  </md-list-item>
+	  <md-list-item class="md-1-line" ng-click="DialogSrvc.openPrivacyInformation()">
+		<p class="privacy">{{'PRIVACY'|translate}}</p>
+	  </md-list-item>
+
+    </md-list>
+  </md-content>
+</md-sidenav>

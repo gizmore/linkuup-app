@@ -1,0 +1,66 @@
+<div style="background: #fff; height: 100%;" layout="column" flex
+ XXin-view="$inview&&chatVisible()">
+  <div class="chat-msgs md-padding" flex="100">
+    <div ng-if="!data.room.isSelfInRoom()" class="chat-join-button">
+      <md-button
+		ng-click="joinChat($event)"
+		ng-class="{'lup-button-disabled': !data.room.inChatRange()}"
+		ng-attr-aria-disabled="{{!data.room.inChatRange()}}">
+		{{'BTN_JOIN'|translate}}
+	  </md-button>
+    </div>
+<!-- 	<div class="msgline"> -->
+		<div
+		 ng-repeat="msg in data.room.MESSAGES"
+		 class="lup-msg"
+		 in-view="$inview&&onMessageRead(msg)"
+		 in-view-options="{considerPageVisibility:true}"
+		 ng-class="{'lup-own-msg':msg.isOwnMessage(),
+		 	'lup-system-msg':msg.isSystemMessage(),
+		 	'lup-notification-unread':!msg.read,
+		 	'lup-other-msg':!msg.isOwnMessage() && !msg.isSystemMessage()}">
+		  <div class="head">
+			  <p class="msg">
+				  
+				  <span class="name">{{msg.user.displayName()}}</span>
+				  <span class="time">{{msg.time|msgDate}}</span>
+				  <span class="message"><span class="messager-inner">{{msg.text}}</span>
+				  <lup-avatar
+				   ng-user="msg.user"
+				   ng-if="!msg.isSystemMessage()"
+				   ng-click="gotoProfile(msg.user)"></lup-avatar>
+			  </p>
+		  </div>
+		</div>
+		
+<!--     </div> -->
+  </div>
+  <div class="chatbottom">
+	<div class="chat-input">
+		<input type="text" ng-model="data.message" ng-enter="sendMessage()" />
+	</div>
+	<div class="chat-button">
+		<button ng-click="sendMessage()" class="sendbutton"/>
+	</div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery('.chatbottom input').keyup(function(){
+			console.log('KEYUP');
+			if(!jQuery.trim(this.value).length) {
+				jQuery('.chatbottom button').removeClass('sendmessage');
+			}else{
+				jQuery('.chatbottom button').addClass('sendmessage');	
+			}
+		});	
+		
+		jQuery('.chat-msgs').bind('DOMNodeInserted DOMNodeRemoved', function() {
+			jQuery('.chat-msgs').scrollTop(1000000); // Desktop fix
+// 			jQuery('.chat-msgs').scrollTop(jQuery('.chat-msgs').prop('scrollHeight'));
+		});
+		
+	});
+</script>

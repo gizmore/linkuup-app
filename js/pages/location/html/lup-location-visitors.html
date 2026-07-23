@@ -1,0 +1,28 @@
+<md-list
+ class="usernavigation"
+ style="height:100%;"
+ XXin-view="$inview&&visitorsVisible()"
+ XXin-view-options="{considerPageVisibility:true}"
+ flex>
+  
+  <md-subheader class="md-no-sticky">
+    <div translate="VISITORS_ATM"
+     translate-value-count="{{data.room.USERS.length}}"></div>
+  </md-subheader>
+
+  <div class="visitors-list">
+	  <md-list-item class="md-2-line" ng-repeat="user in sortedVisitors()" class="no-right">
+		<lup-avatar ng-user="user" ng-click="gotoProfile(user)"></lup-avatar>
+		<div ng-click="gotoProfile(user)" class="md-list-item-text" layout="column">
+		  <p class="username">{{ user.displayName(); }}</p>
+		  <p>{{ user.status(); }}</p>
+		</div>
+		<div>
+		  <i class="md-secondary usericon likeuser" ng-click="LikeSrvc.likeUser(user)" ng-if="!user.isSelf() && user.isMember()"></i>
+		  <i class="md-secondary usericon addfriend" ng-click="FriendSrvc.addFriend(user)" ng-if="!user.isSelf() && user.isMember() && data.user.isMember() && !user.isFriend()"></i>
+		  <i class="md-secondary usericon removefriend" ng-click="FriendSrvc.removeFriend(user)" ng-if="!user.isSelf() && user.isMember() && data.user.isMember() && user.isFriend()"></i>
+		  <i class="md-secondary usericon sendmessage" ng-click="gotoQuery(user)" ng-if="!user.isSelf()"></i>
+		</div>
+	  </md-list-item>
+   </div>
+</md-list>

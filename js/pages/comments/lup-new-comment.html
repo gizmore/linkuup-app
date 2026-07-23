@@ -1,0 +1,29 @@
+<div class="write-comments" ng-class="{show:data.showInput}">
+
+	<md-input-container>
+		<label>{{'Sterne'|translate}}</label>
+		<div class="md-resize-wrapper">
+			<p class="star-rating" style="color: {{data.room.color()">
+				<jk-rating-stars
+				 max-rating="5"
+				 rating="data.rating"
+				 read-only="false"
+				 on-rating="onVoteRoom(rating)"></jk-rating-stars>
+			</p>
+		</div>
+	</md-input-container>
+
+	<div>
+		<md-input-container>
+			<label>{{'Bewertung'|translate}}</label>
+			<textarea ng-model="data.comment"></textarea>
+		</md-input-container>
+		
+		<div>{{data}}</div>
+		
+		<md-button
+		 class="save-button"
+		 style="background:#333;"
+		 ng-click="saveComment()">{{'SAVE'|translate}}</md-button>
+	</div>
+</div>

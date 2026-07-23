@@ -1,0 +1,30 @@
+<md-dialog id="lup-notification-comment-dialog" aria-label="new comment">
+  <form ng-cloak>
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2 translate="DLGT_NEW_COMMENT"></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="ok()">
+          <i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <p>{{data.commentText}}</p>
+        <jk-rating-stars
+         ng-if="data.rating"
+         max-rating="5"
+         rating="data.rating"
+         read-only="true"></jk-rating-stars>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="ok()" translate="BTN_OK"></md-button>
+    </md-dialog-actions>
+    
+  </form>
+</md-dialog>

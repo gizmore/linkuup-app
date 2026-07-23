@@ -1,0 +1,104 @@
+Alex: schon 20 gegeben.
+3.9 3
+8.9 5
+20h neu. s.u.
+---
+1.5h Profile Friend Pending, Course and friends permission check
+1.0h Tests and bugfixes
+1.5h Notifications mit links zu 2nd user, room, comment, etc.
+1.0h Help Popups merken sich nun auf dem server
+3.0h Notifications komplett überarbeitet
+2.0h Backend und Frontend lang de/en
+1.0h QRCode initial page loading
+----
+NEU
+20h (Basic LUP theme, Graphstuff, Comments, Coworkers, lang)
+
+
+
+=============================================
+
+FB Acc: tester@linkuup.de                  linkyouup123
+FB Acc: rdpbbcmjlv_1540318613@tfbnw.net    linkyouup123
+
+=============================================
+
+Instagram Acc: info@linkuup.de             BW)4e-segBbhm<3p
+
+=============================================
+
+IDEAS
+-----
+
+ - Parties ankündigen und suchen
+ - User ignorieren
+ - Chat radius anzeigen
+ - Position öffentlich einsehbar machen? (ACL)
+ - Let's meet anfrage an user senden
+ - User anbieten getracked zu werden (find us)
+ - Suche Leute im Umkreis von N km
+ - Innenbild für location detail ermöglichen
+ - Status = Sportlichkeit. Evt Sachen wie fittnes, Fußball, Hockey, Basketball, Tennis, schwimmen,........
+ - bei Location ( Gallerie nur wenn man sich in der Location befindet können regestrierte Nutzer VIP Bilder hoch laden ?
+
+==========================================
+
+NEW BUGLIST @gizmore
+
+- Datum in chat raus, nur uhrzeit wenn heute
+- Eigene join msg im chat nicht anzeigen
+- AutoJoin bei ChatMessage für den fall eines auto part. (???)
+- LikeListe hat pagination nicht fertig
+- Login input nur email
+- Beim laden bis authenticated nur weiss
+- Titelbild als Option ? Bitte um Meinung von euch 
+- has Joint hes left raus 
+- Bug Nachrichten nicht vibrieren wenn in view
+- Gallery Add geht nich auf desktop
+- Profil aufrufen durch auf namen klicken bei Freunden u.ä.
+- Entfernte Freunde profil neu laden
+- Bei Deutschlandchat die KM raus
+- Scrolling in App impressum, etc geht nicht auf mobile
+- Desktop Locations scroll öffnet zu früh
+
+
+NEW BUGLIST @Alex 
+
+- Basic Design (??? erledigt ???)
+- Sidebar Design (??? erledigt ???)
+- Avatar Farben wie Logo
+- Bei liken ein Sternchen anstatt Hertzchen
+- sprechende url für datenschutz, agb, und impressum (linkuup.de/impressum) + Seite machen
+- linkuup.de landing page machen
+- Freundschaftsanfrage pending neues Icon (Sanduhr mit freund)
+- Senden button im locationchat fehlt
+- Gallery Add geht nich auf desktop
+
+
+BACKEND
+
+X Startseite login, keine weiteren Seiten erreichbar (evtl. Kontakt)
+X Benutzergruppe Barbesitzer(Owner)
+X Ein Owner pro Location
+X Owner kann Mitarbeiter(Supporter) bestimmen
+
+X Supporter bestimmen: Owner erzeugt spezielle aktivierung mit mail. Supporter wählt dann beim aktivieren pass+login
+
+- Owner+Supporter kann: Seine Räume editieren (Beschreibung, Kategorie, ULR, Phone, Öffnungszeiten, Adresse, Logo)
+- Owner kann: Raum aktivieren/deaktivieren
+- Owner+Supporter kann: Kommentare löschen
+
+- Nach Login: Menuleiste oben: "Übersicht, Räume verwalten, Mitarbeiter verwalten, Konto verwalten, Logout"
+
+- Übersicht: Statistik der Räume, alle Untereinander zum aufklappen falls nötig.
+- Statistik: Zeitraum (24h, 7 Tage, Akt.Monat, Akt.Jahr, 2 Jahre)
+- Statistik: Anzahl Besucher (Chat betreten), Aufenthaltzeit durchschnittlich, Anzahl der Nachrichten
+
+X Register: Admins können User anlegen
+- Mitarbeiter einen Raum zuweisen: Multiselect
+X Graphen nur ein select pro raum
+- Konto menuführung gucken. Nur Konto und Konto löschen
+X graph size anpassen
+X QR codes wieder rein
+- Websocket handshake should set language from http header
+X deutschland chat die kilometer entfernen (0.5h)

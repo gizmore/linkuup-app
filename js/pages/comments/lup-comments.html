@@ -1,0 +1,47 @@
+<section layout="row" flex class="comments-template">
+    <ng-include class="left-sidebar" src="'js/pages/sidenav/lup-sidenav.html?v='+V"></ng-include>
+	<md-content layout="column" flex>
+
+	    <ng-include src="'js/pages/comments/header-bar-comments.html?v='+V"></ng-include>
+
+		<md-list class="md-dense" ng-if="!data.commentText" >
+			<md-list-item ng-click="onVoteDialog()">
+				<lup-avatar ng-user="data.user"></lup-avatar>
+				<div class="md-list-item-text">
+				  <h4 class="lup-comment-text">{{ 'WRITE_OWN_COMMENT'|translate; }}</h4>
+				  <p class="lup-comment-date">{{ data.user.displayName(); }}</p>
+				</div>
+			</md-list-item>
+		</md-list>
+
+		<md-list md-virtual-repeat-container flex class="md-dense">
+
+			<md-subheader class="md-no-sticky">
+			  <div translate="SUBHEADER_COMMENTS"
+			   translate-value-room="{{data.room.name()}}"
+			   translate-value-count="{{data.comments.pagination.nItems}}"></div>
+			</md-subheader>
+
+			<md-list-item
+			 class="md-2-line no-right"
+			 ng-class="{'lup-comment-deleted':comment.deleted}"
+			 md-on-demand
+			 md-virtual-repeat="comment in data.comments">
+				<lup-avatar ng-user="comment.user()" ng-click="gotoProfile(comment.user());"></lup-avatar>
+				<div class="md-list-item-text">
+				  <h4 class="lup-comment-text" ng-bind-html="comment.text()"></h4>
+				  <p class="lup-comment-date"
+				   translate="COMMENTED_AT"
+				   translate-value-user="{{comment.user().displayName()}}"
+				   translate-value-date="{{comment.displayDate()}}"></p>
+				</div>
+				<div class="md-secondary">
+				  <i class="material-icons"
+				   ng-if="hasPermission('staff') || comment.isOwn()"
+				   ng-click="deleteComment(comment)">delete</i>
+				</div>
+			</md-list-item>
+
+		</md-list>
+	</md-content>
+</section>
