@@ -55,7 +55,7 @@ angular.module('LUP').config(function($routeProvider) {
 				gwsMessage.writeString(data.captcha);
 			}
 			WebsocketSrvc.sendBinary(gwsMessage).then($scope.registerSuccess, $scope.registerFailure);
-		});
+		}, $scope.failedPosition);
 	};
 	
 	$scope.registerSuccess = function(msg) {
