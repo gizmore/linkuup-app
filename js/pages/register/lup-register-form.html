@@ -20,7 +20,7 @@
   <div class="error">{{data.errors.password_retype}}</div>
 </md-input-container>
 
-<md-input-container class="md-icon-float md-block" ng-if="ConfigSrvc.emailActivation()">
+<md-input-container class="md-icon-float md-block">
   <label translate="EMAIL"></label>
   <input ng-model="data.email" type="email">
   <div class="error">{{data.errors.user_email}}</div>

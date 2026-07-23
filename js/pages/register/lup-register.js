@@ -45,9 +45,7 @@ angular.module('LUP').config(function($routeProvider) {
 			if (ConfigSrvc.passwordRetype()) {
 				gwsMessage.writeString(data.password_retype);
 			}
-			if (ConfigSrvc.emailActivation()) {
-				gwsMessage.writeString(data.email);
-			}
+			gwsMessage.writeString(data.email);
 			if (ConfigSrvc.tosForced()) {
 				gwsMessage.write16(data.tos?1:0);
 			}
