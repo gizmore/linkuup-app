@@ -14,6 +14,86 @@
 body, md-content { background: var(--lup-bg); color: var(--lup-text); }
 body { font-family: Ubuntu, Roboto, Arial, sans-serif; letter-spacing: .01em; }
 
+/* Add room: a location is created from a real position, not from an abstract
+ * settings form. The GPS marker is the page's one distinctive visual anchor. */
+.lup-add-room-page .settings-content { background:transparent; }
+.lup-add-room-page .add-room-form {
+  width:min(100%,680px);
+  margin:0 auto;
+  padding:18px 16px calc(34px + env(safe-area-inset-bottom));
+  color:var(--lup-text);
+}
+.add-room-hero {
+  display:grid;
+  grid-template-columns:52px minmax(0,1fr);
+  gap:12px;
+  align-items:center;
+  margin:2px 1px 17px;
+}
+.add-room-hero__mark {
+  display:grid;
+  width:52px;
+  height:52px;
+  place-items:center;
+  color:#b8efff;
+  border:1px solid rgba(130,218,255,.33);
+  border-radius:20px 20px 20px 7px;
+  background:linear-gradient(145deg,rgba(45,151,213,.26),rgba(113,85,191,.17));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 10px 26px rgba(0,0,0,.18),0 0 22px rgba(75,190,255,.13);
+}
+.add-room-hero__mark .material-icons { font-size:27px; }
+.add-room-hero small,.add-room-section__label,.add-room-radius__head > span,.add-room-position small {
+  display:block;
+  color:#9bc4df;
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:.15em;
+  line-height:1.2;
+}
+.add-room-hero h1 { margin:4px 0 5px; color:#f7f9ff; font-size:clamp(23px,6vw,31px); font-weight:820; letter-spacing:-.045em; line-height:1; }
+.add-room-hero p { margin:0; color:#abbcd0; font-size:11px; line-height:1.45; }
+.add-room-position {
+  display:grid;
+  grid-template-columns:43px minmax(0,1fr) 26px;
+  gap:11px;
+  align-items:center;
+  min-height:70px;
+  margin:0 0 20px;
+  padding:10px 12px;
+  color:#aab9cc;
+  border:1px solid rgba(177,205,234,.15);
+  border-radius:19px 19px 19px 7px;
+  background:linear-gradient(115deg,rgba(44,67,99,.48),rgba(17,25,41,.70));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+.add-room-position.is-ready { border-color:rgba(94,229,190,.34); background:linear-gradient(115deg,rgba(53,132,117,.25),rgba(17,29,42,.74)); }
+.add-room-position__pin { display:grid; width:43px; height:43px; place-items:center; color:#a8d5f8; border-radius:50% 50% 50% 14px; background:rgba(103,178,224,.13); box-shadow:inset 0 0 0 1px rgba(139,215,255,.21); }
+.add-room-position.is-ready .add-room-position__pin { color:#77efbd; background:rgba(73,205,157,.12); box-shadow:inset 0 0 0 1px rgba(109,239,187,.25),0 0 17px rgba(82,231,177,.12); }
+.add-room-position strong { display:block; margin-top:4px; color:#e5eef9; font-size:12px; font-weight:720; line-height:1.25; }
+.add-room-position__state { color:#77efbd; font-size:20px; }
+.add-room-section { margin:0 0 20px; }
+.add-room-section__label { margin:0 2px 8px; color:#c2cef0; }
+.add-room-form md-input-container { margin:6px 0 14px; }
+.add-room-form md-input-container .md-input,.add-room-form md-select .md-select-value {
+  color:#f4f7ff !important;
+  border-bottom-color:rgba(163,198,238,.27) !important;
+}
+.add-room-form md-input-container label { color:#9fb4cc !important; }
+.add-room-form md-input-container.md-input-focused label { color:#8adbf9 !important; }
+.add-room-form md-input-container .md-input:focus { border-bottom-color:#75d7fa !important; }
+.add-room-form .add-room-description textarea { min-height:86px; padding:10px 11px; border:1px solid rgba(164,201,238,.15) !important; border-radius:14px 14px 14px 5px; background:rgba(255,255,255,.035); }
+.add-room-radius { margin:0 0 22px; padding:14px 13px 9px; border:1px solid rgba(156,189,232,.17); border-radius:20px 20px 20px 7px; background:linear-gradient(130deg,rgba(93,76,164,.15),rgba(20,31,50,.66)); box-shadow:inset 0 1px 0 rgba(255,255,255,.08); }
+.add-room-radius__head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.add-room-radius__head > span { color:#c0b9ef; }.add-room-radius__head strong { color:#f1f4ff; font-size:18px; font-weight:800; letter-spacing:-.03em; }
+.add-room-radius p { margin:6px 0 12px; color:#a7b7cc; font-size:10px; line-height:1.4; }
+.add-room-radius__presets { display:flex; flex-wrap:wrap; gap:7px; }
+.add-room-radius__presets button { min-width:47px; min-height:32px; padding:0 9px; color:#b9c6d9; border:1px solid rgba(191,213,241,.14); border-radius:11px 11px 11px 4px; background:rgba(255,255,255,.035); font-size:10px; font-weight:720; }
+.add-room-radius__presets button.is-active { color:#f5f7ff; border-color:rgba(155,132,255,.62); background:linear-gradient(135deg,rgba(121,92,255,.54),rgba(67,157,222,.30)); box-shadow:0 0 15px rgba(121,92,255,.22); }
+.add-room-radius md-slider { margin:10px 3px 0; }.add-room-radius md-slider .md-thumb:after { border-color:#a99bff; background:#a99bff; }.add-room-radius md-slider .md-track-fill { background:#8976ff; }
+.add-room-submit { display:grid; width:100%; grid-template-columns:28px minmax(0,1fr) 28px; align-items:center; min-height:52px; padding:0 13px; color:#fff; border:1px solid rgba(180,216,255,.35); border-radius:17px 17px 17px 6px; background:linear-gradient(104deg,#7057df,#2a9fe0); box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 14px 26px rgba(44,102,202,.25); font-size:13px; font-weight:820; letter-spacing:.01em; text-align:left; }
+.add-room-submit span { text-align:center; }.add-room-submit .material-icons:last-child { justify-self:end; }.add-room-submit:disabled { opacity:.45; box-shadow:none; }.add-room-submit:not(:disabled):active { transform:translateY(1px) scale(.995); }
+@media (max-width:360px) { .lup-add-room-page .add-room-form { padding-right:11px; padding-left:11px; }.add-room-hero { grid-template-columns:45px minmax(0,1fr); gap:9px; }.add-room-hero__mark { width:45px; height:45px; border-radius:16px 16px 16px 6px; }.add-room-hero h1 { font-size:23px; }.add-room-radius { padding-right:10px; padding-left:10px; }.add-room-radius__presets { gap:5px; }.add-room-radius__presets button { min-width:43px; padding:0 7px; } }
+
 .login, .nearby, .profile-page {
   background:
     radial-gradient(circle at 92% 4%, rgba(66,96,187,.18), transparent 28%),
@@ -5881,8 +5961,8 @@ md-toast.lup-friend-arrival-toast .md-button { min-width:0; margin:0; padding:0 
 @media (prefers-reduced-motion: reduce) { .lup-user-action { transition:none; } }
 
 /* The yellow Up marker is a small pull mechanism, not a third button below
-   the profile. Dragging its visible bolt down gives one intentional Up and it
-   returns to its normal resting position after the server request settles. */
+   the profile. Dragging the shared-moment marker gives one intentional Up and
+   it returns to its normal resting position after the server request settles. */
 .profile-page .user-top-information .profile-up-pull {
   appearance:none;
   -webkit-appearance:none;
@@ -5991,6 +6071,29 @@ md-toast.lup-friend-arrival-toast .md-button { min-width:0; margin:0; padding:0 
 .profile-page .profile-stat-pull .profile-stat-pull-lever .material-icons { margin:0; color:inherit; font-size:24px; text-shadow:0 1px 0 rgba(0,0,0,.18); }
 .profile-page .profile-stat-pull.stat-locations .profile-stat-pull-lever { background:linear-gradient(145deg,#9c7bff,#635fc7); }
 .profile-page .profile-stat-pull.stat-ups .profile-stat-pull-lever { background:linear-gradient(145deg,#f3c65d,#cf8351); color:#fff5c5; box-shadow:0 8px 0 rgba(133,76,38,.42),0 14px 22px rgba(0,0,0,.23),inset 0 1px 0 rgba(255,255,255,.34); }
+/* UP is a shared moment, not an anonymous like. High Five remains the
+   separate QR-confirmed gesture. */
+.profile-page .profile-stat-pull.stat-ups .profile-up-pull-lever .material-icons { font-size:23px; transform:translateY(0); text-shadow:0 2px 7px rgba(101,53,22,.32); }
+.profile-page .profile-stat-pull.stat-ups .profile-up-pull-lever::after { display:none; }
+
+/* Visits / rank: an extension of the profile's personal route, not a separate
+   trophy screen. Keep the data and ranking logic, soften the old game-card UI. */
+.course-page { max-width:720px; padding-top:14px; background:radial-gradient(ellipse 72% 36% at 50% -8%,rgba(105,93,208,.15),transparent 72%),radial-gradient(circle at 96% 25%,rgba(72,172,224,.08),transparent 25%),transparent; }
+.course-hero { gap:12px; min-height:76px; border-color:rgba(180,207,255,.13); border-radius:19px; background:linear-gradient(112deg,rgba(38,51,84,.72),rgba(18,25,43,.73) 68%,rgba(43,34,75,.58)); box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 11px 24px rgba(0,0,0,.12); }
+.course-hero-mark { flex-basis:48px; width:48px; height:48px; border:1px solid rgba(179,213,255,.35); border-radius:15px 15px 15px 5px; background:linear-gradient(145deg,rgba(115,168,237,.50),rgba(102,84,190,.40)); box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 7px 16px rgba(10,17,48,.24); color:#eaf7ff; }
+.course-hero-mark .material-icons { font-size:25px; }
+.course-hero h2 { font-size:22px; letter-spacing:-.035em; }
+.course-overview { border-radius:15px; background:rgba(8,14,27,.43); box-shadow:inset 0 1px 0 rgba(255,255,255,.06); }
+.course-overview > div { min-height:64px; background:rgba(27,36,59,.62); }
+.course-overview .course-goal { background:linear-gradient(105deg,rgba(77,129,208,.22),rgba(101,78,171,.17)); }
+.course-ranking-note { margin-top:9px; padding:0 3px; color:#aebbd2; }
+.course-timeline::before { background:linear-gradient(rgba(158,207,255,.48),rgba(124,103,218,.07)); }
+.course-stop { border-color:rgba(177,207,247,.11); border-radius:16px; background:linear-gradient(108deg,rgba(59,81,133,.18),rgba(19,27,47,.49) 68%); box-shadow:inset 0 1px 0 rgba(255,255,255,.055); }
+.course-stop:first-child { border-color:rgba(177,216,255,.22); background:linear-gradient(108deg,rgba(78,116,187,.25),rgba(27,31,56,.54) 68%); }
+.course-stop-count { border-left-color:rgba(188,218,255,.08); }
+.course-stop-count strong { color:#e8f4ff; }
+.course-empty { border-style:solid; border-color:rgba(175,207,255,.14); background:linear-gradient(145deg,rgba(48,65,105,.20),rgba(15,22,40,.42)); }
+@media (max-width:420px) { .course-page { padding-top:12px; }.course-hero { min-height:72px; }.course-hero-mark { flex-basis:44px; width:44px; height:44px; }.course-hero-mark .material-icons { font-size:23px; }.course-hero h2 { font-size:20px; }.course-stop { border-radius:15px; } }
 .profile-page .profile-stat-pull.stat-friends .profile-stat-pull-lever { background:linear-gradient(145deg,#62c6f7,#4676cf); }
 .profile-page .profile-stat-pull.stat-cuddles .profile-stat-pull-lever { background:linear-gradient(145deg,#ff9bb4,#cd5f93); }
 .profile-page .profile-stat-pull.is-pulling .profile-stat-pull-lever { box-shadow:0 3px 0 rgba(38,39,83,.42),0 8px 15px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.30); filter:brightness(1.06); }
@@ -7849,6 +7952,7 @@ md-backdrop.md-dialog-backdrop { z-index:10010 !important; }
 .nearby .location-categories button.active { transition:color 150ms ease,background-color 150ms ease,border-color 150ms ease,opacity 150ms ease,transform 120ms ease !important; }
 .nearby .slickit,.nearby .slickit .slick-list { transform:translateZ(0); backface-visibility:hidden; }
 .nearby .slickit .slick-track { will-change:transform; backface-visibility:hidden; }
+.nearby .slickit .slick-track { transition-timing-function:cubic-bezier(.18,.86,.2,1) !important; }
 .nearby .slickit.lup-category-refreshing .roominfo::after,
 .nearby .slickit.lup-category-refreshing .room-category-orbit,
 .nearby .slickit.lup-category-refreshing .room-presence-count::before { animation:none !important; }
@@ -9639,3 +9743,29 @@ md-backdrop.md-dialog-backdrop { z-index:10010 !important; }
   .profile-page .profile-detail-reveal .profile-signal-icon { width:31px !important; height:31px !important; }
   .profile-page .profile-detail-reveal .profile-signal-icon .material-icons { font-size:20px !important; }
 }
+
+/* Shared dialog shell: ordinary messages use one calm LinkUUp surface.
+   Feature dialogs retain their own component styles. */
+.md-dialog-container .lup-dialog-shell { width:min(392px,calc(100vw - 28px)); max-height:calc(100dvh - 28px); overflow:hidden; border:1px solid rgba(185,218,255,.20); border-radius:23px !important; background:radial-gradient(circle at 86% -6%,rgba(109,175,244,.20),transparent 39%),linear-gradient(154deg,#172640,#0b1322 72%) !important; box-shadow:0 28px 76px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.11); color:#eef6ff; }
+.lup-dialog-shell md-toolbar,.lup-dialog-shell md-toolbar .md-toolbar-tools { position:relative; min-height:64px; height:64px; padding:0 16px; overflow:visible; border:0; background:linear-gradient(90deg,rgba(136,193,245,.08),transparent 64%) !important; }
+.lup-dialog-shell .md-toolbar-tools h2 { margin:0; color:#f5f9ff; font-size:18px; font-weight:780; letter-spacing:-.025em; }
+.lup-dialog-shell .md-icon-button { position:relative; z-index:4; display:grid; flex:0 0 33px; width:33px; height:33px; min-height:33px; margin:0; padding:0; place-items:center; border:1px solid rgba(212,234,255,.15); border-radius:10px; background:rgba(7,15,28,.86); color:#d6e7f9; }
+.lup-dialog-shell .md-icon-button .material-icons { font-size:18px; }
+.lup-dialog-shell md-dialog-content,.lup-dialog-shell .md-dialog-content { background:transparent !important; }
+.lup-dialog-shell .md-dialog-content { padding:6px 50px 15px 17px; color:#c5d3e5; font-size:12px; line-height:1.5; }
+.lup-dialog-shell .md-dialog-content p { margin:6px 0 11px; }
+.lup-dialog-shell .md-dialog-content a { color:#a9dcfa; font-weight:720; text-decoration:none; }
+.lup-dialog-shell .md-dialog-content pre { margin:9px 0 0; padding:11px; overflow:auto; border:1px solid rgba(188,219,250,.12); border-radius:12px; background:rgba(4,11,23,.32); color:#dcecff; font:11px/1.45 monospace; white-space:pre-wrap; }
+.lup-dialog-shell md-dialog-actions { min-height:61px; padding:10px 17px 15px; border-top:1px solid rgba(190,219,248,.10); }
+.lup-dialog-shell md-dialog-actions .md-button { min-height:39px; margin:0 0 0 8px; border:1px solid rgba(190,219,248,.16); border-radius:11px; background:rgba(255,255,255,.035); color:#d9e8f7; font-size:12px; font-weight:740; text-transform:none; }
+.lup-dialog-shell md-dialog-actions .md-button:last-child { border-color:rgba(167,220,255,.30); background:linear-gradient(135deg,rgba(83,166,226,.30),rgba(93,99,194,.25)); color:#f4fbff; box-shadow:inset 0 1px 0 rgba(255,255,255,.18); }
+.lup-qr-dialog .md-dialog-content { display:grid; justify-items:center; padding-top:8px; text-align:center; }
+.lup-qr-dialog .md-dialog-content p { max-width:280px; }
+.lup-qr-dialog .qr-dialog-eyebrow { display:block; margin-top:1px; color:#9fdcff; font-size:9px; font-weight:880; letter-spacing:.16em; }
+.lup-qr-dialog .qr-dialog-place { display:block; max-width:280px; margin:4px auto 2px; overflow:hidden; color:#f4f9ff; font-size:19px; font-weight:780; letter-spacing:-.025em; text-overflow:ellipsis; white-space:nowrap; }
+.lup-qr-dialog .qrcode { display:block; width:min(218px,66vw); height:auto; margin:7px auto 4px; padding:12px; box-sizing:border-box; border:1px solid rgba(210,237,255,.28); border-radius:17px; background:#f8fbff; box-shadow:0 0 0 7px rgba(112,182,243,.07),0 14px 29px rgba(0,0,0,.20); }
+.lup-qr-dialog .qr-dialog-scan { display:inline-flex; align-items:center; gap:5px; margin:9px 0 3px; color:#aeeaff; font-size:9px; font-weight:850; letter-spacing:.11em; }.lup-qr-dialog .qr-dialog-scan .material-icons { font-size:15px; }
+.lup-qr-dialog .qr-dialog-note { display:flex; max-width:286px; align-items:flex-start; gap:6px; margin:8px auto 0; padding:8px 9px; border-left:2px solid rgba(143,216,255,.72); background:rgba(118,187,245,.07); color:#b9cce1; font-size:10px; line-height:1.35; text-align:left; }.lup-qr-dialog .qr-dialog-note .material-icons { flex:0 0 auto; color:#a9e1ff; font-size:15px; }
+.lup-help-dialog .md-dialog-content { padding-top:10px; }
+.lup-help-dialog .md-dialog-content > *:first-child { margin-top:0; }
+@media (max-width:360px) { .md-dialog-container .lup-dialog-shell { width:calc(100vw - 20px); border-radius:18px !important; }.lup-dialog-shell md-toolbar,.lup-dialog-shell md-toolbar .md-toolbar-tools { min-height:59px; height:59px; padding:0 13px; }.lup-dialog-shell .md-toolbar-tools h2 { font-size:16px; }.lup-dialog-shell .md-dialog-content { padding-right:43px; padding-left:13px; }.lup-dialog-shell md-dialog-actions { padding-right:13px; padding-left:13px; }.lup-qr-dialog .qrcode { width:min(204px,68vw); } }
