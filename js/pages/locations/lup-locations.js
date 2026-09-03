@@ -122,44 +122,11 @@ angular.module('LUP').config(function($routeProvider) {
 			return;
 		}
 		rail.dataset.lupNativeRail = '1';
-		var touchStartX = null;
-		var touchStartY = null;
-		var touchStartScrollLeft = 0;
-		var draggingHorizontally = false;
-		rail.addEventListener('touchstart', function(event) {
-			var touch = event.touches[0];
-			touchStartX = touch ? touch.clientX : null;
-			touchStartY = touch ? touch.clientY : null;
-			touchStartScrollLeft = rail.scrollLeft;
-			draggingHorizontally = false;
-		}, {passive: true});
-		rail.addEventListener('touchmove', function(event) {
-			var touch = event.touches[0];
-			if (touchStartX === null || !touch) {
-				return;
-			}
-			var deltaX = touch.clientX - touchStartX;
-			var deltaY = touch.clientY - touchStartY;
-			if (!draggingHorizontally && Math.abs(deltaX) > 10 && Math.abs(deltaX) > Math.abs(deltaY)) {
-				draggingHorizontally = true;
-				rail.classList.add('location-rail-dragging');
-			}
-			if (draggingHorizontally) {
-				// Take ownership of horizontal drags so nested card click handlers
-				// cannot turn a short swipe into opening the location.
-				event.preventDefault();
-				rail.scrollLeft = touchStartScrollLeft - deltaX;
-				suppressRoomOpenUntil = Date.now() + 450;
-			}
-		}, {passive: false});
-		rail.addEventListener('touchend', function() {
-			touchStartX = null;
-			touchStartY = null;
-			if (draggingHorizontally) {
-				suppressRoomOpenUntil = Date.now() + 450;
-				settleNativeRail(rail);
-			}
-		}, {passive: true});
+		// Touch scrolling deliberately stays entirely native.  The previous
+		// JavaScript drag handler fought the browser's own scrolling and called
+		// preventDefault() mid-gesture, which made location swipes unreliable on
+		// mobile browsers.  Native overflow plus scroll snapping provides the
+		// same motion, momentum and accessibility without that race.
 		// Desktop users used Slick's mouse dragging too. Keep the same affordance
 		// for every PointerEvent-capable browser without involving a slider plugin.
 		var pointerStartX = null;
