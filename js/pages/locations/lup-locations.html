@@ -26,37 +26,38 @@
 					 ng-attr-data-room-id="{{room.id()}}" ng-attr-data-room-category="{{room.category()}}">
 	
 				<div id="room{{room.id()}}" class="lup-room-slide" flex layout-fill layout="column">
-					<article class="lup-discovery-card" ng-class="[categoryVisual(room).class, {'lup-discovery-card--live': room.inChatRange(), 'lup-discovery-card--door-opening': data.doorOpeningRoomId === room.id()}]">
-						<span class="lup-discovery-card__door-leaf" aria-hidden="true"></span>
-						<div class="lup-discovery-card__hero">
-							<button type="button" class="lup-discovery-card__identity" ng-click="maybeGotoRoom(room, $event)" aria-label="Ort öffnen: {{room.name()}}">
-								<span class="lup-discovery-card__category">{{room.categoryName()}}</span>
-								<strong class="lup-discovery-card__name" ng-class="roomNameClass(room)">{{room.name()}}</strong>
-								<span class="lup-discovery-card__place"><i class="material-icons">place</i>{{room.city() || 'LinkUUp Ort'}}</span>
-								<span class="lup-discovery-card__open-mark" aria-hidden="true"><i class="material-icons">arrow_outward</i></span>
-							</button>
-							<a class="lup-discovery-card__anchor" ng-href="{{mapsHref(room)}}" target="_blank" rel="noopener" title="{{'NAVIGATE_TO_THIS_PLACE'|translate}}" ng-click="requestLocation(room, $event)">
-								<span class="lup-discovery-card__anchor-line" aria-hidden="true"></span>
-								<span class="lup-discovery-card__symbol"><i class="material-icons">{{categoryVisual(room).icon}}</i></span>
-								<span class="lup-discovery-card__distance"><i class="material-icons">near_me</i><strong ng-if="room.showDistance()">{{room.displayDistance()}}</strong><strong ng-if="!room.showDistance()">Ort öffnen</strong><small>Route ansehen</small></span>
-							</a>
+					<!-- Ortsrad: the existing room actions stay intact; only their visual
+					     hierarchy changes from a card into one navigable location instrument. -->
+					<article class="lup-orbit-card" ng-class="[categoryVisual(room).class, {'lup-orbit-card--live': room.inChatRange()}]">
+						<div class="lup-orbit-card__dial" aria-hidden="true">
+							<span></span><span></span><span></span><span></span><span></span><span></span>
 						</div>
-						<div class="lup-discovery-card__presence">
-							<button type="button" class="lup-discovery-card__presence-label" ng-class="{'has-visitors': room.USERS.length > 0}" ng-click="gotoVisitors(room)">
-								<span class="lup-discovery-card__presence-dot"></span><b>{{visitorCountLabel(room)}}</b><span>gerade hier</span>
+						<header class="lup-orbit-card__signage">
+							<span class="lup-orbit-card__category">{{room.categoryName()}}</span>
+							<button type="button" class="lup-orbit-card__identity" ng-click="maybeGotoRoom(room, $event)" aria-label="Ort öffnen: {{room.name()}}">
+								<strong ng-class="roomNameClass(room)">{{room.name()}}</strong>
+								<span><i class="material-icons">place</i>{{room.city() || 'LinkUUp Ort'}}</span>
+								<i class="material-icons lup-orbit-card__open-mark" aria-hidden="true">arrow_outward</i>
 							</button>
-							<div class="lup-discovery-card__people" ng-class="{'has-overflow': room.USERS.length > 10}" aria-label="Gäste an diesem Ort">
+						</header>
+						<a class="lup-orbit-card__route" ng-href="{{mapsHref(room)}}" target="_blank" rel="noopener" title="{{'NAVIGATE_TO_THIS_PLACE'|translate}}" ng-click="requestLocation(room, $event)">
+							<span class="lup-orbit-card__needle"><i class="material-icons">{{categoryVisual(room).icon}}</i></span>
+							<span class="lup-orbit-card__distance"><i class="material-icons">near_me</i><strong ng-if="room.showDistance()">{{room.displayDistance()}}</strong><strong ng-if="!room.showDistance()">Ort öffnen</strong><small>Route ansehen</small></span>
+						</a>
+						<section class="lup-orbit-card__presence" aria-label="Gäste an diesem Ort">
+							<div class="lup-orbit-card__people" ng-class="{'has-overflow': room.USERS.length > 10}">
 								<lup-avatar ng-repeat="user in sortedVisitors(room) | limitTo: 10" ng-click="gotoProfile(user)" ng-user="user"></lup-avatar>
-								<button type="button" class="lup-discovery-card__more" ng-if="room.USERS.length>10" ng-click="gotoVisitors(room)" title="Alle Anwesenden anzeigen">+{{visitorOverflowLabel(room)}}</button>
+								<button type="button" ng-if="room.USERS.length>10" ng-click="gotoVisitors(room)" title="Alle Anwesenden anzeigen">+{{visitorOverflowLabel(room)}}</button>
 							</div>
-						</div>
-						<section class="lup-discovery-entry" ng-class="{'lup-discovery-entry--locked': !room.inChatRange(), 'is-door-opening': data.doorOpeningRoomId === room.id()}">
-							<button type="button" class="lup-discovery-entry__qr" ng-click="showRoomQRCode(room, $event)" title="{{'QR_ROOM_DIALOG_TITLE'|translate}}" aria-label="{{'QR_ROOM_DIALOG_TITLE'|translate}}"><i class="material-icons">qr_code_2</i></button>
-							<button type="button" class="lup-discovery-entry__chat lup-discovery-gateway" ng-if="room.inChatRange()" ng-click="enterChatDoor(room)" aria-label="{{'JOIN_CHAT'|translate}}">
-								<span class="lup-discovery-gateway__mark" aria-hidden="true"><span class="lup-discovery-gateway__rail"></span><span class="lup-discovery-gateway__core"><i class="material-icons">forum</i></span><span class="lup-discovery-gateway__rail"></span></span>
+							<button type="button" class="lup-orbit-card__people-label" ng-class="{'has-visitors': room.USERS.length > 0}" ng-click="gotoVisitors(room)">
+								<span></span><b>{{visitorCountLabel(room)}}</b> gerade hier
 							</button>
-							<div class="lup-discovery-entry__locked" ng-if="!room.inChatRange()" title="{{'CHAT_TOO_FAR'|translate}}" aria-label="{{'CHAT_TOO_FAR'|translate}}"><span class="lup-discovery-entry__lock" aria-hidden="true"><i class="material-icons">lock</i></span></div>
 						</section>
+						<footer class="lup-orbit-card__entry" ng-class="{'lup-orbit-card__entry--locked': !room.inChatRange()}">
+							<button type="button" class="lup-orbit-card__seal" ng-click="showRoomQRCode(room, $event)" title="{{'QR_ROOM_DIALOG_TITLE'|translate}}" aria-label="{{'QR_ROOM_DIALOG_TITLE'|translate}}"><i class="material-icons">qr_code_2</i></button>
+							<button type="button" class="lup-orbit-card__gate" ng-if="room.inChatRange()" ng-click="enterChatDoor(room)" aria-label="{{'JOIN_CHAT'|translate}}"><i class="material-icons">forum</i></button>
+							<div class="lup-orbit-card__lock" ng-if="!room.inChatRange()" title="{{'CHAT_TOO_FAR'|translate}}" aria-label="{{'CHAT_TOO_FAR'|translate}}"><i class="material-icons">lock</i></div>
+						</footer>
 					</article>
 	
 				</div>

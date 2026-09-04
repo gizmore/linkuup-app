@@ -9769,3 +9769,83 @@ md-backdrop.md-dialog-backdrop { z-index:10010 !important; }
 .lup-help-dialog .md-dialog-content { padding-top:10px; }
 .lup-help-dialog .md-dialog-content > *:first-child { margin-top:0; }
 @media (max-width:360px) { .md-dialog-container .lup-dialog-shell { width:calc(100vw - 20px); border-radius:18px !important; }.lup-dialog-shell md-toolbar,.lup-dialog-shell md-toolbar .md-toolbar-tools { min-height:59px; height:59px; padding:0 13px; }.lup-dialog-shell .md-toolbar-tools h2 { font-size:16px; }.lup-dialog-shell .md-dialog-content { padding-right:43px; padding-left:13px; }.lup-dialog-shell md-dialog-actions { padding-right:13px; padding-left:13px; }.lup-qr-dialog .qrcode { width:min(204px,68vw); } }
+
+/* Shared route field -------------------------------------------------------
+   Location is the visual reference: every signed-in destination now shares
+   one quiet midnight field.  Individual pages keep their own content accent.
+   This is deliberately surface-only: no route, action or data flow changes. */
+.profile-page > md-content,
+.friends-page > md-content,
+.notification > md-content,
+.settings-page > md-content,
+.account-page > md-content,
+.likes-page > md-content,
+.location-page > md-content {
+  position:relative;
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse 74% 40% at 50% -9%,rgba(91,151,224,.11),transparent 72%),
+    linear-gradient(160deg,#090e19 0%,#0a1120 54%,#070b13 100%) !important;
+}
+.profile-page > md-content::before,
+.friends-page > md-content::before,
+.notification > md-content::before,
+.settings-page > md-content::before,
+.account-page > md-content::before,
+.likes-page > md-content::before {
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  content:'';
+  pointer-events:none;
+  opacity:.48;
+  background:
+    radial-gradient(circle at 13% 21%,rgba(124,207,255,.36) 0 1px,transparent 2px),
+    radial-gradient(circle at 82% 17%,rgba(178,132,255,.31) 0 1px,transparent 2px),
+    radial-gradient(circle at 73% 73%,rgba(109,195,255,.22) 0 1px,transparent 2px),
+    radial-gradient(circle at 24% 81%,rgba(166,142,255,.20) 0 1px,transparent 2px);
+  animation:lup-shared-field-drift 22s ease-in-out infinite alternate;
+}
+.profile-page md-toolbar:not(.sidenav-brand),
+.friends-page md-toolbar:not(.sidenav-brand),
+.notification md-toolbar:not(.sidenav-brand),
+.settings-page md-toolbar:not(.sidenav-brand),
+.account-page md-toolbar:not(.sidenav-brand),
+.likes-page md-toolbar:not(.sidenav-brand),
+.location-page md-toolbar:not(.sidenav-brand) {
+  background:linear-gradient(180deg,rgba(9,15,27,.93),rgba(9,15,27,.64)) !important;
+  border-bottom:1px solid rgba(164,207,245,.10);
+  box-shadow:none !important;
+}
+.profile-page .profile-section-nav,
+.notification .notification-switch,
+.settings-page .lup-settings-group,
+.account-page .account-form,
+.friends-page .lup-user-list,
+.likes-page .ups-favorite,
+.likes-page .ups-empty-preview,
+.location-reviews-page .reviews-scoreboard,
+.location-reviews-page .reviews-compose {
+  border-color:rgba(175,214,249,.15) !important;
+  background:linear-gradient(145deg,rgba(26,42,66,.48),rgba(8,15,27,.54)) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 14px 32px rgba(0,0,0,.14) !important;
+}
+.profile-page .profile-section-nav button,
+.notification .notification-switch button {
+  color:#b8c8db;
+}
+.profile-page .profile-section-nav button.active,
+.notification .notification-switch button.active {
+  color:#f2f9ff;
+  background:linear-gradient(135deg,rgba(105,191,241,.16),rgba(122,97,211,.14));
+}
+.friends-page .lup-user-list md-list-item,
+.notification .notification-panel md-list-item,
+.likes-page .ups-list md-list-item,
+.location-reviews-page .reviews-list md-list-item {
+  border-bottom-color:rgba(184,216,246,.09) !important;
+}
+@keyframes lup-shared-field-drift { from { transform:translate3d(-1.5%,-.5%,0); } to { transform:translate3d(1.5%,1.5%,0); } }
+@media (prefers-reduced-motion:reduce) {
+  .profile-page > md-content::before,.friends-page > md-content::before,.notification > md-content::before,.settings-page > md-content::before,.account-page > md-content::before,.likes-page > md-content::before { animation:none; }
+}
