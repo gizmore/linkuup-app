@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 angular.module('LUP').config(function($routeProvider) {
 	$routeProvider.when('/locations', {
 		templateUrl: 'js/pages/locations/lup-locations.html?v='+window.LUP_BUILD,
@@ -10,7 +10,10 @@ angular.module('LUP').config(function($routeProvider) {
 }).controller('LocationsCtrl', function($scope, $location, $translate, $timeout, $mdDialog, $q,
 		LoadingSrvc, WebsocketSrvc, PositionSrvc, RoomSrvc, AuthSrvc, HelpSrvc, UserSrvc, ErrorSrvc, DialogSrvc) {
 	
-	$scope.data.title = "Entdecken";
+	$scope.data.title = $translate.instant("DISCOVERY_TITLE");
+	$scope.data.discoveryLoaded = false;
+	$scope.data.discoveryError = false;
+	$scope.data.discoveryPositionPending = false;
 	$scope.data.rooms = $scope.data.rooms || [];
 	// The rail contains only the currently visible cards. Keeping that list as
 	// Angular data prevents category and search results from fighting the DOM.
@@ -155,6 +158,12 @@ angular.module('LUP').config(function($routeProvider) {
 			return;
 		}
 		rail.dataset.lupNativeRail = '1';
+		// Capture suppresses the synthetic click for every card action after a drag.
+		rail.addEventListener('click', function(event) {
+			if (Date.now() < suppressRoomOpenUntil) {
+				event.preventDefault(); event.stopImmediatePropagation();
+			}
+		}, true);
 		var touchStartX = null;
 		var touchStartY = null;
 		var touchStartScrollLeft = 0;
@@ -322,6 +331,7 @@ angular.module('LUP').config(function($routeProvider) {
 				// rather than leaving an empty Locations screen for the entire session.
 				initialRoomsRequested = false;
 				initialRoomsPromise = null;
+				$scope.data.discoveryError = true;
 				return $q.reject(error);
 			})['catch']($scope.catchUnknown);
 			return initialRoomsPromise;
@@ -431,6 +441,8 @@ angular.module('LUP').config(function($routeProvider) {
 	};
 	
 	$scope.gotRooms = function(rooms) {
+		$scope.data.discoveryLoaded = true;
+		$scope.data.discoveryError = false;
 		var roomId = selectedRoomId();
 		// Both the page and the background preload can observe the same promise.
 		if (locationsRoomsRendered && $scope.data.rooms === rooms) {
@@ -515,6 +527,41 @@ angular.module('LUP').config(function($routeProvider) {
 		scrollSelectedRoomIntoView('auto');
 	};
 	
+	$scope.discoveryRetry = function() {
+		$scope.data.discoveryError = false;
+		initialRoomsRequested = false;
+		initialRoomsPromise = null;
+		return loadInitialRooms();
+	};
+	$scope.discoveryHasPosition = function() { return PositionSrvc.hasPosition(true); };
+	$scope.discoveryRequestPosition = function() {
+		if ($scope.data.discoveryPositionPending) return;
+		$scope.data.discoveryPositionPending = true;
+		return PositionSrvc.probe().then(function(position) {
+			$scope.updatePosition(position);
+			return RoomSrvc.withRooms();
+		}).then($scope.gotRooms, function() {
+			$scope.data.discoveryError = true;
+		}).finally(function() { $scope.data.discoveryPositionPending = false; });
+	};
+	$scope.discoveryResetFilters = function() {
+		$scope.data.searchvalue = '';
+		$scope.searchLocation('');
+		$scope.selectCategory([]);
+	};
+	$scope.discoveryStep = function(direction) {
+		var total = $scope.data.visibleRooms.length;
+		if (!total) return;
+		var index = Math.max(0, Math.min(total - 1, $scope.data.currentRoomIndex + direction));
+		$scope.focusRoom(index);
+		scrollSelectedRoomIntoView(window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
+	};
+	$scope.discoveryKey = function(event) {
+		if (event.target !== event.currentTarget || !['ArrowLeft','ArrowRight'].includes(event.key)) return;
+		event.preventDefault();
+		$scope.discoveryStep(event.key === 'ArrowLeft' ? -1 : 1);
+	};
+
 	$scope.focusRoom = function(roomIndex) {
 		console.log('LocationsCtrl.focusRoom()', roomIndex);
 		if ($scope.data.currentRoomIndex != roomIndex) {
