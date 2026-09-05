@@ -1,9 +1,9 @@
 <md-toolbar class="md-hue-2 lup-top-bar" style="background:#333;background:{{ChatSrvc.CHATROOM.color()}};">
   <div class="md-toolbar-tools">
   
-    <button type="button" class="discovery-menu" ng-click="openLeft()" aria-label="{{'DISCOVERY_MENU'|translate}}"><i class="material-icons" aria-hidden="true">menu</i></button>
+    <i class="material-icons" ng-click="openLeft()">menu</i>
 
-    <h2 flex md-truncate>{{'DISCOVERY_TITLE'|translate}}</h2>
+    <h2 flex md-truncate></h2>
 
     <ng-include src="'js/pages/topnav/lup-topnav-notifications.html?v='+V"></ng-include>
 

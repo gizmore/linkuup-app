@@ -1,51 +1,70 @@
-<section class="nearby lup-discovery-page" layout="row" flex ng-cloak>
-  <ng-include class="left-sidebar" src="'js/pages/sidenav/lup-sidenav.html?v='+V"></ng-include>
-  <md-content class="greybg" flex>
-    <ng-include src="'js/pages/locations/header-bar-locations.html?v='+V"></ng-include>
-    <div class="discovery-intro"><span>{{'DISCOVERY_EYEBROW'|translate}}</span><p>{{'DISCOVERY_INTRO'|translate}}</p></div>
-    <div class="search-input-wrap">
-      <i class="material-icons" aria-hidden="true">search</i>
-      <input type="search" class="search-input" aria-label="{{'SEARCH_FOR_LOCATIONS'|translate}}" placeholder="{{'SEARCH_FOR_LOCATIONS'|translate}}" ng-change="searchLocation(data.searchvalue)" ng-model="data.searchvalue" />
-    </div>
-    <div class="location-categories" aria-label="{{'DISCOVERY_CATEGORIES'|translate}}">
-      <button type="button" ng-class="{active:isCategoryActive([])}" ng-attr-aria-pressed="{{isCategoryActive([])}}" ng-click="selectCategory([])">{{'DISCOVERY_ALL'|translate}}</button>
-      <button type="button" ng-class="{active:isCategoryActive(['2'])}" ng-attr-aria-pressed="{{isCategoryActive(['2'])}}" ng-click="selectCategory(['2'])">{{'DISCOVERY_CITIES'|translate}}</button>
-      <button type="button" ng-class="{active:isCategoryActive(['3','4','5','14'])}" ng-attr-aria-pressed="{{isCategoryActive(['3','4','5','14'])}}" ng-click="selectCategory(['3','4','5','14'])">{{'DISCOVERY_CAFE'|translate}}</button>
-      <button type="button" ng-class="{active:isCategoryActive(['11'])}" ng-attr-aria-pressed="{{isCategoryActive(['11'])}}" ng-click="selectCategory(['11'])">{{'DISCOVERY_CLUB'|translate}}</button>
-      <button type="button" ng-class="{active:isCategoryActive(['12','16','17'])}" ng-attr-aria-pressed="{{isCategoryActive(['12','16','17'])}}" ng-click="selectCategory(['12','16','17'])">{{'DISCOVERY_CULTURE'|translate}}</button>
-      <button type="button" ng-class="{active:isCategoryActive(['13','18'])}" ng-attr-aria-pressed="{{isCategoryActive(['13','18'])}}" ng-click="selectCategory(['13','18'])">{{'DISCOVERY_SPORT'|translate}}</button>
-    </div>
-    <div class="discovery-empty" ng-if="!data.visibleRooms.length" role="status">
-      <i class="material-icons" aria-hidden="true">explore</i>
-      <h2>{{(!discoveryHasPosition() ? 'DISCOVERY_POSITION_TITLE' : data.discoveryError ? 'DISCOVERY_ERROR' : data.discoveryLoaded && !data.categoryLoading ? 'DISCOVERY_EMPTY' : 'DISCOVERY_LOADING')|translate}}</h2>
-      <p>{{(!discoveryHasPosition() ? (data.discoveryError ? 'DISCOVERY_POSITION_DENIED' : 'DISCOVERY_POSITION_COPY') : data.discoveryError ? 'DISCOVERY_ERROR_COPY' : !data.discoveryLoaded || data.categoryLoading ? 'DISCOVERY_LOADING_COPY' : 'DISCOVERY_EMPTY_COPY')|translate}}</p>
-      <button type="button" ng-if="!discoveryHasPosition()" ng-click="discoveryRequestPosition()" ng-disabled="data.discoveryPositionPending">{{'DISCOVERY_POSITION'|translate}}</button>
-      <button type="button" ng-if="discoveryHasPosition() && data.discoveryLoaded && !data.discoveryError && !data.categoryLoading" ng-click="discoveryResetFilters()">{{'DISCOVERY_RESET'|translate}}</button>
-      <button type="button" ng-if="discoveryHasPosition() && data.discoveryError" ng-click="discoveryRetry()">{{'DISCOVERY_RETRY'|translate}}</button>
-    </div>
-    <div class="location-rail" role="region" tabindex="0" ng-keydown="discoveryKey($event)" aria-label="{{'DISCOVERY_RAIL'|translate}}">
-      <div ng-repeat="room in data.visibleRooms track by room.id()" class="lup-room-slide-outer" ng-attr-data-room-id="{{room.id()}}" ng-attr-data-room-category="{{room.category()}}">
-        <div id="room{{room.id()}}" class="lup-room-slide" layout="column">
-          <article class="encounter-card" ng-class="categoryVisual(room).class" aria-label="{{room.name()}}">
-            <div class="encounter-art" aria-hidden="true"><span class="encounter-orbit"></span><span class="encounter-pin"><i class="material-icons">{{categoryVisual(room).icon}}</i></span><span class="encounter-art-line"></span></div>
-            <div class="encounter-body">
-              <span class="encounter-category">{{room.categoryName()}}</span>
-              <h2 ng-class="roomNameClass(room)">{{room.name()}}</h2>
-              <div class="encounter-meta"><span ng-if="room.city()">{{room.city()}}</span><span ng-if="room.showDistance()"><i class="material-icons" aria-hidden="true">near_me</i>{{room.displayDistance()}}</span><button type="button" ng-if="!discoveryHasPosition()" ng-click="discoveryRequestPosition()" ng-disabled="data.discoveryPositionPending">{{'DISCOVERY_POSITION'|translate}}</button></div>
-              <div class="encounter-connection" aria-hidden="true"><i class="material-icons">place</i><span></span><i class="material-icons">groups</i></div>
-              <div class="encounter-presence">
-                <div class="encounter-people"><button type="button" class="encounter-person" ng-repeat="user in sortedVisitors(room) | limitTo:3" ng-click="gotoProfile(user)" aria-label="{{'DISCOVERY_PROFILE'|translate:{name:user.displayName()} }}"><lup-avatar ng-user="user"></lup-avatar></button></div>
-                <button type="button" class="encounter-visitors" ng-click="gotoVisitors(room)"><strong>{{visitorCountLabel(room)}}</strong><span>{{'DISCOVERY_PRESENT'|translate}}</span><i class="material-icons" aria-hidden="true">chevron_right</i></button>
-              </div>
-              <button type="button" class="encounter-primary" ng-if="room.inChatRange()" ng-click="enterChatDoor(room)" ng-disabled="data.doorOpeningRoomId"><i class="material-icons" aria-hidden="true">forum</i>{{'DISCOVERY_CHAT'|translate}}<i class="material-icons" aria-hidden="true">arrow_forward</i></button>
-              <button type="button" class="encounter-primary" ng-if="!room.inChatRange()" ng-click="maybeGotoRoom(room,$event)">{{'DISCOVERY_OPEN'|translate}}<i class="material-icons" aria-hidden="true">arrow_forward</i></button>
-              <p class="encounter-access">{{(room.inChatRange() ? 'DISCOVERY_CHAT_READY' : 'DISCOVERY_CHAT_LOCAL')|translate}}</p>
-              <div class="encounter-tools"><button type="button" ng-click="maybeGotoRoom(room,$event)">{{'DISCOVERY_DETAILS'|translate}}</button><a ng-href="{{mapsHref(room)}}" target="_blank" rel="noopener" ng-click="requestLocation(room,$event)">{{'DISCOVERY_ROUTE'|translate}}</a><button type="button" ng-click="showRoomQRCode(room,$event)"><i class="material-icons" aria-hidden="true">qr_code_2</i>{{'DISCOVERY_QR'|translate}}</button></div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </div>
-    <nav class="discovery-pagination" ng-if="data.visibleRooms.length" aria-label="{{'DISCOVERY_RAIL'|translate}}"><button type="button" ng-click="discoveryStep(-1)" ng-disabled="data.currentRoomIndex<=0" aria-label="{{'DISCOVERY_PREVIOUS'|translate}}"><i class="material-icons" aria-hidden="true">arrow_back</i></button><span aria-live="polite">{{'DISCOVERY_POSITION_OF'|translate:{current:data.currentRoomIndex+1,total:data.visibleRooms.length} }}</span><button type="button" ng-click="discoveryStep(1)" ng-disabled="data.currentRoomIndex>=data.visibleRooms.length-1" aria-label="{{'DISCOVERY_NEXT'|translate}}"><i class="material-icons" aria-hidden="true">arrow_forward</i></button></nav>
-  </md-content>
+<section class="nearby" layout="row" flex ng-cloak>
+
+	<ng-include class="left-sidebar" src="'js/pages/sidenav/lup-sidenav.html?v='+V"></ng-include>
+
+	<md-content class="greybg" flex>
+	
+		<ng-include src="'js/pages/locations/header-bar-locations.html?v='+V"></ng-include>
+		
+		<div class="search-input-wrap">
+			<input
+			type="text" class="search-input" placeholder="{{'SEARCH_FOR_LOCATIONS'|translate}}"
+			ng-change="searchLocation(data.searchvalue)" ng-model="data.searchvalue" />
+		</div>
+
+		<div class="location-categories" aria-label="Kategorien">
+			<button type="button" ng-class="{active: isCategoryActive([])}" ng-click="selectCategory([])"><i class="material-icons">apps</i><span>Alle</span></button>
+			<button type="button" ng-class="{active: isCategoryActive(['2'])}" ng-click="selectCategory(['2'])"><i class="material-icons">apartment</i><span>Städte<br>&amp; Länder</span></button>
+			<button type="button" ng-class="{active: isCategoryActive(['3','4','5','14'])}" ng-click="selectCategory(['3','4','5','14'])"><i class="material-icons">storefront</i><span>Bar<br>&amp; Café</span></button>
+			<button type="button" ng-class="{active: isCategoryActive(['11'])}" ng-click="selectCategory(['11'])"><i class="material-icons">music_note</i><span>Club<br>&amp; Disco</span></button>
+			<button type="button" ng-class="{active: isCategoryActive(['12','16','17'])}" ng-click="selectCategory(['12','16','17'])"><i class="material-icons">school</i><span>Bildung<br>&amp; Kultur</span></button>
+			<button type="button" ng-class="{active: isCategoryActive(['13','18'])}" ng-click="selectCategory(['13','18'])"><i class="material-icons">sports_soccer</i><span>Sport<br>&amp; Freizeit</span></button>
+		</div>
+
+		<div class="location-rail" aria-label="{{'LOCATIONS'|translate}}">
+			<div ng-repeat="room in data.visibleRooms" class="lup-room-slide-outer"
+					 ng-attr-data-room-id="{{room.id()}}" ng-attr-data-room-category="{{room.category()}}">
+	
+				<div id="room{{room.id()}}" class="lup-room-slide" flex layout-fill layout="column">
+					<!-- Ortsrad: the existing room actions stay intact; only their visual
+					     hierarchy changes from a card into one navigable location instrument. -->
+					<article class="lup-orbit-card" ng-class="[categoryVisual(room).class, {'lup-orbit-card--live': room.inChatRange()}]">
+						<div class="lup-orbit-card__dial" aria-hidden="true">
+							<span></span><span></span><span></span><span></span><span></span><span></span>
+						</div>
+						<header class="lup-orbit-card__signage">
+							<span class="lup-orbit-card__category">{{room.categoryName()}}</span>
+							<button type="button" class="lup-orbit-card__identity" ng-click="maybeGotoRoom(room, $event)" aria-label="Ort öffnen: {{room.name()}}">
+								<strong ng-class="roomNameClass(room)">{{room.name()}}</strong>
+								<span><i class="material-icons">place</i>{{room.city() || 'LinkUUp Ort'}}</span>
+								<i class="material-icons lup-orbit-card__open-mark" aria-hidden="true">arrow_outward</i>
+							</button>
+						</header>
+						<a class="lup-orbit-card__route" ng-href="{{mapsHref(room)}}" target="_blank" rel="noopener" title="{{'NAVIGATE_TO_THIS_PLACE'|translate}}" ng-click="requestLocation(room, $event)">
+							<span class="lup-orbit-card__needle"><i class="material-icons">{{categoryVisual(room).icon}}</i></span>
+							<span class="lup-orbit-card__distance"><i class="material-icons">near_me</i><strong ng-if="room.showDistance()">{{room.displayDistance()}}</strong><strong ng-if="!room.showDistance()">Ort öffnen</strong><small>Route ansehen</small></span>
+						</a>
+						<section class="lup-orbit-card__presence" aria-label="Gäste an diesem Ort">
+							<div class="lup-orbit-card__people" ng-class="{'has-overflow': room.USERS.length > 10}">
+								<lup-avatar ng-repeat="user in sortedVisitors(room) | limitTo: 10" ng-click="gotoProfile(user)" ng-user="user"></lup-avatar>
+								<button type="button" ng-if="room.USERS.length>10" ng-click="gotoVisitors(room)" title="Alle Anwesenden anzeigen">+{{visitorOverflowLabel(room)}}</button>
+							</div>
+							<button type="button" class="lup-orbit-card__people-label" ng-class="{'has-visitors': room.USERS.length > 0}" ng-click="gotoVisitors(room)">
+								<span></span><b>{{visitorCountLabel(room)}}</b> gerade hier
+							</button>
+						</section>
+						<footer class="lup-orbit-card__entry" ng-class="{'lup-orbit-card__entry--locked': !room.inChatRange()}">
+							<button type="button" class="lup-orbit-card__seal" ng-click="showRoomQRCode(room, $event)" title="{{'QR_ROOM_DIALOG_TITLE'|translate}}" aria-label="{{'QR_ROOM_DIALOG_TITLE'|translate}}"><i class="material-icons">qr_code_2</i></button>
+							<button type="button" class="lup-orbit-card__gate" ng-if="room.inChatRange()" ng-click="enterChatDoor(room)" aria-label="{{'JOIN_CHAT'|translate}}"><i class="material-icons">forum</i></button>
+							<div class="lup-orbit-card__lock" ng-if="!room.inChatRange()" title="{{'CHAT_TOO_FAR'|translate}}" aria-label="{{'CHAT_TOO_FAR'|translate}}"><i class="material-icons">lock</i></div>
+						</footer>
+					</article>
+	
+				</div>
+	
+			</div>
+		</div>
+
+	</md-content>
+
 </section>
