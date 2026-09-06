@@ -167,6 +167,13 @@ angular.module('LUP').config(function($routeProvider) {
 	};
 	var settleNativeRail = function(rail) {
 		rail.classList.remove('location-rail-dragging');
+		var nearby = rail.closest('.nearby');
+		if (nearby) {
+			var categories = nearby.querySelector('.location-categories');
+			if (categories) {
+				categories.classList.remove('category-rail-dragging');
+			}
+		}
 		$timeout(function() {
 			var nearest = nearestRailCard(rail);
 			if (nearest) {
@@ -202,6 +209,10 @@ angular.module('LUP').config(function($routeProvider) {
 			if (!draggingHorizontally && Math.abs(deltaX) > 10 && Math.abs(deltaX) > Math.abs(deltaY)) {
 				draggingHorizontally = true;
 				rail.classList.add('location-rail-dragging');
+				var touchNearby = rail.closest('.nearby');
+				if (touchNearby) {
+					touchNearby.querySelector('.location-categories') && touchNearby.querySelector('.location-categories').classList.add('category-rail-dragging');
+				}
 			}
 			if (draggingHorizontally) {
 				// Take ownership of horizontal drags so nested card click handlers
@@ -244,6 +255,13 @@ angular.module('LUP').config(function($routeProvider) {
 				draggingPointer = true;
 				rail.setPointerCapture(event.pointerId);
 				rail.classList.add('location-rail-dragging');
+				var pointerNearby = rail.closest('.nearby');
+				if (pointerNearby) {
+					var pointerCategories = pointerNearby.querySelector('.location-categories');
+					if (pointerCategories) {
+						pointerCategories.classList.add('category-rail-dragging');
+					}
+				}
 			}
 			if (draggingPointer) {
 				event.preventDefault();
