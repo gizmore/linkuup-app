@@ -243,10 +243,10 @@
   margin:0;
   padding:9px 8px;
   overflow:hidden;
-  border:1px solid rgba(175,214,249,.10);
+  border:1px solid transparent;
   border-radius:15px;
-  background:linear-gradient(105deg,rgba(22,40,63,.46),rgba(11,19,32,.36));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.055);
+  background:transparent;
+  box-shadow:none;
   transition:transform .2s ease,border-color .2s ease,background .2s ease;
 }
 .friends-page .lup-user-list md-list-item.friend-card::before {
@@ -264,9 +264,10 @@
 .friends-page .lup-user-list md-list-item.friend-card:hover,
 .friends-page .lup-user-list md-list-item.friend-card:focus-within {
   transform:translateX(2px);
-  border-color:rgba(130,208,255,.28);
-  background:linear-gradient(105deg,rgba(35,66,96,.57),rgba(25,28,58,.42));
+  border-color:rgba(130,208,255,.18);
+  background:linear-gradient(90deg,rgba(67,147,207,.08),transparent 72%);
 }
+.friends-page .lup-user-list md-list-item.friend-card .md-list-item-inner { background:transparent !important; }
 .friends-page .lup-user-list md-list-item.friend-card .lup-avatar {
   margin-left:4px;
   border-color:rgba(167,223,255,.34);
