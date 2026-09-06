@@ -39,8 +39,8 @@ angular.module('LUP').config(function($routeProvider) {
 	// completed a horizontal drag. Keep taps working, but discard that trailing
 	// synthetic click so a swipe cannot accidentally enter the location.
 	var suppressRoomOpenUntil = 0;
-	var nativeRailScrollTimer = null;
 	var nativeRailFrame = null;
+	var nativeRailSelectionFrame = null;
 	var doorEntryTimer = null;
 	// The selected room belongs to the shared app state, not one concrete
 	// LocationsCtrl instance. Preserve it when returning from a room detail.
@@ -141,6 +141,18 @@ angular.module('LUP').config(function($routeProvider) {
 			});
 		}
 	};
+	// The category rail is an orientation aid. Update it on the same animation
+	// cadence as the centred card instead of waiting for a scroll debounce; this
+	// keeps a fast swipe and its category signal visually in one movement.
+	var scheduleRailSelection = function(rail) {
+		if (nativeRailSelectionFrame !== null) {
+			return;
+		}
+		nativeRailSelectionFrame = window.requestAnimationFrame(function() {
+			nativeRailSelectionFrame = null;
+			syncSelectedRoomFromRail(rail);
+		});
+	};
 	var settleNativeRail = function(rail) {
 		rail.classList.remove('location-rail-dragging');
 		$timeout(function() {
@@ -238,13 +250,7 @@ angular.module('LUP').config(function($routeProvider) {
 		});
 		rail.addEventListener('scroll', function() {
 			scheduleRailDepth(rail);
-			if (nativeRailScrollTimer) {
-				$timeout.cancel(nativeRailScrollTimer);
-			}
-			nativeRailScrollTimer = $timeout(function() {
-				nativeRailScrollTimer = null;
-				syncSelectedRoomFromRail(rail);
-			}, 70);
+			scheduleRailSelection(rail);
 		}, {passive: true});
 	};
 	// The discovery surface is a rail, never a vertically stacked feed.
@@ -281,12 +287,13 @@ angular.module('LUP').config(function($routeProvider) {
 		}, 180);
 	});
 	$scope.$on('$destroy', function() {
-		if (nativeRailScrollTimer) {
-			$timeout.cancel(nativeRailScrollTimer);
-		}
 		if (nativeRailFrame !== null) {
 			window.cancelAnimationFrame(nativeRailFrame);
 			nativeRailFrame = null;
+		}
+		if (nativeRailSelectionFrame !== null) {
+			window.cancelAnimationFrame(nativeRailSelectionFrame);
+			nativeRailSelectionFrame = null;
 		}
 		if (resizeRecovery) {
 			$timeout.cancel(resizeRecovery);

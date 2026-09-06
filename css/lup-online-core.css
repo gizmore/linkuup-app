@@ -489,7 +489,7 @@
   overflow:visible;
   border:0;
   border-radius:0;
-  background:linear-gradient(180deg,rgba(13,21,36,.70),rgba(13,20,33,.18)) !important;
+  background:transparent !important;
   box-shadow:none;
   isolation:isolate;
 }
