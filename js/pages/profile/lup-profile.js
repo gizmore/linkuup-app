@@ -178,7 +178,14 @@ angular.module('LUP').config(function($routeProvider) {
 		return DialogSrvc.menu('js/pages/profile/lup-profile-friends-dialog.html', data).then(function(action) {
 			switch (action) {
 			case 'view': return $scope.gotoUserFriends(user, true);
-			case 'request': return FriendSrvc.addFriend(user);
+			case 'request':
+				// The dialog can remain open while a relation update arrives. Re-check
+				// the live relation so a stale tap can never send a second request or
+				// request someone who is already a friend.
+				if (user.isFriend() || user.JSON.relation_pending || user.JSON.relation_incoming) {
+					return;
+				}
+				return FriendSrvc.addFriend(user);
 			case 'cancel': return FriendSrvc.cancelFriendRequest(user);
 			case 'accept': return FriendSrvc.acceptFriendRequest(user);
 			case 'deny': return FriendSrvc.denyFriendRequest(user);
