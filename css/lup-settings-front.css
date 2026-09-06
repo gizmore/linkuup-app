@@ -95,7 +95,9 @@
 .settings-page .lup-settings-group {
   margin:0 0 26px !important;
   padding:0 !important;
-  overflow:hidden !important;
+  /* Select and visibility menus are real controls, not decoration. They must
+     be able to leave the visual group instead of being clipped by it. */
+  overflow:visible !important;
   border:1px solid rgba(156,216,243,.14) !important;
   border-radius:16px !important;
   background:linear-gradient(145deg,rgba(25,46,72,.54),rgba(11,20,34,.50)) !important;
@@ -127,6 +129,7 @@
 }
 
 .settings-page .lup-setting-card {
+  position:relative !important;
   display:grid !important;
   grid-template-columns:minmax(0,1fr) minmax(138px,auto) !important;
   grid-template-areas:'label value' 'visibility visibility' !important;
@@ -213,6 +216,7 @@
   font-size:10px !important;
 }
 .settings-page .lup-visibility-menu {
+  z-index:80 !important;
   border-color:rgba(154,217,245,.25) !important;
   border-radius:10px !important;
   background:#12233b !important;
