@@ -60,9 +60,16 @@ angular.module('LUP').config(function($routeProvider) {
 		var room = rooms.find(function(candidate) {
 			return /braunschweig/i.test([candidate.name(), candidate.city()].filter(Boolean).join(' '));
 		});
+		// The local debug GPS is already fixed to Braunschweig, but some server
+		// payloads omit the city/name. In that case the distance-sorted first room
+		// is the deterministic nearby fallback for this visual-only fixture.
+		if (!room) {
+			room = rooms[0];
+		}
 		if (!room) {
 			return;
 		}
+		console.info('LinkUUp design fixture: adding visitors to local room', room.id());
 		room.USERS = (room.USERS || []).filter(function(user) { return !user.__simionDesignVisitor; });
 		for (let index = 0; index < designVisitorCount; index++) {
 			var id = 'design-visitor-' + (index + 1);
