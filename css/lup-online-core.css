@@ -716,3 +716,168 @@
   .md-sidenav-left .sidenav-brand .md-toolbar-tools { min-height:86px; height:86px; }
   .md-sidenav-left .sidenav-brand .md-toolbar-tools { padding:0 15px; }
 }
+
+/* Settings: reduce the stacked legacy surfaces to one calm, readable form.
+ * Settings are decisions, not a second dashboard. */
+.settings-page > md-content {
+  background:
+    radial-gradient(70% 29% at 100% 0%,rgba(70,167,221,.10),transparent 74%),
+    radial-gradient(58% 24% at 0% 72%,rgba(118,82,204,.08),transparent 74%),
+    linear-gradient(160deg,#101a2b 0%,#0d1523 55%,#0a101b 100%) !important;
+}
+.settings-page > md-content::before,
+.settings-page > md-content::after { display:none !important; }
+.settings-page .lup-settings-list {
+  width:min(100%,680px);
+  max-width:680px !important;
+  margin:0 auto;
+  padding:14px 16px 34px !important;
+  background:transparent !important;
+}
+.settings-page .settings-hero {
+  display:block !important;
+  min-height:0 !important;
+  margin:0 0 21px !important;
+  padding:5px 1px 16px !important;
+  overflow:visible !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(150,215,243,.15) !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+.settings-page .settings-hero::before,
+.settings-page .settings-hero::after,
+.settings-page .settings-hero-route { display:none !important; }
+.settings-page .settings-hero small {
+  color:#86cbe8 !important;
+  font-size:8px !important;
+  font-weight:850 !important;
+  letter-spacing:.18em !important;
+}
+.settings-page .settings-hero h1 {
+  margin:6px 0 5px !important;
+  color:#f0f8ff !important;
+  font-size:23px !important;
+  font-weight:750 !important;
+  letter-spacing:-.04em !important;
+}
+.settings-page .settings-hero p {
+  max-width:470px !important;
+  color:#91a9c0 !important;
+  font-size:12px !important;
+  line-height:1.45 !important;
+}
+.settings-page .lup-settings-profile-visibility {
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) auto !important;
+  align-items:center !important;
+  gap:12px !important;
+  margin:0 0 24px !important;
+  padding:11px 1px !important;
+  border:0 !important;
+  border-top:1px solid rgba(151,216,243,.10) !important;
+  border-bottom:1px solid rgba(151,216,243,.10) !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+.settings-page .lup-settings-profile-visibility::before { display:none !important; }
+.settings-page .settings-visibility-heading { min-width:0; }
+.settings-page .settings-visibility-heading > .material-icons {
+  display:none !important;
+}
+.settings-page .settings-visibility-heading strong { color:#e5f3fc !important; font-size:12px !important; }
+.settings-page .settings-visibility-heading small { color:#839cb4 !important; font-size:10px !important; }
+.settings-page .lup-profile-visibility-choice { justify-self:end; }
+.settings-page .lup-settings-group {
+  margin:0 0 25px !important;
+  padding:0 !important;
+}
+.settings-page .lup-settings-group::before { display:none !important; }
+.settings-page .lup-settings-group-heading {
+  min-height:0 !important;
+  margin:0 0 8px !important;
+  padding:0 0 7px !important;
+  border-bottom:1px solid rgba(151,216,243,.10) !important;
+  border-left:0 !important;
+}
+.settings-page .lup-settings-group-heading::before { display:none !important; }
+.settings-page .lup-settings-group-heading small {
+  color:#9ed9f2 !important;
+  font-size:8px !important;
+  font-weight:840 !important;
+  letter-spacing:.16em !important;
+}
+.settings-page .lup-settings-group-heading p {
+  margin:4px 0 0 !important;
+  color:#718aa3 !important;
+  font-size:10px !important;
+  line-height:1.35 !important;
+}
+.settings-page .lup-setting-card {
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(118px,auto) !important;
+  gap:10px 14px !important;
+  align-items:center !important;
+  min-height:64px !important;
+  margin:0 !important;
+  padding:10px 1px !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(151,216,243,.085) !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+.settings-page .lup-setting-card:last-child { border-bottom:0 !important; }
+.settings-page .lup-setting-card:hover,
+.settings-page .lup-setting-card:focus-within {
+  border-color:rgba(151,216,243,.18) !important;
+  background:linear-gradient(90deg,rgba(94,184,226,.055),transparent 72%) !important;
+  box-shadow:none !important;
+}
+.settings-page .lup-setting-card-heading { min-width:0; }
+.settings-page .lup-setting-icon { display:none !important; }
+.settings-page .lup-setting-card-heading h3 {
+  color:#e8f2fa !important;
+  font-size:12px !important;
+  font-weight:680 !important;
+  letter-spacing:0 !important;
+}
+.settings-page .lup-setting-card-heading p { color:#7891a9 !important; font-size:10px !important; }
+.settings-page .lup-setting-value {
+  min-width:118px !important;
+  justify-content:flex-end !important;
+}
+.settings-page .lup-setting-value md-select,
+.settings-page .lup-setting-value .lup-setting-input input,
+.settings-page .lup-setting-value .lup-setting-input textarea,
+.settings-page .lup-visibility-trigger {
+  border-color:rgba(153,215,244,.18) !important;
+  border-radius:8px !important;
+  background:rgba(7,15,27,.44) !important;
+  box-shadow:none !important;
+}
+.settings-page .lup-setting-visibility {
+  grid-column:1 / -1 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  min-height:27px !important;
+  padding-top:2px !important;
+}
+.settings-page .lup-setting-visibility > span { color:#718ca5 !important; font-size:9px !important; }
+.settings-page .lup-setting-card--textarea { grid-template-columns:1fr !important; }
+.settings-page .lup-setting-card--textarea .lup-setting-value { justify-content:stretch !important; }
+.settings-page .lup-setting-card--textarea .lup-setting-input { width:100% !important; }
+.settings-page .lup-setting-card--textarea textarea { min-height:90px !important; }
+@media (max-width:420px) {
+  .settings-page .lup-settings-list { padding-right:12px !important; padding-left:12px !important; }
+  .settings-page .lup-settings-profile-visibility,
+  .settings-page .lup-setting-card { grid-template-columns:1fr !important; }
+  .settings-page .lup-profile-visibility-choice,
+  .settings-page .lup-setting-value { justify-self:stretch !important; justify-content:stretch !important; }
+  .settings-page .lup-profile-visibility-choice .lup-visibility-trigger,
+  .settings-page .lup-setting-value md-select,
+  .settings-page .lup-setting-value .lup-setting-input { width:100% !important; }
+}
