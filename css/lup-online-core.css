@@ -588,3 +588,131 @@
   .nearby .location-categories button .material-icons,
   .nearby .location-categories button::after { transition:none !important; }
 }
+
+/* Sidebar: one continuous night surface, shared with Locations and profiles.
+ * The navigation remains the same; only the older, isolated sidebar material
+ * is replaced by the current midnight / cyan / violet visual language. */
+.md-sidenav-left {
+  border-right:1px solid rgba(138,209,242,.15) !important;
+  background:
+    radial-gradient(80% 34% at 100% 0%,rgba(72,157,219,.12),transparent 72%),
+    radial-gradient(66% 36% at 0% 100%,rgba(113,75,214,.11),transparent 74%),
+    linear-gradient(160deg,#101b2b 0%,#0c1523 44%,#080e18 100%) !important;
+  box-shadow:20px 0 58px rgba(0,0,0,.52),1px 0 0 rgba(255,255,255,.025) inset;
+}
+.md-sidenav-left .sidenav-brand {
+  min-height:96px;
+  border-bottom:1px solid rgba(158,219,247,.11);
+  background:
+    radial-gradient(54% 100% at 94% 18%,rgba(74,181,232,.18),transparent 73%),
+    linear-gradient(128deg,rgba(22,43,70,.98),rgba(11,20,34,.92) 70%,rgba(9,15,26,.98)) !important;
+}
+.md-sidenav-left .sidenav-brand::before {
+  top:25px;
+  right:22px;
+  width:5px;
+  height:5px;
+  border:0;
+  background:#8fe8ff;
+  box-shadow:-23px 19px 0 -1px rgba(143,232,255,.46),-45px -7px 0 -2px rgba(167,128,255,.32),0 0 18px rgba(104,213,255,.62);
+}
+.md-sidenav-left .sidenav-brand .md-toolbar-tools { height:96px; padding:0 19px; }
+.md-sidenav-left .sidenav-brand h1 { color:#f4faff; font-size:23px; font-weight:730; letter-spacing:-.045em; }
+.md-sidenav-left .sidenav-brand span { color:#87a9c4; font-size:8px; letter-spacing:.19em; }
+.md-sidenav-left .nav-close {
+  border-color:rgba(160,220,246,.14);
+  background:rgba(117,192,231,.055);
+  color:#bce8fa;
+}
+.md-sidenav-left md-content {
+  overflow-x:hidden;
+  background:
+    radial-gradient(95% 38% at 100% 0%,rgba(63,158,215,.07),transparent 74%),
+    linear-gradient(180deg,rgba(13,25,40,.42),rgba(7,13,23,.16)) !important;
+}
+.md-sidenav-left md-list { padding:14px 13px calc(28px + env(safe-area-inset-bottom,0px)); }
+.sidebar-user-card {
+  margin:14px 14px 13px;
+  padding:13px 2px 16px;
+  border:0;
+  border-bottom:1px solid rgba(151,216,243,.14);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.sidebar-user-card:hover { background:transparent; box-shadow:none; }
+.sidebar-user-card .lup-avatar { outline-color:rgba(122,220,250,.62); }
+.sidebar-user-card strong { color:#edf8ff; }
+.sidebar-user-card span { color:#7f9bb5; }
+.sidebar-user-card > .material-icons { color:#84d8f4; }
+.md-sidenav-left .sidebar-section-title,
+.md-sidenav-left .md-subheader {
+  margin:23px 6px 7px;
+  color:#68839e;
+  font-size:8px;
+  font-weight:820;
+  letter-spacing:.19em;
+}
+.md-sidenav-left .sidebar-legal-title {
+  margin-top:30px;
+  padding-top:15px;
+  border-top-color:rgba(151,216,243,.10);
+}
+.md-sidenav-left md-list-item {
+  min-height:50px;
+  margin:1px 0;
+  border:0;
+  border-radius:9px;
+  background:transparent !important;
+  transition:background .18s ease,filter .18s ease;
+}
+.md-sidenav-left md-list-item::before {
+  top:14px;
+  bottom:14px;
+  width:1px;
+  background:transparent;
+}
+.md-sidenav-left md-list-item:hover {
+  border:0;
+  background:linear-gradient(90deg,rgba(96,196,237,.105),rgba(114,82,209,.05) 68%,transparent) !important;
+}
+.md-sidenav-left md-list-item:hover::before {
+  background:#8ce6ff;
+  box-shadow:0 0 12px rgba(106,212,250,.72);
+}
+.md-sidenav-left md-list-item p { color:#d6e5f1; font-size:13px; font-weight:620; }
+.md-sidenav-left md-list-item .nav-icon,
+.md-sidenav-left md-list-item.nav-discover .nav-icon,
+.md-sidenav-left md-list-item.nav-settings .nav-icon,
+.md-sidenav-left md-list-item.nav-account .nav-icon,
+.md-sidenav-left md-list-item.nav-friends .nav-icon {
+  border:0;
+  border-radius:0;
+  background:transparent !important;
+  color:#8ea9c0;
+  box-shadow:none;
+}
+.md-sidenav-left md-list-item:hover .nav-icon {
+  background:transparent !important;
+  color:#c8f3ff;
+  transform:translateX(1px);
+}
+.md-sidenav-left md-list-item.nav-discover .nav-icon { color:#8fdbf5; }
+.md-sidenav-left md-list-item.nav-settings .nav-icon { color:#b9a6f2; }
+.md-sidenav-left md-list-item.nav-account .nav-icon { color:#94e0dc; }
+.md-sidenav-left md-list-item.nav-friends .nav-icon { color:#e7a6cd; }
+.md-sidenav-left md-list-item.nav-logout { margin-top:14px; border:0; background:transparent !important; }
+.md-sidenav-left md-list-item.nav-logout .nav-icon { color:#9e7788; }
+.md-sidenav-left md-list-item.nav-logout p { color:#c3a7b1; }
+.md-sidenav-left md-list-item.nav-logout:hover { background:rgba(218,124,151,.07) !important; }
+.md-sidenav-left md-list-item:has(.impressum) .nav-icon,
+.md-sidenav-left md-list-item:has(.tos) .nav-icon,
+.md-sidenav-left md-list-item:has(.privacy) .nav-icon { color:#66829d; }
+.md-sidenav-left md-list-item:has(.impressum) p,
+.md-sidenav-left md-list-item:has(.tos) p,
+.md-sidenav-left md-list-item:has(.privacy) p { color:#8ea4b8; }
+@media (max-width:599px) {
+  .md-sidenav-left .sidenav-brand,
+  .md-sidenav-left .sidenav-brand .md-toolbar-tools { min-height:86px; height:86px; }
+  .md-sidenav-left .sidenav-brand .md-toolbar-tools { padding:0 15px; }
+}
