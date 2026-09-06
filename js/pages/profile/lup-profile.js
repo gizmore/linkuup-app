@@ -531,6 +531,14 @@ angular.module('LUP').config(function($routeProvider) {
 			if (typeof value === 'number') { value = smokeValues[value - 1] || value; }
 			if (typeof value === 'string' && value.indexOf('lup_smokes_') === 0) { return window.t(value); }
 		}
+		if (field.key === 'lup_religion') {
+			var religionValues = ['religion_christian', 'religion_muslim', 'religion_jewish', 'religion_egyptian', 'religion_hindi', 'religion_romanian', 'religion_vikings', 'religion_buddhism', 'religion_atheist', 'religion_other'];
+			if (typeof value === 'number') { value = religionValues[value - 1] || value; }
+			if (typeof value === 'string' && value.indexOf('religion_') === 0) {
+				var religionLabel = window.t(value);
+				return religionLabel && religionLabel !== value ? religionLabel : value;
+			}
+		}
 		if (field.key === 'lup_eyecolor' && typeof value === 'string' && value.indexOf('lup_eyecolor_') === 0) {
 			return window.t(value);
 		}
