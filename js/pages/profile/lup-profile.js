@@ -412,6 +412,10 @@ angular.module('LUP').config(function($routeProvider) {
 						value = $scope.data.user.countryId();
 					}
 				}
+				if (isOwnProfile && (value === undefined || value === null || value === '') && setting.options) {
+					value = setting.options.var !== undefined && setting.options.var !== null ? setting.options.var : setting.options.selected;
+					if (value && typeof value === 'object' && value.id !== undefined) { value = value.id; }
+				}
 				// Do not turn an absent optional enum (often represented as 0 by a
 				// legacy endpoint) into an empty profile card.
 				var hasValue = value !== undefined && value !== null && value !== '' && value !== '0';
@@ -470,6 +474,10 @@ angular.module('LUP').config(function($routeProvider) {
 				if ((value === undefined || value === null || value === '') && $scope.data.user) {
 					if (key === 'gender' && $scope.data.user.gender) { value = $scope.data.user.gender(); }
 					if (key === 'country_of_origin' && $scope.data.user.countryId) { value = $scope.data.user.countryId(); }
+				}
+				if ((value === undefined || value === null || value === '') && fallbackSetting.options) {
+					value = fallbackSetting.options.var !== undefined && fallbackSetting.options.var !== null ? fallbackSetting.options.var : fallbackSetting.options.selected;
+					if (value && typeof value === 'object' && value.id !== undefined) { value = value.id; }
 				}
 				groups[placement.section] = groups[placement.section] || {module: placement.section, label: profileSections[placement.section].label, sort: profileSections[placement.section].sort, fields: []};
 				groups[placement.section].fields.push({key: key, sort: placement.sort, setting: fallbackSetting, label: profileLabels[key] || key, value: value, error: null, empty: value === undefined || value === null || value === '' || value === '0', private: false, acl: null, visibility: 'private'});
