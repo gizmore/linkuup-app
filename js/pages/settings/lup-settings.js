@@ -258,7 +258,7 @@ angular.module('LUP').config(function($routeProvider) {
 						setting.options = setting.options || {};
 						setting.renderer = GDTRendererSrvc.forSetting(setting);
 						var selected = setting.options.var !== undefined && setting.options.var !== null ? setting.options.var : setting.options.selected;
-						setting.value = selected && typeof selected === 'object' && selected.id !== undefined ? selected.id : selected;
+						setting.value = selected && typeof selected === 'object' ? (typeof selected.id === 'function' ? selected.id() : (selected.id !== undefined ? selected.id : (selected.value !== undefined ? selected.value : selected))) : selected;
 						setting.value = GDTRendererSrvc.valueForSetting(setting, setting.value);
 						if (setting.renderer.source === 'enum' && !setting.options.notNull && (setting.value === null || setting.value === '')) {
 							setting.value = '0';

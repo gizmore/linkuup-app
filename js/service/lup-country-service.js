@@ -19,7 +19,7 @@ service('CountrySrvc', function($q, RequestSrvc) {
 			});
 			// Kosovo is commonly represented as XK in application country lists.
 			// Keep it selectable when an older backend catalogue omits the entry.
-			if (!CountrySrvc.CACHE.some(function(country) { return String(country.id).toUpperCase() === 'XK'; })) {
+			if (!CountrySrvc.CACHE.some(function(country) { var id = typeof country.id === 'function' ? country.id() : country.id; return String(id).toUpperCase() === 'XK'; })) {
 				CountrySrvc.CACHE.push({id: 'XK', text: window.t('country_XK') || 'Kosovo'});
 			}
 			CountrySrvc.CACHE.sort(function(a,b) {

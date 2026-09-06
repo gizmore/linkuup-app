@@ -420,11 +420,11 @@ angular.module('LUP').config(function($routeProvider) {
 				}
 				if (isOwnProfile && (value === undefined || value === null || value === '') && setting.options) {
 					value = setting.options.var !== undefined && setting.options.var !== null ? setting.options.var : setting.options.selected;
-					if (value && typeof value === 'object') { value = value.id !== undefined ? value.id : (value.value !== undefined ? value.value : value.key); }
+					if (value && typeof value === 'object') { value = typeof value.id === 'function' ? value.id() : (value.id !== undefined ? value.id : (value.value !== undefined ? value.value : value.key)); }
 				}
 				if (isOwnProfile && (value === undefined || value === null || value === '') && setting.value !== undefined && setting.value !== null) {
 					value = setting.value;
-					if (value && typeof value === 'object') { value = value.id !== undefined ? value.id : (value.value !== undefined ? value.value : value.key); }
+					if (value && typeof value === 'object') { value = typeof value.id === 'function' ? value.id() : (value.id !== undefined ? value.id : (value.value !== undefined ? value.value : value.key)); }
 				}
 				// Do not turn an absent optional enum (often represented as 0 by a
 				// legacy endpoint) into an empty profile card.
@@ -488,11 +488,11 @@ angular.module('LUP').config(function($routeProvider) {
 				}
 				if ((value === undefined || value === null || value === '') && fallbackSetting.options) {
 					value = fallbackSetting.options.var !== undefined && fallbackSetting.options.var !== null ? fallbackSetting.options.var : fallbackSetting.options.selected;
-					if (value && typeof value === 'object') { value = value.id !== undefined ? value.id : (value.value !== undefined ? value.value : value.key); }
+					if (value && typeof value === 'object') { value = typeof value.id === 'function' ? value.id() : (value.id !== undefined ? value.id : (value.value !== undefined ? value.value : value.key)); }
 				}
 				if ((value === undefined || value === null || value === '') && fallbackSetting.value !== undefined && fallbackSetting.value !== null) {
 					value = fallbackSetting.value;
-					if (value && typeof value === 'object' && value.id !== undefined) { value = value.id; }
+					if (value && typeof value === 'object') { value = typeof value.id === 'function' ? value.id() : (value.id !== undefined ? value.id : (value.value !== undefined ? value.value : value.key)); }
 				}
 				groups[placement.section] = groups[placement.section] || {module: placement.section, label: profileSections[placement.section].label, sort: profileSections[placement.section].sort, fields: []};
 				groups[placement.section].fields.push({key: key, sort: placement.sort, setting: fallbackSetting, label: profileLabels[key] || key, value: value, error: null, empty: value === undefined || value === null || value === '' || value === '0', private: false, acl: null, visibility: 'private'});
