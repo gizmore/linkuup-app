@@ -348,3 +348,128 @@
 .lup-gallery-delete-dialog .gallery-delete-confirm .material-icons { font-size:17px; }
 .lup-gallery-delete-dialog .gallery-delete-cancel:hover,.lup-gallery-delete-dialog .gallery-delete-cancel:focus-visible { background:linear-gradient(135deg,rgba(89,162,230,.35),rgba(92,105,184,.29)); outline:0; }
 .lup-gallery-delete-dialog .gallery-delete-confirm:hover,.lup-gallery-delete-dialog .gallery-delete-confirm:focus-visible { border-color:rgba(246,179,198,.42); color:#ffe0e8; background:rgba(200,91,124,.15); outline:0; }
+
+/* Ups: one shared resonance field, not three competing cards.  The count is
+   real connection data; the surrounding surface stays deliberately quiet. */
+.likes-page > md-content {
+  background:
+    radial-gradient(ellipse 78% 29% at 50% -8%,rgba(101,210,255,.13),transparent 72%),
+    radial-gradient(ellipse 58% 34% at 94% 37%,rgba(129,91,232,.10),transparent 76%),
+    linear-gradient(160deg,#0d1523 0%,#090f1b 64%,#101325 100%) !important;
+}
+.likes-page > md-content::before,
+.likes-page > md-content::after { display:none !important; }
+.likes-page .ups-hero {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 54px;
+  gap:14px;
+  min-height:126px;
+  margin:0 16px;
+  padding:27px 4px 18px;
+  overflow:visible;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.likes-page .ups-hero::before {
+  right:6px;
+  bottom:12px;
+  width:calc(100% - 70px);
+  height:1px;
+  border:0;
+  border-radius:0;
+  background:linear-gradient(90deg,rgba(91,211,255,.70),rgba(142,111,255,.42),transparent);
+  box-shadow:0 0 15px rgba(88,203,255,.24);
+}
+.likes-page .ups-hero::after {
+  top:auto;
+  right:52px;
+  bottom:7px;
+  width:74px;
+  height:11px;
+  background:radial-gradient(ellipse,rgba(221,245,255,.9) 0 1px,rgba(108,216,255,.35) 2px,transparent 64%);
+  box-shadow:0 0 17px rgba(101,212,255,.50);
+  animation:lup-ups-resonance 7s ease-in-out infinite;
+}
+.ups-hero-copy > span { color:#91cdeb; font-size:8px; letter-spacing:.18em; }
+.ups-hero-copy h1 { margin:6px 0 6px; color:#f4f8ff; font-size:24px; font-weight:720; letter-spacing:-.045em; }
+.ups-hero-copy p { max-width:270px; color:#98aabd; font-size:11px; line-height:1.5; }
+.ups-hero-mark {
+  width:48px;
+  height:48px;
+  align-self:center;
+  border:1px solid rgba(137,221,255,.30);
+  border-radius:50%;
+  background:radial-gradient(circle at 36% 31%,rgba(223,250,255,.54),rgba(90,207,255,.14) 32%,rgba(111,84,202,.16) 64%,transparent 72%);
+  box-shadow:inset 0 0 15px rgba(157,230,255,.12),0 0 22px rgba(94,205,255,.16);
+  color:#d9f6ff;
+}
+.ups-hero-mark .material-icons { font-size:22px; filter:drop-shadow(0 0 7px rgba(127,218,255,.72)); }
+.ups-hero-mark b { width:66px; height:66px; border-color:rgba(118,211,255,.18); }
+.likes-page .ups-favorite {
+  position:relative;
+  margin:0 16px 14px;
+  padding:0 0 12px;
+  border:0;
+  border-bottom:1px solid rgba(170,215,246,.12);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.ups-favorite-label { padding:0 0 8px; color:#879bb0; font-size:8px; letter-spacing:.16em; }
+.ups-favorite-label .material-icons { color:#9edfff; font-size:14px; }
+.ups-favorite-person {
+  grid-template-columns:42px minmax(0,1fr) 22px;
+  gap:10px;
+  padding:0;
+}
+.ups-favorite-person .lup-avatar { border-color:rgba(135,220,255,.42); box-shadow:0 0 0 3px rgba(91,204,255,.055),0 6px 17px rgba(0,0,0,.2); }
+.ups-favorite-person strong { color:#edf8ff; font-size:13px; font-weight:720; }
+.ups-favorite-person span { color:#90a5ba; font-size:10px; }
+.ups-favorite-person > .material-icons { color:#94d7f6; opacity:.72; }
+.likes-page .ups-empty-preview { margin:0 16px 14px; padding:5px 0 15px; border-top:0; border-bottom:1px solid rgba(170,215,246,.12); }
+.likes-page .ups-list { padding:0 16px calc(25px + env(safe-area-inset-bottom)); }
+.ups-list-label { min-height:38px; color:#8599ae; font-size:8px; letter-spacing:.16em; }
+.ups-list-label small { min-width:22px; height:22px; border-color:rgba(127,207,245,.16); background:rgba(92,192,240,.07); color:#bde7f8; }
+.likes-page .ups-list .lup-user-list { gap:2px; }
+.likes-page .ups-list .up-giver-card,
+.likes-page .ups-list .up-giver-card:first-child {
+  position:relative;
+  min-height:66px;
+  padding:10px 4px;
+  border:0;
+  border-bottom:1px solid rgba(177,215,246,.09);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.likes-page .ups-list .up-giver-card::before {
+  position:absolute;
+  top:21px;
+  bottom:21px;
+  left:0;
+  width:2px;
+  content:'';
+  border-radius:3px;
+  background:linear-gradient(180deg,transparent,rgba(103,210,255,.72),transparent);
+  opacity:.48;
+  transition:opacity .2s ease,box-shadow .2s ease;
+}
+.likes-page .ups-list .up-giver-card:hover::before,
+.likes-page .ups-list .up-giver-card:focus-within::before { opacity:1; box-shadow:0 0 10px rgba(88,205,255,.38); }
+.likes-page .ups-list .up-giver-card .lup-avatar { width:42px; height:42px; margin-right:12px; border-color:rgba(146,218,255,.28); }
+.likes-page .ups-list .up-giver-card .username { color:#eaf5ff; font-size:13px; font-weight:720; }
+.likes-page .ups-list .up-giver-card .lup-user-status { color:#8da2b6 !important; font-size:10px; }
+.likes-page .ups-list .lup-user-action-message { width:34px; height:34px; border-color:rgba(119,205,246,.17); border-radius:50%; background:rgba(74,166,220,.08); color:#b8eaff; }
+.likes-page .ups-list .lup-user-action-message:hover,
+.likes-page .ups-list .lup-user-action-message:focus-visible { border-color:rgba(139,220,255,.43); background:rgba(83,183,236,.17); color:#effbff; outline:0; }
+@keyframes lup-ups-resonance { 0%,100% { opacity:.22; transform:translateX(-18px) scaleX(.58); } 46% { opacity:.92; transform:translateX(5px) scaleX(1); } 62% { opacity:.38; transform:translateX(18px) scaleX(.72); } }
+@media (max-width:380px) {
+  .likes-page .ups-hero,.likes-page .ups-favorite,.likes-page .ups-empty-preview { margin-right:12px; margin-left:12px; }
+  .likes-page .ups-list { padding-right:12px; padding-left:12px; }
+  .ups-hero-copy h1 { font-size:21px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .likes-page .ups-hero::after,.ups-hero-mark b { animation:none !important; }
+}
