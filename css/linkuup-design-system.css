@@ -4379,6 +4379,23 @@ md-toast.lup-friend-arrival-toast .md-button { min-width:0; margin:0; padding:0 
 	.lup-legal-dialog .legal-dialog-close { right:11px; }
 }
 
+/* The legal template contains a second md-dialog-content wrapper.  Reset the
+   outer Material padding so the actual document stays centered instead of
+   being pushed sideways by two nested content gutters. */
+.lup-legal-dialog > form > md-dialog-content {
+	margin:0 !important;
+	padding:0 !important;
+	width:100% !important;
+	box-sizing:border-box !important;
+}
+.lup-legal-dialog .legal-dialog-document {
+	display:block !important;
+	width:100% !important;
+	max-width:none !important;
+	margin:0 auto !important;
+	box-sizing:border-box !important;
+}
+
 /* Profile facts are supporting information. Keep them compact so the person,
    rather than a wall of glowing cards, remains the focus of “Über mich”. */
 .profile-page .profile-information.profile-settings-view { width:min(100%,680px) !important; padding:6px 16px 24px !important; }
