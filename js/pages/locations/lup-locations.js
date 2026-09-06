@@ -48,6 +48,44 @@ angular.module('LUP').config(function($routeProvider) {
 	$scope.data.currentRoomIndex = $scope.data.currentRoomIndex === undefined ? -1 : $scope.data.currentRoomIndex;
 	$scope.data.doorOpeningRoomId = null;
 
+	// Local-only design fixture. It is opt-in via ?design-visitors=30 and never
+	// reaches the websocket or database. This lets the avatar rail and the
+	// visitors tab be reviewed with a busy room without inventing real users.
+	var designVisitorQuery = window.URLSearchParams ? new URLSearchParams(window.location.search).get('design-visitors') : null;
+	var designVisitorCount = Math.max(0, Math.min(30, Number(designVisitorQuery) || 0));
+	var addDesignVisitors = function(rooms) {
+		if (!designVisitorCount || !rooms || !rooms.length) {
+			return;
+		}
+		var room = rooms.find(function(candidate) {
+			return /braunschweig/i.test([candidate.name(), candidate.city()].filter(Boolean).join(' '));
+		});
+		if (!room) {
+			return;
+		}
+		room.USERS = (room.USERS || []).filter(function(user) { return !user.__simionDesignVisitor; });
+		for (let index = 0; index < designVisitorCount; index++) {
+			var id = 'design-visitor-' + (index + 1);
+			var hue = (index * 37) % 360;
+			var user = new GWF_User({
+				user_id: id,
+				user_name: 'Testgast ' + String(index + 1).padStart(2, '0'),
+				user_gender: index % 3 === 0 ? 'female' : (index % 3 === 1 ? 'male' : 'no_gender'),
+				user_type: 'guest',
+				avatar_version: 1,
+			});
+			user.__simionDesignVisitor = true;
+			user.avatarURI = function() {
+				var initials = encodeURIComponent(String(index + 1).padStart(2, '0'));
+				return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(
+					'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" rx="40" fill="hsl(' + hue + ',42%,28%)"/><circle cx="40" cy="30" r="13" fill="hsl(' + hue + ',60%,78%)"/><path d="M18 70c2-17 12-25 22-25s20 8 22 25" fill="hsl(' + hue + ',60%,68%)"/><text x="40" y="76" fill="white" font-size="9" text-anchor="middle">' + initials + '</text></svg>'
+				);
+			};
+			room.USERS.push(user);
+		}
+		room.__simionDesignVisitors = true;
+	};
+
 	// During a route transition Angular can keep a retiring view in the DOM for
 	// one digest. Prefer the active rail which already owns cards; `.last()`
 	// alone can otherwise select the leaving, empty view and make the live rail
@@ -478,6 +516,7 @@ angular.module('LUP').config(function($routeProvider) {
 			return $scope.refreshCategoryFilter();
 		}
 		$scope.data.rooms = rooms;
+		addDesignVisitors(rooms);
 		$scope.updateVisibleRooms();
 		sortAndSelectNearestRoom();
 		restoreSelectedRoom(roomId, !roomId && nearestRoomInitiallySelected);
