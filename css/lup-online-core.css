@@ -373,9 +373,10 @@
   box-shadow:none;
 }
 .likes-page .ups-hero::before {
-  right:6px;
-  bottom:12px;
-  width:calc(100% - 70px);
+  right:0;
+  bottom:9px;
+  left:0;
+  width:auto;
   height:1px;
   border:0;
   border-radius:0;
@@ -384,8 +385,8 @@
 }
 .likes-page .ups-hero::after {
   top:auto;
-  right:52px;
-  bottom:7px;
+  right:17px;
+  bottom:4px;
   width:74px;
   height:11px;
   background:radial-gradient(ellipse,rgba(221,245,255,.9) 0 1px,rgba(108,216,255,.35) 2px,transparent 64%);
@@ -398,7 +399,8 @@
 .ups-hero-mark {
   width:48px;
   height:48px;
-  align-self:center;
+  align-self:end;
+  margin-bottom:17px;
   border:1px solid rgba(137,221,255,.30);
   border-radius:50%;
   background:radial-gradient(circle at 36% 31%,rgba(223,250,255,.54),rgba(90,207,255,.14) 32%,rgba(111,84,202,.16) 64%,transparent 72%);
@@ -430,7 +432,7 @@
 .ups-favorite-person > .material-icons { color:#94d7f6; opacity:.72; }
 .likes-page .ups-empty-preview { margin:0 16px 14px; padding:5px 0 15px; border-top:0; border-bottom:1px solid rgba(170,215,246,.12); }
 .likes-page .ups-list { padding:0 16px calc(25px + env(safe-area-inset-bottom)); }
-.ups-list-label { min-height:38px; color:#8599ae; font-size:8px; letter-spacing:.16em; }
+.ups-list-label { min-height:34px; color:#8599ae; font-size:8px; letter-spacing:.16em; }
 .ups-list-label small { min-width:22px; height:22px; border-color:rgba(127,207,245,.16); background:rgba(92,192,240,.07); color:#bde7f8; }
 .likes-page .ups-list .lup-user-list { gap:2px; }
 .likes-page .ups-list .up-giver-card,

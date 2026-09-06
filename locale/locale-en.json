@@ -185,7 +185,7 @@
 "UPS_TOTAL_COPY": "{{count}} ups from your network.",
 "UPS_EMPTY_INTRO": "Real encounters become visible here.",
 "UPS_FAVORITE_TITLE": "YOUR STRONGEST COMPANION",
-"UPS_FAVORITE_COPY": "Has given you {{count}} ups so far.",
+"UPS_FAVORITE_COPY": "Has given you ups.",
 "UPS_EMPTY_TITLE": "Your first companion",
 "UPS_EMPTY_COPY": "As soon as someone gives you an up, your connection appears here.",
 "UPS_ALL_TITLE": "ALL CONNECTIONS",
