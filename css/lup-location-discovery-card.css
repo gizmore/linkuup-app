@@ -274,6 +274,9 @@
 	transform:translate3d(0,var(--lup-rail-lift,7px),0) scale(var(--lup-rail-scale,.93));
 	transition:transform 180ms cubic-bezier(.2,.8,.2,1),opacity 150ms linear;
 }
+.nearby .location-rail.location-rail-dragging .lup-room-slide-outer {
+	transition:none !important;
+}
 
 .lup-orbit-card {
 	--orbit-accent:var(--discovery-accent,#89c9ef);

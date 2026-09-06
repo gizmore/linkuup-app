@@ -95,6 +95,18 @@ angular.module('LUP').config(function($routeProvider) {
 			updateRailDepth(rail);
 		});
 	};
+	// Center a card using the rail's actual geometry. scrollIntoView() may also
+	// scroll an ancestor and, at the final card, asks the browser for an
+	// impossible extra offset which produces the visible sideways brake.
+	var centerRailCard = function(rail, card, behavior) {
+		if (!rail || !card) {
+			return;
+		}
+		var maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
+		var target = card.offsetLeft - Math.max(0, (rail.clientWidth - card.offsetWidth) / 2);
+		target = Math.max(0, Math.min(maxScroll, target));
+		rail.scrollTo({left: target, top: 0, behavior: behavior || 'auto'});
+	};
 	var scrollSelectedRoomIntoView = function(behavior) {
 		$timeout(function() {
 			var rail = getLocationRail();
@@ -104,7 +116,7 @@ angular.module('LUP').config(function($routeProvider) {
 			var roomId = String($scope.data.currentRoom.id());
 			var card = rail.querySelector('.lup-room-slide-outer[data-room-id="' + roomId + '"]');
 			if (card) {
-				card.scrollIntoView({behavior: behavior || 'auto', block: 'nearest', inline: 'center'});
+				centerRailCard(rail, card, behavior);
 			}
 		}, 0);
 	};
@@ -158,7 +170,9 @@ angular.module('LUP').config(function($routeProvider) {
 		$timeout(function() {
 			var nearest = nearestRailCard(rail);
 			if (nearest) {
-				nearest.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'});
+				var center = rail.getBoundingClientRect().left + rail.clientWidth / 2;
+				var nearestCenter = nearest.getBoundingClientRect().left + nearest.offsetWidth / 2;
+				centerRailCard(rail, nearest, Math.abs(nearestCenter - center) > 8 ? 'smooth' : 'auto');
 			}
 		}, 0);
 	};

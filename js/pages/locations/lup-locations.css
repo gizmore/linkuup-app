@@ -328,7 +328,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', end
 	scroll-snap-type: x mandatory;
 	scroll-padding-inline: 7%;
 	-webkit-overflow-scrolling: touch;
-	overscroll-behavior-x: contain;
+	overscroll-behavior-x: none;
 	/* Vertical scrolling stays native; horizontal drags are handled above so
 	 * their synthetic click cannot open a location. */
 	touch-action: pan-y;
@@ -339,7 +339,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', end
 	flex: 0 0 86%;
 	min-width: 0;
 	scroll-snap-align: center;
-	scroll-snap-stop: always;
+	scroll-snap-stop: normal;
 }
 .location-rail.location-rail-dragging {
 	scroll-snap-type: none;
