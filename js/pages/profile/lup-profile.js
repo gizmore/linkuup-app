@@ -376,7 +376,6 @@ angular.module('LUP').config(function($routeProvider) {
 			lup_religion: 'SETTING_LABEL_RELIGION'
 		};
 		var cache = SettingsSrvc.CACHE || {};
-		var isOwnProfile = !!($scope.data.user && $scope.data.user.isSelf && $scope.data.user.isSelf());
 		// A fresh profile response is normally a GDO_Profile, but the HTTP
 		// settings refresh can briefly hand us its plain transport object first.
 		// Missing metadata means "not explicitly empty", not a fatal profile.
@@ -391,7 +390,7 @@ angular.module('LUP').config(function($routeProvider) {
 				// Legacy display helpers initialise a few optional enums with "0".
 				// The profile frame still knows that they were actually absent, and
 				// an absent field must not turn into a visible "not specified" row.
-				if (empty[key] && !isOwnProfile) {
+				if (empty[key]) {
 					continue;
 				}
 				var value = (profile.JSON || {})[key];
@@ -407,10 +406,7 @@ angular.module('LUP').config(function($routeProvider) {
 					continue;
 				}
 				// Empty settings are intentionally omitted from the profile.
-				// The owner needs a complete, honest overview to finish their profile.
-				// Visitors still receive exactly the same non-empty, permitted facts as
-				// before; empty fields never become public content.
-				if (!hasValue && !isPrivateForOwner && !isOwnProfile) {
+				if (!hasValue && !isPrivateForOwner) {
 					continue;
 				}
 				var section = profileSections[placement.section];
@@ -427,7 +423,6 @@ angular.module('LUP').config(function($routeProvider) {
 					label: profileLabels[key] || setting.label || key,
 					value: value,
 					error: error,
-					empty: !hasValue && !isPrivateForOwner,
 					private: isPrivateForOwner,
 					// This is the target user's stored ACL relation from GWS_Profile,
 					// not the module default carried by SettingsSrvc.CACHE.
