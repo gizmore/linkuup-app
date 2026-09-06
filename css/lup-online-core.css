@@ -493,17 +493,7 @@
   box-shadow:none;
   isolation:isolate;
 }
-.nearby .location-categories::before {
-  position:absolute;
-  z-index:-1;
-  right:16px;
-  bottom:4px;
-  left:16px;
-  height:1px;
-  content:'';
-  background:linear-gradient(90deg,transparent,rgba(111,192,237,.23) 12%,rgba(153,181,255,.28) 50%,rgba(111,192,237,.23) 88%,transparent);
-  box-shadow:0 0 10px rgba(96,194,246,.12);
-}
+.nearby .location-categories::before { content:none !important; display:none !important; }
 .nearby .location-categories button {
   position:relative;
   z-index:1;
