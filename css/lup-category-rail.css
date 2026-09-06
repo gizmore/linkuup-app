@@ -59,19 +59,46 @@
 .nearby .location-categories:has(button:nth-child(5).active) { --lup-category-offset:400%; --lup-category-ink:#84d8c9; }
 .nearby .location-categories:has(button:nth-child(6).active) { --lup-category-offset:500%; --lup-category-ink:#94dda8; }
 .nearby .location-categories button {
+  position:relative !important;
   z-index:2 !important;
   min-height:57px !important;
   padding:3px 1px 6px !important;
   border:0 !important;
   border-radius:0 !important;
+  outline:0 !important;
   background:transparent !important;
   box-shadow:none !important;
+}
+.nearby .location-categories button::before {
+  display:none !important;
+  content:none !important;
 }
 .nearby .location-categories button::after { display:none !important; content:none !important; }
 .nearby .location-categories button.active {
   color:#f5fbff !important;
+  border-color:transparent !important;
+  outline:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
   filter:brightness(1.08);
   transform:translate3d(0,-1px,0) !important;
+}
+.nearby .location-categories button.active::before {
+  position:absolute !important;
+  bottom:0;
+  left:50%;
+  z-index:-1;
+  display:block !important;
+  width:92%;
+  height:58px;
+  content:'' !important;
+  border:0 !important;
+  border-radius:50% 50% 18px 18px / 86% 86% 10px 10px !important;
+  background:radial-gradient(ellipse at 50% 100%,color-mix(in srgb,var(--lup-category-ink,#a9ddff) 27%,transparent) 0%,color-mix(in srgb,var(--lup-category-ink,#a9ddff) 12%,transparent) 34%,transparent 75%) !important;
+  box-shadow:none !important;
+  opacity:.9;
+  transform:translate3d(-50%,0,0) !important;
+  pointer-events:none;
 }
 .nearby .location-categories button.active .material-icons {
   background:transparent !important;
