@@ -412,7 +412,7 @@ angular.module('LUP').config(function($routeProvider) {
 				// Visitors never see private facts. Their owner, however, needs one
 				// quiet confirmation that the field exists and is currently locked.
 				// This keeps privacy understandable without exposing the value.
-				var isPrivateForOwner = !!error && $scope.data.user.isSelf();
+				var isPrivateForOwner = !!error && isOwnProfile;
 				if (error && !isPrivateForOwner) {
 					continue;
 				}
@@ -503,6 +503,10 @@ angular.module('LUP').config(function($routeProvider) {
 		}
 		if (field.key === 'lup_eyecolor' && typeof value === 'string' && value.indexOf('lup_eyecolor_') === 0) {
 			return window.t(value);
+		}
+		if (typeof value === 'string' && /^(pet_|religion_|amber$|green$|green_brown$|gray$|blue$|light_brown$|light_blue$|blue_green$)/.test(value)) {
+			var translatedValue = window.t(value);
+			return translatedValue && translatedValue !== value ? translatedValue : value;
 		}
 		if (field.key === 'country_of_origin' && value) {
 			var countryCode = String(value).toUpperCase();
