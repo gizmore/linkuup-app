@@ -41,6 +41,7 @@
 							</button>
 						</header>
 						<a class="lup-orbit-card__route" ng-href="{{mapsHref(room)}}" target="_blank" rel="noopener" title="{{'NAVIGATE_TO_THIS_PLACE'|translate}}" ng-click="requestLocation(room, $event)">
+							<span class="lup-orbit-card__particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
 							<span class="lup-orbit-card__needle"><i class="material-icons">{{categoryVisual(room).icon}}</i></span>
 							<span class="lup-orbit-card__distance"><i class="material-icons">near_me</i><strong ng-if="room.showDistance()">{{room.displayDistance()}}</strong><strong ng-if="!room.showDistance()">Ort öffnen</strong><small>Route ansehen</small></span>
 						</a>

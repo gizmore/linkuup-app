@@ -4362,6 +4362,23 @@ md-toast.lup-friend-arrival-toast .md-button { min-width:0; margin:0; padding:0 
 .lup-legal-dialog .legal-dialog-document > .gdt-panel { display:none !important; }
 @media (max-width:520px) { .lup-legal-dialog { width:calc(100vw - 20px); max-height:88vh; border-radius:18px !important; }.lup-legal-dialog md-toolbar,.lup-legal-dialog md-toolbar .md-toolbar-tools { min-height:62px; height:62px; padding:0 11px; }.lup-legal-dialog .legal-dialog-mark { width:32px; height:32px; margin-right:8px; border-radius:10px 10px 10px 3px; }.lup-legal-dialog .legal-dialog-heading h2 { font-size:17px; }.lup-legal-dialog md-dialog-content { max-height:calc(88vh - 62px); }.lup-legal-dialog .legal-dialog-document { padding:20px 17px 28px; font-size:12px; line-height:1.58; }.lup-legal-dialog .legal-dialog-document h2 { margin-top:23px; font-size:15px; } }
 
+/* Legal dialog: keep the close control pinned to the dialog, not to Angular
+   Material's dynamically sized toolbar row. */
+.lup-legal-dialog { position:relative; isolation:isolate; background:linear-gradient(155deg,#172239,#0e1525 76%) !important; }
+.lup-legal-dialog md-toolbar .md-toolbar-tools { position:relative; padding-right:58px; }
+.lup-legal-dialog .legal-dialog-close {
+	position:absolute;
+	z-index:5;
+	top:50%; right:15px;
+	margin:0 !important;
+	transform:translateY(-50%);
+}
+.lup-legal-dialog md-dialog-content { position:relative; z-index:1; background:linear-gradient(180deg,rgba(10,16,29,.42),rgba(10,16,29,.08)) !important; }
+@media (max-width:520px) {
+	.lup-legal-dialog md-toolbar .md-toolbar-tools { padding-right:52px; }
+	.lup-legal-dialog .legal-dialog-close { right:11px; }
+}
+
 /* Profile facts are supporting information. Keep them compact so the person,
    rather than a wall of glowing cards, remains the focus of “Über mich”. */
 .profile-page .profile-information.profile-settings-view { width:min(100%,680px) !important; padding:6px 16px 24px !important; }
