@@ -29,7 +29,7 @@
       <p>{{sectionHint(group.section)|translate}}</p>
     </header>
 
-    <article ng-repeat="setting in group.settings track by setting.name" class="lup-setting-card" ng-class="{'lup-setting-card--textarea': controlIs(setting, 'textarea')}">
+    <article ng-repeat="setting in group.settings track by setting.name" class="lup-setting-card" ng-class="{'lup-setting-card--textarea': controlIs(setting, 'textarea'), 'lup-setting-card--country': isCountry(setting), 'lup-setting-card--language': isLanguage(setting), 'lup-setting-card--timezone': isTimezone(setting), 'lup-setting-card--switch': controlIs(setting, 'checkbox')}">
       <header class="lup-setting-card-heading">
         <span class="lup-setting-icon" aria-hidden="true"><i class="material-icons">{{settingIcon(setting)}}</i></span>
         <div><h3>{{setting.displayLabel|translate}}</h3><p ng-if="isDateSetting(setting)">{{'SETTINGS_DATE_HINT'|translate}}</p></div>

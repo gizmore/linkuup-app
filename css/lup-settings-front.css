@@ -194,6 +194,16 @@
 .settings-page .lup-setting-value md-select { min-width:138px !important; padding:7px 9px 4px !important; }
 .settings-page .lup-setting-value .lup-setting-input input { min-height:34px !important; padding:0 9px !important; }
 .settings-page .lup-setting-value .lup-setting-input input[type='color'] { width:46px !important; min-width:46px !important; padding:3px !important; }
+.settings-page .lup-setting-card--country .lup-setting-value md-select,
+.settings-page .lup-setting-card--language .lup-setting-value md-select { min-width:176px !important; }
+.settings-page .lup-setting-card--timezone .lup-setting-value md-select { min-width:196px !important; }
+.settings-page .lup-setting-card--switch .lup-setting-value { min-height:34px !important; }
+.settings-page .lup-setting-card--switch .md-switch-thumb { background:#eaf8ff !important; }
+.settings-page .lup-setting-card--switch .md-switch.md-checked .md-bar { background:rgba(87,196,230,.48) !important; }
+.settings-page .lup-setting-card--switch .md-switch.md-checked .md-thumb {
+  background:#91e5f6 !important;
+  box-shadow:0 0 10px rgba(108,218,242,.42) !important;
+}
 .settings-page .lup-setting-visibility {
   grid-area:visibility !important;
   display:flex !important;
@@ -242,6 +252,38 @@
   box-shadow:none !important;
 }
 
+/* Country and language choices keep their real flag sprite, but no longer
+ * make the select row look like a large legacy widget. */
+.settings-page .lup-setting-value .country-flag,
+.md-select-menu-container .country-option .country-flag {
+  border:1px solid rgba(193,230,248,.28) !important;
+  border-radius:3px !important;
+  box-shadow:0 1px 4px rgba(0,0,0,.24) !important;
+}
+.settings-page .lup-setting-value .country-flag {
+  transform:scale(.66);
+  transform-origin:left center;
+  margin-right:-10px;
+}
+.md-select-menu-container .country-option {
+  min-height:42px !important;
+  padding-right:15px !important;
+  padding-left:13px !important;
+  color:#e6f2fb !important;
+  font-size:12px !important;
+}
+.md-select-menu-container .country-option .country-flag {
+  transform:scale(.72);
+  transform-origin:left center;
+  margin-right:-7px;
+}
+.md-select-menu-container .country-option:hover,
+.md-select-menu-container .country-option:focus,
+.md-select-menu-container .country-option.md-selected {
+  background:linear-gradient(90deg,rgba(91,189,230,.18),rgba(103,80,183,.08)) !important;
+}
+.md-select-menu-container .country-option.md-selected .country-flag { border-color:rgba(142,224,247,.60) !important; }
+
 @media (max-width:520px) {
   .settings-page .lup-settings-list { padding:17px 12px 34px !important; }
   .settings-page .settings-hero h1 { font-size:24px !important; }
@@ -255,6 +297,9 @@
   .settings-page .lup-profile-visibility-choice .lup-visibility-trigger,
   .settings-page .lup-setting-value md-select,
   .settings-page .lup-setting-value .lup-setting-input { width:100% !important; }
+  .settings-page .lup-setting-card--country .lup-setting-value md-select,
+  .settings-page .lup-setting-card--language .lup-setting-value md-select,
+  .settings-page .lup-setting-card--timezone .lup-setting-value md-select { min-width:0 !important; }
   .settings-page .lup-setting-value > md-switch { margin-left:0 !important; }
 }
 @media (prefers-reduced-motion:reduce) {
