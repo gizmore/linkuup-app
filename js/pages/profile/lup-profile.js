@@ -152,6 +152,11 @@ angular.module('LUP').config(function($routeProvider) {
 	$scope.openFriendMenu = function() {
 		var user = $scope.data.user;
 		if (!user) { return; }
+		// On your own profile the friends statistic has exactly one safe meaning:
+		// open your own friend list. Do not put an unnecessary menu in front of it.
+		if (user.isSelf()) {
+			return $scope.gotoFriends(user);
+		}
 		var ownUser = $scope.data.ownUser;
 		var available = user.isSelf() || (user.isMember() && ownUser && ownUser.isMember());
 		var data = {
@@ -673,6 +678,11 @@ angular.module('LUP').config(function($routeProvider) {
 	
 	$scope.gotoUserFriends = function(user) {
 		console.log('ProfileCtrl.gotoUserFriends()', user);
+		// A user always has access to their own list; keep the websocket ACL
+		// preflight for every foreign profile only.
+		if (user && user.isSelf()) {
+			return $scope.gotoFriends(user);
+		}
 		FriendSrvc.isFriendListAllowed(user).then(
 				$scope.gotoFriends.bind($scope, user),
 				ErrorSrvc.websocketMaybeJSONError.bind(ErrorSrvc)
