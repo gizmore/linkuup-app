@@ -501,6 +501,15 @@ angular.module('LUP').config(function($routeProvider) {
 			if (typeof value === 'number') { value = smokeValues[value - 1] || value; }
 			if (typeof value === 'string' && value.indexOf('lup_smokes_') === 0) { return window.t(value); }
 		}
+		if (field.key === 'lup_eyecolor' && typeof value === 'string' && value.indexOf('lup_eyecolor_') === 0) {
+			return window.t(value);
+		}
+		if (field.key === 'country_of_origin' && value) {
+			var countryCode = String(value).toUpperCase();
+			var countryTitle = window.t('country_' + countryCode);
+			// Do not expose an unresolved translation key or a broken sprite cell.
+			return countryTitle && countryTitle.indexOf('country_') !== 0 ? countryTitle : countryCode;
+		}
 		var rendered = RenderSrvc.renderClass(field.setting, value);
 		return rendered === undefined || rendered === null || rendered === '' ? value : rendered;
 	};

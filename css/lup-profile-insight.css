@@ -97,7 +97,7 @@
   overflow:hidden !important;
   border:0 !important;
   border-radius:12px !important;
-  background:linear-gradient(135deg,rgba(38,65,93,.25),rgba(13,24,42,.24) 72%) !important;
+  background:transparent !important;
   box-shadow:none !important;
   transition:transform .18s ease,background .18s ease !important;
 }
@@ -125,9 +125,9 @@
   box-shadow:0 0 22px var(--profile-glow) !important;
   pointer-events:none !important;
 }
-.profile-page .profile-signal:nth-child(3n) { --profile-tone:#b9a2ff; --profile-glow:rgba(165,126,255,.20); background:linear-gradient(135deg,rgba(61,50,105,.27),rgba(19,23,52,.24) 70%) !important; }
-.profile-page .profile-signal:nth-child(4n) { --profile-tone:#ffd27b; --profile-glow:rgba(246,188,91,.18); background:linear-gradient(135deg,rgba(92,66,59,.24),rgba(27,24,48,.24) 70%) !important; }
-.profile-page .profile-signal:hover { transform:translateY(-1px) !important; background:linear-gradient(135deg,rgba(47,91,132,.34),rgba(17,29,50,.32) 70%) !important; }
+.profile-page .profile-signal:nth-child(3n),
+.profile-page .profile-signal:nth-child(4n) { background:transparent !important; }
+.profile-page .profile-signal:hover { transform:translateY(-1px) !important; background:rgba(112,188,234,.035) !important; }
 /* Older profile layers add nth-child borders to selected facts.  The insight
    surface is intentionally borderless; its category light lives only below
    the field, so no item can look accidentally boxed. */
@@ -157,7 +157,7 @@
   height:32px !important;
   border:0 !important;
   border-radius:10px 10px 10px 3px !important;
-  background:linear-gradient(145deg,color-mix(in srgb,var(--profile-tone) 20%,transparent),rgba(56,72,135,.09)) !important;
+  background:transparent !important;
   color:var(--profile-tone) !important;
   box-shadow:0 5px 12px var(--profile-glow) !important;
 }
