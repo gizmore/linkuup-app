@@ -446,6 +446,28 @@ angular.module('LUP').config(function($routeProvider) {
 				});
 			}
 		}
+		// A rolling backend can temporarily return a reduced settings catalogue.
+		// For the owner, keep the insight complete by adding only the already
+		// approved profile fields from fieldOrder; visitors never receive this
+		// fallback and therefore cannot gain visibility through it.
+		if (isOwnProfile) {
+			var known = {};
+			Object.keys(groups).forEach(function(module) {
+				groups[module].fields.forEach(function(field) { known[field.key] = true; });
+			});
+			Object.keys(fieldOrder).forEach(function(key) {
+				if (known[key]) { return; }
+				var placement = fieldOrder[key];
+				var fallbackSetting = SettingsSrvc.setting(key) || {type: key === 'country_of_origin' ? 'GDO\\Country\\GDT_Country' : 'GDO\\Core\\GDT_String'};
+				var value = (profile.JSON || {})[key];
+				if ((value === undefined || value === null || value === '') && $scope.data.user) {
+					if (key === 'gender' && $scope.data.user.gender) { value = $scope.data.user.gender(); }
+					if (key === 'country_of_origin' && $scope.data.user.countryId) { value = $scope.data.user.countryId(); }
+				}
+				groups[placement.section] = groups[placement.section] || {module: placement.section, label: profileSections[placement.section].label, sort: profileSections[placement.section].sort, fields: []};
+				groups[placement.section].fields.push({key: key, sort: placement.sort, setting: fallbackSetting, label: profileLabels[key] || key, value: value, error: null, empty: value === undefined || value === null || value === '' || value === '0', private: false, acl: null, visibility: 'private'});
+			});
+		}
 		var result = Object.keys(groups).map(function(module) { return groups[module]; }).sort(function(a, b) {
 			return a.sort - b.sort || a.module.localeCompare(b.module);
 		});
@@ -474,9 +496,10 @@ angular.module('LUP').config(function($routeProvider) {
 				return Math.round(meters * 100) + ' cm';
 			}
 		}
-		if (field.key === 'lup_smokes' && typeof value === 'number') {
+		if (field.key === 'lup_smokes') {
 			var smokeValues = ['lup_smokes_yes', 'lup_smokes_no_care', 'lup_smokes_no', 'lup_smokes_no_way'];
-			value = smokeValues[value - 1] || value;
+			if (typeof value === 'number') { value = smokeValues[value - 1] || value; }
+			if (typeof value === 'string' && value.indexOf('lup_smokes_') === 0) { return window.t(value); }
 		}
 		var rendered = RenderSrvc.renderClass(field.setting, value);
 		return rendered === undefined || rendered === null || rendered === '' ? value : rendered;
