@@ -246,7 +246,8 @@
 
 .nearby .location-rail {
 	position:relative;
-	padding:8px 0 28px;
+	padding:8px 7% 28px;
+	scroll-padding-inline:7%;
 	background:transparent;
 }
 .nearby .location-rail::before {
@@ -273,6 +274,14 @@
 	padding:0 7px;
 	transform:translate3d(0,var(--lup-rail-lift,7px),0) scale(var(--lup-rail-scale,.93));
 	transition:transform 180ms cubic-bezier(.2,.8,.2,1),opacity 150ms linear;
+}
+.nearby .location-rail.location-rail-dragging { scroll-snap-type:none; }
+@media (min-width:760px) {
+	.nearby .location-rail {
+		padding-right:max(7%,calc((100% - 560px) / 2));
+		padding-left:max(7%,calc((100% - 560px) / 2));
+		scroll-padding-inline:max(7%,calc((100% - 560px) / 2));
+	}
 }
 .nearby .location-rail.location-rail-dragging .lup-room-slide-outer {
 	transition:none !important;
