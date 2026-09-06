@@ -166,10 +166,18 @@ angular.module('LUP').config(function($routeProvider) {
 			isFriend: user.isFriend(),
 			outgoing: !!user.JSON.relation_pending,
 			incoming: !!user.JSON.relation_incoming,
+			// The dialog renders this state instead of making the visitor discover
+			// a private list through a failing navigation attempt.
+			friendsListState: 'checking',
 		};
+		FriendSrvc.isFriendListAllowed(user).then(function() {
+			data.friendsListState = 'available';
+		}, function() {
+			data.friendsListState = 'private';
+		});
 		return DialogSrvc.menu('js/pages/profile/lup-profile-friends-dialog.html', data).then(function(action) {
 			switch (action) {
-			case 'view': return $scope.gotoUserFriends(user);
+			case 'view': return $scope.gotoUserFriends(user, true);
 			case 'request': return FriendSrvc.addFriend(user);
 			case 'cancel': return FriendSrvc.cancelFriendRequest(user);
 			case 'accept': return FriendSrvc.acceptFriendRequest(user);
@@ -676,11 +684,14 @@ angular.module('LUP').config(function($routeProvider) {
 			)['catch']($scope.catchUnknown);
 	};
 	
-	$scope.gotoUserFriends = function(user) {
+	$scope.gotoUserFriends = function(user, accessAlreadyChecked) {
 		console.log('ProfileCtrl.gotoUserFriends()', user);
 		// A user always has access to their own list; keep the websocket ACL
 		// preflight for every foreign profile only.
 		if (user && user.isSelf()) {
+			return $scope.gotoFriends(user);
+		}
+		if (accessAlreadyChecked) {
 			return $scope.gotoFriends(user);
 		}
 		FriendSrvc.isFriendListAllowed(user).then(

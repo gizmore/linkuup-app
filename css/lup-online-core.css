@@ -158,3 +158,76 @@
     overscroll-behavior:none;
   }
 }
+
+/* Profile relationship menu: visibility and relationship actions are separate
+   decisions. The list's real ACL result is shown before its button can be used. */
+.lup-profile-friends-dialog {
+  width:min(420px,calc(100vw - 30px));
+  border:1px solid rgba(158,204,243,.18);
+  border-radius:18px;
+  overflow:hidden;
+  color:#edf6ff;
+  background:linear-gradient(145deg,rgba(20,37,58,.98),rgba(7,13,24,.99));
+  box-shadow:0 26px 68px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.08);
+}
+.lup-profile-friends-dialog md-toolbar {
+  min-height:58px;
+  color:#f4f9ff;
+  background:linear-gradient(100deg,rgba(87,179,238,.18),rgba(117,86,206,.16)) !important;
+  border-bottom:1px solid rgba(173,215,247,.12);
+}
+.lup-profile-friends-dialog .md-dialog-content { padding:18px 20px 12px; }
+.lup-profile-friends-dialog .md-dialog-content > p { margin:0 0 13px; color:#b8c8d9; font-size:14px; }
+.lup-friend-list-access { display:flex; align-items:center; gap:10px; min-height:42px; padding:0 12px; border:1px solid rgba(173,215,247,.13); border-radius:12px; color:#b6c8da; background:rgba(255,255,255,.035); font-size:12px; letter-spacing:.01em; }
+.lup-friend-list-access .material-icons { font-size:18px; }
+.lup-friend-list-access.is-available { border-color:rgba(108,214,184,.30); color:#d7fff0; background:rgba(85,205,161,.08); }
+.lup-friend-list-access.is-available .material-icons { color:#75e1bb; text-shadow:0 0 12px rgba(83,221,172,.38); }
+.lup-friend-list-access.is-private { opacity:.68; }
+.lup-friend-list-access.is-private .material-icons { color:#8d9aad; }
+.lup-profile-friends-dialog md-dialog-actions { gap:7px; padding:8px 12px 14px; }
+.lup-profile-friends-dialog md-dialog-actions .md-button { width:100%; min-height:46px; margin:0; border:1px solid rgba(168,208,242,.14); border-radius:12px; color:#d9eaff; background:rgba(255,255,255,.04); text-align:left; }
+.lup-profile-friends-dialog md-dialog-actions .md-button .material-icons { margin-right:9px; vertical-align:middle; font-size:19px; color:#92d9ff; }
+.lup-profile-friends-dialog md-dialog-actions .lup-friend-menu-view { border-color:rgba(105,205,246,.34); background:linear-gradient(100deg,rgba(66,179,232,.18),rgba(115,93,210,.12)); }
+.lup-profile-friends-dialog md-dialog-actions .lup-friend-menu-view:not([disabled]):hover { background:linear-gradient(100deg,rgba(66,179,232,.26),rgba(115,93,210,.19)); }
+.lup-profile-friends-dialog md-dialog-actions .lup-friend-menu-view[disabled] { opacity:.36; color:#8390a0; background:rgba(255,255,255,.018); }
+.lup-profile-friends-dialog md-dialog-actions .lup-friend-menu-remove { margin-top:5px; color:#f0c3cc; border-color:rgba(225,125,145,.22); background:rgba(159,55,78,.08); }
+.lup-profile-friends-dialog md-dialog-actions .lup-friend-menu-remove .material-icons { color:#ff9cae; }
+
+/* The profile switch is a lit line inside the page, never a second boxed card.
+   This final rule deliberately wins over legacy profile theme layers. */
+.profile-page .profile-section-nav {
+  margin:0 0 8px !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  backdrop-filter:none !important;
+}
+.profile-page .profile-section-nav button,
+.profile-page .profile-section-nav button.active,
+.profile-page .profile-section-nav button:hover {
+  min-height:48px;
+  border:0 !important;
+  border-radius:0 !important;
+  color:#9eaec0;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+.profile-page .profile-section-nav button + button::before { display:none !important; }
+.profile-page .profile-section-nav button.active { color:#f4fbff; }
+.profile-page .profile-section-nav button.active::after {
+  height:2px;
+  opacity:1;
+  transform:scaleX(.78);
+  background:linear-gradient(90deg,transparent,#68d9ff 26%,#d4d3ff 50%,#8d7dff 74%,transparent) !important;
+  box-shadow:0 0 12px rgba(108,205,255,.55) !important;
+}
+.profile-page .profile-section-nav button.active .material-icons {
+  color:#c8eeff !important;
+  text-shadow:0 0 12px rgba(105,212,255,.62) !important;
+}
+.profile-page .profile-section-nav button.active span { color:#f4fbff !important; text-shadow:0 0 9px rgba(133,180,255,.42); }
+@media (prefers-reduced-motion:reduce) {
+  .profile-page .profile-section-nav button,
+  .lup-profile-friends-dialog md-dialog-actions .md-button { transition:none !important; }
+}
