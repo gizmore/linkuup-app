@@ -225,3 +225,94 @@
   .profile-page .profile-section-nav button,
   .lup-profile-friends-dialog md-dialog-actions .md-button { transition:none !important; }
 }
+
+/* Friends: a connection list, not a stack of generic system rows. Each person
+   gets one quiet surface; the cyan thread is the only recurring landmark. */
+.friends-page .friends-list {
+  overflow:visible;
+  border:0;
+  background:transparent;
+}
+.friends-page .lup-user-list {
+  display:grid;
+  gap:7px;
+}
+.friends-page .lup-user-list md-list-item.friend-card {
+  position:relative;
+  min-height:70px;
+  margin:0;
+  padding:9px 8px;
+  overflow:hidden;
+  border:1px solid rgba(175,214,249,.10);
+  border-radius:15px;
+  background:linear-gradient(105deg,rgba(22,40,63,.46),rgba(11,19,32,.36));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055);
+  transition:transform .2s ease,border-color .2s ease,background .2s ease;
+}
+.friends-page .lup-user-list md-list-item.friend-card::before {
+  position:absolute;
+  top:17px;
+  bottom:17px;
+  left:0;
+  width:2px;
+  content:'';
+  border-radius:0 3px 3px 0;
+  background:linear-gradient(180deg,transparent,rgba(111,210,255,.82),transparent);
+  box-shadow:0 0 10px rgba(96,199,255,.38);
+  opacity:.58;
+}
+.friends-page .lup-user-list md-list-item.friend-card:hover,
+.friends-page .lup-user-list md-list-item.friend-card:focus-within {
+  transform:translateX(2px);
+  border-color:rgba(130,208,255,.28);
+  background:linear-gradient(105deg,rgba(35,66,96,.57),rgba(25,28,58,.42));
+}
+.friends-page .lup-user-list md-list-item.friend-card .lup-avatar {
+  margin-left:4px;
+  border-color:rgba(167,223,255,.34);
+  box-shadow:0 0 0 3px rgba(98,201,255,.055),0 6px 17px rgba(0,0,0,.20);
+}
+.friends-page .lup-user-list .username { letter-spacing:-.012em; }
+.friends-page .lup-user-list .lup-user-status { color:#aebfd2; }
+.friends-page .lup-user-actions {
+  gap:4px;
+  margin-left:5px;
+  padding-left:5px;
+  border-left:0;
+}
+.friends-page .lup-user-action {
+  width:36px;
+  height:36px;
+  border:1px solid transparent;
+  border-radius:50%;
+  transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease;
+}
+.friends-page .lup-user-action-message {
+  border-color:rgba(139,181,255,.18);
+  background:rgba(119,144,239,.09);
+  color:#cbd5ff;
+}
+.friends-page .lup-user-action-remove { color:#c9a9b4; }
+.friends-page .lup-user-action-message:hover,
+.friends-page .lup-user-action-message:focus-visible {
+  transform:translateY(-1px);
+  border-color:rgba(159,198,255,.45);
+  background:rgba(116,164,244,.19);
+  color:#f0f4ff;
+  outline:0;
+}
+.friends-page .lup-user-action-remove:hover,
+.friends-page .lup-user-action-remove:focus-visible {
+  transform:translateY(-1px);
+  background:rgba(205,110,143,.13);
+  color:#ffd5e0;
+  outline:0;
+}
+@media (max-width:380px) {
+  .friends-page .lup-user-list md-list-item.friend-card { padding-right:5px; padding-left:5px; }
+  .friends-page .lup-user-action { width:33px; height:33px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .friends-page .lup-user-list md-list-item.friend-card,
+  .friends-page .lup-user-action { transition:none; }
+}
