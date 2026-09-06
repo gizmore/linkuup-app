@@ -567,9 +567,9 @@
   transform:translateY(-1px);
 }
 .nearby .location-categories button.active .material-icons {
-  border-color:color-mix(in srgb,var(--lup-category-ink,#b8d9ee) 42%,transparent);
-  background:radial-gradient(circle,color-mix(in srgb,var(--lup-category-ink,#b8d9ee) 21%,transparent),transparent 68%) !important;
-  box-shadow:0 0 0 3px color-mix(in srgb,var(--lup-category-ink,#b8d9ee) 7%,transparent),0 0 15px color-mix(in srgb,var(--lup-category-ink,#b8d9ee) 28%,transparent) !important;
+  border-color:transparent;
+  background:transparent !important;
+  box-shadow:0 0 15px color-mix(in srgb,var(--lup-category-ink,#b8d9ee) 34%,transparent) !important;
   opacity:1;
   transform:translateY(-1px) !important;
 }
