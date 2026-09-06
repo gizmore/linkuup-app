@@ -128,6 +128,26 @@
 .profile-page .profile-signal:nth-child(3n) { --profile-tone:#b9a2ff; --profile-glow:rgba(165,126,255,.20); background:linear-gradient(135deg,rgba(61,50,105,.27),rgba(19,23,52,.24) 70%) !important; }
 .profile-page .profile-signal:nth-child(4n) { --profile-tone:#ffd27b; --profile-glow:rgba(246,188,91,.18); background:linear-gradient(135deg,rgba(92,66,59,.24),rgba(27,24,48,.24) 70%) !important; }
 .profile-page .profile-signal:hover { transform:translateY(-1px) !important; background:linear-gradient(135deg,rgba(47,91,132,.34),rgba(17,29,50,.32) 70%) !important; }
+/* Older profile layers add nth-child borders to selected facts.  The insight
+   surface is intentionally borderless; its category light lives only below
+   the field, so no item can look accidentally boxed. */
+.profile-page .profile-detail-reveal .profile-signal,
+.profile-page .profile-detail-reveal .profile-signal:nth-child(n),
+.profile-page .profile-detail-reveal .profile-signal:nth-child(2n),
+.profile-page .profile-detail-reveal .profile-signal:nth-child(n+3) {
+  border:0 !important;
+  border-top:0 !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  border-left:0 !important;
+  outline:0 !important;
+}
+.profile-page .profile-detail-reveal .profile-signal-icon,
+.profile-page .profile-detail-reveal .profile-signal:nth-child(3n) .profile-signal-icon,
+.profile-page .profile-detail-reveal .profile-signal:nth-child(4n) .profile-signal-icon {
+  border:0 !important;
+  outline:0 !important;
+}
 .profile-page .profile-signal-icon {
   position:relative !important;
   z-index:1 !important;
