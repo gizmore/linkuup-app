@@ -92,6 +92,7 @@ $shareImage = "{$publicBase}/images/lup-wapp-icon.png";
   <link rel="stylesheet" href="css/lup-location-voices.css<?=$v?>">
   <link rel="stylesheet" href="css/lup-location-discovery-card.css<?=$v?>">
   <link rel="stylesheet" href="css/lup-settings-front.css<?=$v?>">
+  <link rel="stylesheet" href="css/lup-category-rail.css<?=$v?>">
 
 </head>
 
