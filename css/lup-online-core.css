@@ -317,3 +317,34 @@
   .friends-page .lup-user-list md-list-item.friend-card,
   .friends-page .lup-user-action { transition:none; }
 }
+
+/* Gallery deletion is deliberate but should not feel like a generic system
+   warning. The preview anchors the decision; the safe action gets priority. */
+.lup-gallery-delete-dialog {
+  width:min(390px,calc(100vw - 28px));
+  overflow:hidden;
+  border:1px solid rgba(169,210,246,.18);
+  border-radius:19px;
+  color:#eef6ff;
+  background:linear-gradient(150deg,#16273e,#090f1b);
+  box-shadow:0 26px 70px rgba(0,0,0,.50),inset 0 1px 0 rgba(255,255,255,.08);
+}
+.lup-gallery-delete-dialog md-toolbar {
+  min-height:56px;
+  color:#f4f9ff;
+  background:linear-gradient(100deg,rgba(100,181,234,.15),rgba(121,92,201,.13)) !important;
+  border-bottom:1px solid rgba(183,219,247,.11);
+}
+.lup-gallery-delete-dialog .md-toolbar-tools h2 { font-size:17px; font-weight:760; }
+.lup-gallery-delete-dialog .md-icon-button { width:34px; height:34px; min-height:34px; margin:0; border:1px solid rgba(220,237,255,.11); border-radius:10px; color:#d8e6f5; background:rgba(255,255,255,.035); }
+.lup-gallery-delete-dialog .md-dialog-content { padding:15px 16px 12px; }
+.lup-gallery-delete-dialog .md-dialog-content > p { margin:0 0 12px; color:#c1d0e0; font-size:13px; line-height:1.45; }
+.lup-gallery-delete-dialog .gallery-delete-preview { overflow:hidden; display:grid; place-items:center; min-height:118px; border:1px solid rgba(177,213,245,.13); border-radius:13px; background:rgba(4,8,15,.38); }
+.lup-gallery-delete-dialog .gallery-delete-preview img { display:block; width:100%; max-height:min(42vh,250px); object-fit:contain; }
+.lup-gallery-delete-dialog .gallery-delete-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:11px 16px 16px; border-top:1px solid rgba(183,219,247,.09); }
+.lup-gallery-delete-dialog .gallery-delete-actions .md-button { min-height:42px; margin:0; border-radius:12px; font-size:12px; font-weight:760; letter-spacing:.01em; text-transform:none; }
+.lup-gallery-delete-dialog .gallery-delete-cancel { border:1px solid rgba(177,213,245,.21); color:#edf7ff; background:linear-gradient(135deg,rgba(76,143,206,.25),rgba(81,91,161,.21)); box-shadow:inset 0 1px 0 rgba(255,255,255,.15); }
+.lup-gallery-delete-dialog .gallery-delete-confirm { display:inline-flex; align-items:center; justify-content:center; gap:6px; border:1px solid rgba(236,151,173,.20); color:#d5aeba; background:rgba(171,72,98,.065); }
+.lup-gallery-delete-dialog .gallery-delete-confirm .material-icons { font-size:17px; }
+.lup-gallery-delete-dialog .gallery-delete-cancel:hover,.lup-gallery-delete-dialog .gallery-delete-cancel:focus-visible { background:linear-gradient(135deg,rgba(89,162,230,.35),rgba(92,105,184,.29)); outline:0; }
+.lup-gallery-delete-dialog .gallery-delete-confirm:hover,.lup-gallery-delete-dialog .gallery-delete-confirm:focus-visible { border-color:rgba(246,179,198,.42); color:#ffe0e8; background:rgba(200,91,124,.15); outline:0; }
