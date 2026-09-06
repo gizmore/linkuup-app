@@ -395,6 +395,16 @@ angular.module('LUP').config(function($routeProvider) {
 					continue;
 				}
 				var value = (profile.JSON || {})[key];
+				// Basic account fields are part of the user payload, not the profile
+				// payload. Use them for both the owner and permitted visitor views.
+				if ((value === undefined || value === null || value === '') && $scope.data.user) {
+					if (key === 'gender' && $scope.data.user.gender) {
+						value = $scope.data.user.gender();
+					}
+					if (key === 'country_of_origin' && $scope.data.user.countryId) {
+						value = $scope.data.user.countryId();
+					}
+				}
 				// Do not turn an absent optional enum (often represented as 0 by a
 				// legacy endpoint) into an empty profile card.
 				var hasValue = value !== undefined && value !== null && value !== '' && value !== '0';
@@ -446,7 +456,30 @@ angular.module('LUP').config(function($routeProvider) {
 	};
 
 	$scope.renderProfileSetting = function(field) {
-		return RenderSrvc.renderClass(field.setting, field.value);
+		var value = field.value;
+		// Account basics are transported with GWF_User, while optional profile
+		// facts arrive in GDO_Profile. Keep the insight view consistent when the
+		// two payloads are delivered separately.
+		if ((value === undefined || value === null || value === '') && $scope.data.user) {
+			if (field.key === 'gender' && $scope.data.user.gender) {
+				value = $scope.data.user.gender();
+			}
+			if (field.key === 'country_of_origin' && $scope.data.user.countryId) {
+				value = $scope.data.user.countryId();
+			}
+		}
+		if (field.key === 'lup_height' && value !== undefined && value !== null && value !== '') {
+			var meters = Number(value);
+			if (Number.isFinite(meters) && meters > 0) {
+				return Math.round(meters * 100) + ' cm';
+			}
+		}
+		if (field.key === 'lup_smokes' && typeof value === 'number') {
+			var smokeValues = ['lup_smokes_yes', 'lup_smokes_no_care', 'lup_smokes_no', 'lup_smokes_no_way'];
+			value = smokeValues[value - 1] || value;
+		}
+		var rendered = RenderSrvc.renderClass(field.setting, value);
+		return rendered === undefined || rendered === null || rendered === '' ? value : rendered;
 	};
 
 	$scope.profileFieldIcon = function(key) {
