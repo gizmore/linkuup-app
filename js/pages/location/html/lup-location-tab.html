@@ -115,6 +115,21 @@
     </div>
   </header>
 
+  <!-- Ortskern: only live room data is shown here. It becomes active when
+       people are actually present; otherwise it remains a calm place marker. -->
+  <button type="button" class="room-stage__pulse" ng-class="{'room-stage__pulse--active': visitorCount() > 0}" ng-click="openVisitorsTab()" aria-label="{{visitorCount()}} {{'TAB_ONLINE'|translate}}">
+    <span class="room-stage__pulse-field" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="room-stage__pulse-core"><i class="material-icons">{{locationVisual(data.room).icon}}</i></span>
+    <span class="room-stage__pulse-copy">
+      <small>{{visitorCount() > 0 ? ('TAB_ONLINE'|translate) : ('LUP_VENUE_VOICES_LABEL'|translate)}}</small>
+      <strong ng-if="visitorCount() > 0">{{visitorCount()}} {{'LUP_VENUE_PULSE_PRESENT'|translate}}</strong>
+      <strong ng-if="!visitorCount()">{{'LUP_VENUE_PULSE_QUIET'|translate}}</strong>
+      <em ng-if="visitorCount() > 0">{{'LUP_VENUE_PULSE_PRESENT_COPY'|translate}}</em>
+      <em ng-if="!visitorCount()">{{'LUP_VENUE_PULSE_QUIET_COPY'|translate}}</em>
+    </span>
+    <i class="material-icons room-stage__pulse-arrow" aria-hidden="true">arrow_outward</i>
+  </button>
+
   <a class="room-stage__route" ng-if="!isRegionalRoom(data.room)" ng-href="{{mapsHref(data.room)}}" target="_blank" rel="noopener">
     <span class="room-stage__route-mark" aria-hidden="true"><i class="material-icons">near_me</i></span>
     <span class="room-stage__route-copy"><small>{{'LUP_VENUE_ROUTE_LABEL'|translate}}</small><strong>{{'LUP_VENUE_ROUTE_HEAD'|translate}}</strong><em>{{data.room.addressDisplay() || ('LUP_VENUE_ROUTE_COPY'|translate)}}</em></span>

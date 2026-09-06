@@ -77,6 +77,10 @@
 "ROOM_DISTANCE": "{{distance}} entfernt",
 "NAVIGATE_TO_THIS_PLACE": "Hierhin navigieren",
 "SEARCH_FOR_LOCATIONS": "Nach Chats suchen",
+"LUP_VENUE_PULSE_PRESENT": "gerade hier",
+"LUP_VENUE_PULSE_QUIET": "Noch ruhig an diesem Ort",
+"LUP_VENUE_PULSE_PRESENT_COPY": "Menschen, die den Ort gerade erleben",
+"LUP_VENUE_PULSE_QUIET_COPY": "Entdecke den Ort und hinterlasse den ersten Eindruck",
 
 "TITLE_SETTINGS": "Einstellungen",
 "SUBHEADER_DATA_PERMISSIONS": "Datenfreigabe",
