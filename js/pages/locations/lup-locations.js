@@ -7,7 +7,7 @@ angular.module('LUP').config(function($routeProvider) {
 			authCheck: true,
 		},
 	});
-}).controller('LocationsCtrl', function($scope, $location, $translate, $timeout, $mdDialog,
+}).controller('LocationsCtrl', function($scope, $location, $translate, $timeout, $mdDialog, $q,
 		LoadingSrvc, WebsocketSrvc, PositionSrvc, RoomSrvc, AuthSrvc, HelpSrvc, UserSrvc, ErrorSrvc, DialogSrvc) {
 	
 	$scope.data.title = "Entdecken";
@@ -40,11 +40,13 @@ angular.module('LUP').config(function($routeProvider) {
 	// synthetic click so a swipe cannot accidentally enter the location.
 	var suppressRoomOpenUntil = 0;
 	var nativeRailScrollTimer = null;
-	var nativeRailAnimation = null;
+	var nativeRailFrame = null;
+	var doorEntryTimer = null;
 	// The selected room belongs to the shared app state, not one concrete
 	// LocationsCtrl instance. Preserve it when returning from a room detail.
 	$scope.data.currentRoom = $scope.data.currentRoom || null;
 	$scope.data.currentRoomIndex = $scope.data.currentRoomIndex === undefined ? -1 : $scope.data.currentRoomIndex;
+	$scope.data.doorOpeningRoomId = null;
 
 	// During a route transition Angular can keep a retiring view in the DOM for
 	// one digest. Prefer the active rail which already owns cards; `.last()`
@@ -62,6 +64,36 @@ angular.module('LUP').config(function($routeProvider) {
 	};
 	var getLocationRail = function() {
 		return getRail().get(0);
+	};
+	// Each visible card receives a continuous depth value from the actual scroll
+	// position. This is deliberately requestAnimationFrame-driven and writes
+	// only compositor-friendly custom properties: a fast finger swipe stays one
+	// flowing movement instead of becoming a sequence of discrete slider steps.
+	var updateRailDepth = function(rail) {
+		nativeRailFrame = null;
+		if (!rail || !rail.clientWidth) {
+			return;
+		}
+		var center = rail.getBoundingClientRect().left + rail.clientWidth / 2;
+		var span = Math.max(rail.clientWidth * .72, 1);
+		Array.prototype.forEach.call(rail.querySelectorAll('.lup-room-slide-outer[data-room-id]'), function(card) {
+			var rect = card.getBoundingClientRect();
+			var offset = ((rect.left + rect.width / 2) - center) / span;
+			var distance = Math.min(1, Math.abs(offset));
+			card.style.setProperty('--lup-rail-scale', (1 - distance * .115).toFixed(3));
+			card.style.setProperty('--lup-rail-lift', (distance * 13).toFixed(2) + 'px');
+			card.style.setProperty('--lup-rail-tilt', (-Math.max(-1, Math.min(1, offset)) * 5.5).toFixed(2) + 'deg');
+			card.style.setProperty('--lup-rail-opacity', (1 - distance * .35).toFixed(3));
+			card.classList.toggle('lup-room-slide-current', distance < .18);
+		});
+	};
+	var scheduleRailDepth = function(rail) {
+		if (nativeRailFrame !== null) {
+			return;
+		}
+		nativeRailFrame = window.requestAnimationFrame(function() {
+			updateRailDepth(rail);
+		});
 	};
 	var scrollSelectedRoomIntoView = function(behavior) {
 		$timeout(function() {
@@ -109,74 +141,13 @@ angular.module('LUP').config(function($routeProvider) {
 			});
 		}
 	};
-	var cancelNativeRailAnimation = function() {
-		if (nativeRailAnimation !== null) {
-			window.cancelAnimationFrame(nativeRailAnimation);
-			nativeRailAnimation = null;
-		}
-	};
-	var settleNativeRail = function(rail, gestureSpeed) {
-		cancelNativeRailAnimation();
+	var settleNativeRail = function(rail) {
+		rail.classList.remove('location-rail-dragging');
 		$timeout(function() {
 			var nearest = nearestRailCard(rail);
-			if (!nearest) {
-				rail.classList.remove('location-rail-dragging');
-				return;
+			if (nearest) {
+				nearest.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'});
 			}
-			var maxScrollLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
-			// Calculate from the rendered centres, not offsetLeft.  The latter can
-			// belong to a different offset parent after a responsive layout update
-			// and makes a card appear to settle beside its actual snap point.
-			var railRect = rail.getBoundingClientRect();
-			var cardRect = nearest.getBoundingClientRect();
-			var target = rail.scrollLeft + (cardRect.left + cardRect.width / 2) -
-				(railRect.left + rail.clientWidth / 2);
-			target = Math.max(0, Math.min(maxScrollLeft, target));
-			var start = rail.scrollLeft;
-			var distance = target - start;
-			if (Math.abs(distance) < 1 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-				rail.scrollLeft = target;
-				rail.classList.remove('location-rail-dragging');
-				return;
-			}
-			// A fixed travel time feels predictable. The bounce follows gesture
-			// speed, not distance: a slow drag settles calmly, a quick fling has
-			// more momentum while remaining safely capped.
-			var duration = 520;
-			var direction = distance < 0 ? -1 : 1;
-			var bounce = Math.min(24, 2 + Math.min(1.4, Math.abs(gestureSpeed || 0)) * 15);
-			var startedAt = window.performance.now();
-			var bounceProgress = function(progress) {
-				var points = [
-					{at: 0, value: start},
-					{at: .68, value: target + direction * bounce},
-					{at: 1, value: target},
-				];
-				for (var index = 1; index < points.length; index++) {
-					if (progress <= points[index].at) {
-						var from = points[index - 1];
-						var to = points[index];
-						var local = (progress - from.at) / (to.at - from.at);
-						// Smooth at each turning point, so the two bounces do not look
-						// like a stepped programmatic scroll.
-						local = local * local * (3 - 2 * local);
-						return from.value + (to.value - from.value) * local;
-					}
-				}
-				return 1;
-			};
-			var animate = function(now) {
-				var progress = Math.min(1, (now - startedAt) / duration);
-				rail.scrollLeft = Math.max(0, Math.min(maxScrollLeft, bounceProgress(progress)));
-				if (progress < 1) {
-					nativeRailAnimation = window.requestAnimationFrame(animate);
-				} else {
-					nativeRailAnimation = null;
-					rail.scrollLeft = target;
-					rail.classList.remove('location-rail-dragging');
-				}
-			};
-			nativeRailAnimation = window.requestAnimationFrame(animate);
 		}, 0);
 	};
 	var initialiseNativeRail = function(rail) {
@@ -184,98 +155,57 @@ angular.module('LUP').config(function($routeProvider) {
 			return;
 		}
 		rail.dataset.lupNativeRail = '1';
-		// Touch scrolling deliberately stays entirely native.  The previous
-		// JavaScript drag handler fought the browser's own scrolling and called
-		// preventDefault() mid-gesture, which made location swipes unreliable on
-		// mobile browsers.  Native overflow plus scroll snapping provides the
-		// same motion, momentum and accessibility without that race.
 		var touchStartX = null;
 		var touchStartY = null;
-		var touchLastX = null;
-		var touchLastAt = null;
-		var touchSpeed = 0;
-		var draggingTouch = false;
-		var updateTouchSpeed = function(touch) {
-			var now = window.performance.now();
-			if (touchLastX !== null && touchLastAt !== null) {
-				var elapsed = now - touchLastAt;
-				if (elapsed > 0) {
-					touchSpeed = Math.abs(touch.clientX - touchLastX) / elapsed;
-				}
-			}
-			touchLastX = touch.clientX;
-			touchLastAt = now;
-		};
+		var touchStartScrollLeft = 0;
+		var draggingHorizontally = false;
 		rail.addEventListener('touchstart', function(event) {
-			cancelNativeRailAnimation();
 			var touch = event.touches[0];
 			touchStartX = touch ? touch.clientX : null;
 			touchStartY = touch ? touch.clientY : null;
-			touchLastX = touch ? touch.clientX : null;
-			touchLastAt = touch ? window.performance.now() : null;
-			touchSpeed = 0;
-			draggingTouch = false;
+			touchStartScrollLeft = rail.scrollLeft;
+			draggingHorizontally = false;
 		}, {passive: true});
 		rail.addEventListener('touchmove', function(event) {
 			var touch = event.touches[0];
-			if (!touch || touchStartX === null) {
-				return;
-			}
-			updateTouchSpeed(touch);
-			if (draggingTouch) {
+			if (touchStartX === null || !touch) {
 				return;
 			}
 			var deltaX = touch.clientX - touchStartX;
 			var deltaY = touch.clientY - touchStartY;
-			if (Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY)) {
-				draggingTouch = true;
+			if (!draggingHorizontally && Math.abs(deltaX) > 10 && Math.abs(deltaX) > Math.abs(deltaY)) {
+				draggingHorizontally = true;
 				rail.classList.add('location-rail-dragging');
 			}
-		}, {passive: true});
-		rail.addEventListener('touchend', function(event) {
-			var touch = event.changedTouches[0];
-			if (touch) {
-				updateTouchSpeed(touch);
-			}
-			if (draggingTouch) {
+			if (draggingHorizontally) {
+				// Take ownership of horizontal drags so nested card click handlers
+				// cannot turn a short swipe into opening the location.
+				event.preventDefault();
+				rail.scrollLeft = touchStartScrollLeft - deltaX;
 				suppressRoomOpenUntil = Date.now() + 450;
-				settleNativeRail(rail, touchSpeed);
 			}
+		}, {passive: false});
+		rail.addEventListener('touchend', function() {
 			touchStartX = null;
 			touchStartY = null;
-			touchLastX = null;
-			touchLastAt = null;
-			draggingTouch = false;
-		}, {passive: true});
-		rail.addEventListener('touchcancel', function() {
-			if (draggingTouch) {
-				settleNativeRail(rail, touchSpeed);
+			if (draggingHorizontally) {
+				suppressRoomOpenUntil = Date.now() + 450;
+				settleNativeRail(rail);
 			}
-			touchStartX = null;
-			touchStartY = null;
-			touchLastX = null;
-			touchLastAt = null;
-			draggingTouch = false;
 		}, {passive: true});
 		// Desktop users used Slick's mouse dragging too. Keep the same affordance
 		// for every PointerEvent-capable browser without involving a slider plugin.
 		var pointerStartX = null;
 		var pointerStartY = null;
 		var pointerStartScrollLeft = 0;
-		var pointerLastX = null;
-		var pointerLastAt = null;
-		var pointerSpeed = 0;
 		var draggingPointer = false;
 		rail.addEventListener('pointerdown', function(event) {
 			if (event.pointerType === 'touch') {
-				return; // Native touch scrolling owns this gesture.
+				return; // The touch fallback above owns this gesture.
 			}
 			pointerStartX = event.clientX;
 			pointerStartY = event.clientY;
 			pointerStartScrollLeft = rail.scrollLeft;
-			pointerLastX = event.clientX;
-			pointerLastAt = window.performance.now();
-			pointerSpeed = 0;
 			draggingPointer = false;
 		});
 		rail.addEventListener('pointermove', function(event) {
@@ -284,12 +214,6 @@ angular.module('LUP').config(function($routeProvider) {
 			}
 			var deltaX = event.clientX - pointerStartX;
 			var deltaY = event.clientY - pointerStartY;
-			var now = window.performance.now();
-			if (pointerLastAt !== null && now > pointerLastAt) {
-				pointerSpeed = Math.abs(event.clientX - pointerLastX) / (now - pointerLastAt);
-			}
-			pointerLastX = event.clientX;
-			pointerLastAt = now;
 			if (!draggingPointer && Math.abs(deltaX) > 6 && Math.abs(deltaX) > Math.abs(deltaY)) {
 				draggingPointer = true;
 				rail.setPointerCapture(event.pointerId);
@@ -304,17 +228,16 @@ angular.module('LUP').config(function($routeProvider) {
 		rail.addEventListener('pointerup', function(event) {
 			if (draggingPointer) {
 				suppressRoomOpenUntil = Date.now() + 500;
-				settleNativeRail(rail, pointerSpeed);
+				settleNativeRail(rail);
 			}
 			pointerStartX = null;
 			pointerStartY = null;
-			pointerLastX = null;
-			pointerLastAt = null;
 			if (rail.hasPointerCapture(event.pointerId)) {
 				rail.releasePointerCapture(event.pointerId);
 			}
 		});
 		rail.addEventListener('scroll', function() {
+			scheduleRailDepth(rail);
 			if (nativeRailScrollTimer) {
 				$timeout.cancel(nativeRailScrollTimer);
 			}
@@ -358,9 +281,12 @@ angular.module('LUP').config(function($routeProvider) {
 		}, 180);
 	});
 	$scope.$on('$destroy', function() {
-		cancelNativeRailAnimation();
 		if (nativeRailScrollTimer) {
 			$timeout.cancel(nativeRailScrollTimer);
+		}
+		if (nativeRailFrame !== null) {
+			window.cancelAnimationFrame(nativeRailFrame);
+			nativeRailFrame = null;
 		}
 		if (resizeRecovery) {
 			$timeout.cancel(resizeRecovery);
@@ -390,16 +316,33 @@ angular.module('LUP').config(function($routeProvider) {
 				$timeout.cancel(initialRoomsTimer);
 				initialRoomsTimer = null;
 			}
-			initialRoomsPromise = RoomSrvc.withRooms().then($scope.gotRooms)['catch']($scope.catchUnknown);
+			initialRoomsPromise = RoomSrvc.withRooms().then($scope.gotRooms, function(error) {
+				// The view can be constructed a moment before WebSocket auth completes.
+				// That attempt is intentionally retried on the subsequent init event,
+				// rather than leaving an empty Locations screen for the entire session.
+				initialRoomsRequested = false;
+				initialRoomsPromise = null;
+				return $q.reject(error);
+			})['catch']($scope.catchUnknown);
 			return initialRoomsPromise;
 		};
-		if (PositionSrvc.hasPosition()) {
+		if (PositionSrvc.hasPosition(true)) {
 			return load();
 		}
 		// Locations are meaningful only with a real position.  Waiting here also
 		// prevents the former (0,0) fallback from constructing a carousel for the
 		// complete public catalogue before GPS has answered.
 		return PositionSrvc.withPosition().then(load, angular.noop)['catch']($scope.catchUnknown);
+	};
+	var requestInitialRooms = function() {
+		LoadingSrvc.addTask('ws_rooms');
+		var promise = loadInitialRooms();
+		if (promise) {
+			promise['finally'](function() {
+				LoadingSrvc.removeTask('ws_rooms');
+			})['catch']($scope.catchUnknown);
+		}
+		return promise;
 	};
 
 	$scope.init = function(event) {
@@ -414,6 +357,9 @@ angular.module('LUP').config(function($routeProvider) {
 			if ($scope.data.rooms.length) {
 				$timeout(function() { $scope.gotRooms($scope.data.rooms); }, 0);
 			}
+			else if (!initialRoomsRequested) {
+				requestInitialRooms();
+			}
 			return;
 		}
 		locationsInitialized = true;
@@ -421,11 +367,7 @@ angular.module('LUP').config(function($routeProvider) {
 		HelpSrvc.showHelp('help_locations', $translate.instant('HELP_LOCATIONS'));
 		if (!$scope.data.rooms.length) {
 			$scope.data.user = window.GWF_USER;
-			LoadingSrvc.addTask('ws_rooms');
-			var promise = loadInitialRooms();
-			promise['finally'](function(){
-				LoadingSrvc.removeTask('ws_rooms');
-			})['catch']($scope.catchUnknown);
+			requestInitialRooms();
 		}
 		else {
 			$scope.gotRooms($scope.data.rooms);
@@ -534,8 +476,27 @@ angular.module('LUP').config(function($routeProvider) {
 		var roomId = room.id();
 		var url = LUP_CONFIG.server + 'linkuup.qrforroom.room_id.' + roomId + '.html?_lang=en';
 		var target = window.location.href.split('#')[0] + '#!/location/' + roomId + '/chat';
-		return DialogSrvc.confirm('js/pages/location/html/lup-room-qr-dialog.html', {url: url, target: target});
+		return DialogSrvc.confirm('js/pages/location/html/lup-room-qr-dialog.html', {url: url, target: target, room: room});
 	};
+
+	// Entering a room is the one deliberate transition on the discovery card.
+	// The short delay gives the physical door gesture time to close before the
+	// route changes; tapping the handle remains equivalent to pulling it.
+	$scope.enterChatDoor = function(room) {
+		if (!room || !room.inChatRange() || $scope.data.doorOpeningRoomId) {
+			return;
+		}
+		$scope.data.doorOpeningRoomId = room.id();
+		doorEntryTimer = $timeout(function() {
+			$scope.data.doorOpeningRoomId = null;
+			$scope.gotoChat(room);
+		}, 330, false);
+	};
+	$scope.$on('$destroy', function() {
+		if (doorEntryTimer) {
+			$timeout.cancel(doorEntryTimer);
+		}
+	});
 
 	$scope.initialiseRail = function() {
 		var rail = getLocationRail();
@@ -549,6 +510,7 @@ angular.module('LUP').config(function($routeProvider) {
 		initialiseNativeRail(rail);
 		rail.classList.add('location-rail-ready');
 		rail.classList.remove('lup-category-refreshing');
+		scheduleRailDepth(rail);
 		LoadingSrvc.removeTask('location_rail');
 		scrollSelectedRoomIntoView('auto');
 	};
@@ -677,6 +639,17 @@ angular.module('LUP').config(function($routeProvider) {
 	};
 
 	$scope.isCategoryActive = function(categories) {
+		// With an explicit filter the selected filter remains authoritative. With
+		// "Alle" the rail itself is the context: highlight the category of the
+		// card currently centred by the native swipe instead of leaving "Alle"
+		// lit while a bar, club or university is on screen.
+		if (!$scope.data.category.length) {
+			if (!categories.length) {
+				return !$scope.data.currentRoom;
+			}
+			return !!$scope.data.currentRoom &&
+				categories.indexOf(String($scope.data.currentRoom.category())) >= 0;
+		}
 		return $scope.data.category.join(',') === categories.join(',');
 	};
 
@@ -782,27 +755,27 @@ angular.module('LUP').config(function($routeProvider) {
 
 	$scope.categoryVisual = function(room) {
 		var visuals = {
-			'1': {icon: 'public', class: 'category-country'},
-			'2': {icon: 'location_city', class: 'category-city'},
-			'3': {icon: 'local_bar', class: 'category-bar'},
-			'4': {icon: 'sports_bar', class: 'category-pub'},
-			'5': {icon: 'local_cafe', class: 'category-cafe'},
-			'6': {icon: 'business', class: 'category-business'},
-			'7': {icon: 'shopping_cart', class: 'category-shop'},
-			'8': {icon: 'account_balance', class: 'category-religion'},
-			'9': {icon: 'content_cut', class: 'category-salon'},
-			'10': {icon: 'map', class: 'category-town'},
-			'11': {icon: 'nightlife', class: 'category-club'},
-			'12': {icon: 'theater_comedy', class: 'category-culture'},
-			'13': {icon: 'sports_soccer', class: 'category-sport'},
-			'14': {icon: 'restaurant', class: 'category-food'},
-			'15': {icon: 'park', class: 'category-outdoors'},
-			'16': {icon: 'school', class: 'category-community'},
-			'17': {icon: 'account_balance', class: 'category-university'},
-			'18': {icon: 'local_hospital', class: 'category-health'},
-			'19': {icon: 'hotel', class: 'category-hotel'},
+			'1': {icon: 'public', class: 'lup-discovery--country'},
+			'2': {icon: 'location_city', class: 'lup-discovery--city'},
+			'3': {icon: 'local_bar', class: 'lup-discovery--bar'},
+			'4': {icon: 'sports_bar', class: 'lup-discovery--pub'},
+			'5': {icon: 'local_cafe', class: 'lup-discovery--cafe'},
+			'6': {icon: 'business', class: 'lup-discovery--business'},
+			'7': {icon: 'shopping_cart', class: 'lup-discovery--shop'},
+			'8': {icon: 'account_balance', class: 'lup-discovery--religion'},
+			'9': {icon: 'content_cut', class: 'lup-discovery--salon'},
+			'10': {icon: 'map', class: 'lup-discovery--town'},
+			'11': {icon: 'nightlife', class: 'lup-discovery--club'},
+			'12': {icon: 'theater_comedy', class: 'lup-discovery--culture'},
+			'13': {icon: 'sports_soccer', class: 'lup-discovery--sport'},
+			'14': {icon: 'restaurant', class: 'lup-discovery--food'},
+			'15': {icon: 'park', class: 'lup-discovery--outdoors'},
+			'16': {icon: 'school', class: 'lup-discovery--education'},
+			'17': {icon: 'account_balance', class: 'lup-discovery--university'},
+			'18': {icon: 'local_hospital', class: 'lup-discovery--health'},
+			'19': {icon: 'hotel', class: 'lup-discovery--hotel'},
 		};
-		return visuals[String(room.category())] || {icon: 'place', class: 'category-default'};
+		return visuals[String(room.category())] || {icon: 'place', class: 'lup-discovery--default'};
 	};
 
 	// Long real-world venue names need a deliberate typographic tier, not a
