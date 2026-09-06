@@ -49,7 +49,7 @@
   box-shadow:0 0 8px color-mix(in srgb,var(--lup-category-ink,#a9ddff) 62%,transparent),0 0 18px color-mix(in srgb,var(--lup-category-ink,#a9ddff) 26%,transparent) !important;
   opacity:.96 !important;
   transform:translate3d(var(--lup-category-offset),0,0) !important;
-  transition:transform 110ms cubic-bezier(.2,.82,.24,1),opacity 120ms ease !important;
+  transition:transform 35ms linear,opacity 80ms ease !important;
   pointer-events:none;
 }
 .nearby .location-categories:has(button:nth-child(1).active) { --lup-category-offset:0%; --lup-category-ink:#a9ddff; }
