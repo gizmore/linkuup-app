@@ -104,10 +104,6 @@ $shareImage = "{$publicBase}/images/lup-wapp-icon.png";
 
 <script type="text/javascript">
 window.LUP_BUILD = <?=json_encode(LUPConfig::$VERSION . '-local-ui294')?>;
-// Local development only: the desktop has no usable GPS provider.  Keep the
-// complete discovery and radius flow testable around Braunschweig without
-// changing production behaviour or inventing a position in the live app.
-window.LUP_DEBUG_POSITION = [52.268874, 10.526769];
 </script>
 
   <script src="node_modules/jquery/dist/jquery.js<?=$v?>"></script>
