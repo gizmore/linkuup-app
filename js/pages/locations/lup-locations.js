@@ -199,24 +199,57 @@ angular.module('LUP').config(function($routeProvider) {
 		var pointerStartY = null;
 		var pointerStartScrollLeft = 0;
 		var draggingPointer = false;
+		var activePointerId = null;
+		var clearPointerDrag = function(event, settle) {
+			if (activePointerId === null || (event && event.pointerId !== activePointerId)) {
+				return;
+			}
+			var pointerId = activePointerId;
+			var wasDragging = draggingPointer;
+			activePointerId = null;
+			pointerStartX = null;
+			pointerStartY = null;
+			draggingPointer = false;
+			if (rail.hasPointerCapture && rail.hasPointerCapture(pointerId)) {
+				rail.releasePointerCapture(pointerId);
+			}
+			if (wasDragging && settle) {
+				suppressRoomOpenUntil = Date.now() + 500;
+				settleNativeRail(rail);
+			} else {
+				rail.classList.remove('location-rail-dragging');
+			}
+		};
+		rail.addEventListener('dragstart', function(event) {
+			// A card may contain an image or link. Never let the browser turn a
+			// rail gesture into its native draggable preview.
+			event.preventDefault();
+		});
 		rail.addEventListener('pointerdown', function(event) {
-			if (event.pointerType === 'touch') {
+			if (event.pointerType === 'touch' || event.button > 0) {
 				return; // The touch fallback above owns this gesture.
 			}
+			activePointerId = event.pointerId;
 			pointerStartX = event.clientX;
 			pointerStartY = event.clientY;
 			pointerStartScrollLeft = rail.scrollLeft;
 			draggingPointer = false;
+			// Do not capture here. A simple press/release must retain its original
+			// target so links and buttons inside a card still receive their click.
 		});
 		rail.addEventListener('pointermove', function(event) {
-			if (pointerStartX === null) {
+			if (pointerStartX === null || event.pointerId !== activePointerId) {
 				return;
 			}
 			var deltaX = event.clientX - pointerStartX;
 			var deltaY = event.clientY - pointerStartY;
 			if (!draggingPointer && Math.abs(deltaX) > 6 && Math.abs(deltaX) > Math.abs(deltaY)) {
 				draggingPointer = true;
-				rail.setPointerCapture(event.pointerId);
+				// Once horizontal intent is clear, keep the drag on the rail even if
+				// the pointer leaves the originating card.
+				if (rail.setPointerCapture) {
+					rail.setPointerCapture(event.pointerId);
+				}
 				rail.classList.add('location-rail-dragging');
 			}
 			if (draggingPointer) {
@@ -226,15 +259,13 @@ angular.module('LUP').config(function($routeProvider) {
 			}
 		});
 		rail.addEventListener('pointerup', function(event) {
-			if (draggingPointer) {
-				suppressRoomOpenUntil = Date.now() + 500;
-				settleNativeRail(rail);
-			}
-			pointerStartX = null;
-			pointerStartY = null;
-			if (rail.hasPointerCapture(event.pointerId)) {
-				rail.releasePointerCapture(event.pointerId);
-			}
+			clearPointerDrag(event, true);
+		});
+		rail.addEventListener('pointercancel', function(event) {
+			clearPointerDrag(event, false);
+		});
+		rail.addEventListener('lostpointercapture', function(event) {
+			clearPointerDrag(event, false);
 		});
 		rail.addEventListener('scroll', function() {
 			scheduleRailDepth(rail);
