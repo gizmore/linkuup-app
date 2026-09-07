@@ -323,6 +323,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', end
 	display: flex;
 	overflow-x: auto;
 	overflow-y: hidden;
+	user-select: none;
+	-webkit-user-select: none;
 	gap: 0;
 	padding: 0 7%;
 	scroll-snap-type: x mandatory;
