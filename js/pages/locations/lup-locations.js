@@ -669,19 +669,17 @@ angular.module('LUP').config(function($routeProvider) {
 		return reordered;
 	};
 
-	$scope.isCategoryActive = function(categories) {
-		// With an explicit filter the selected filter remains authoritative. With
-		// "Alle" the rail itself is the context: highlight the category of the
-		// card currently centred by the native swipe instead of leaving "Alle"
-		// lit while a bar, club or university is on screen.
-		if (!$scope.data.category.length) {
-			if (!categories.length) {
-				return !$scope.data.currentRoom;
-			}
-			return !!$scope.data.currentRoom &&
-				categories.indexOf(String($scope.data.currentRoom.category())) >= 0;
-		}
+	// The category strip carries two independent pieces of information:
+	// a selected filter gets a background, while the centred room's category
+	// gets an underline. Keeping both states separate means a swipe never
+	// masquerades as a filtering choice.
+	$scope.isCategoryFilterActive = function(categories) {
 		return $scope.data.category.join(',') === categories.join(',');
+	};
+
+	$scope.isCurrentRoomCategory = function(categories) {
+		return categories.length > 0 && !!$scope.data.currentRoom &&
+			categories.indexOf(String($scope.data.currentRoom.category())) >= 0;
 	};
 
 	var scheduleCategoryRefresh = function(selectionSerial) {
@@ -700,7 +698,7 @@ angular.module('LUP').config(function($routeProvider) {
 
 	$scope.selectCategory = function(categories) {
 		var categoryKey = categories.join(',');
-		if ($scope.isCategoryActive(categories)) {
+		if (categories.length && $scope.isCategoryFilterActive(categories)) {
 			// Repeating the active category is a small navigation shortcut: keep
 			// its filter (and any current search) but return to its first card.
 			if ($scope.data.visibleRooms.length) {
