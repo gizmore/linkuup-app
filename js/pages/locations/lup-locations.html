@@ -14,11 +14,11 @@
 
 		<div class="location-categories" aria-label="Kategorien">
 			<button type="button" ng-class="{'is-filter-active': isCategoryFilterActive([])}" ng-click="selectCategory([])"><i class="material-icons">apps</i><span>Alle</span></button>
-			<button type="button" ng-class="{'is-filter-active': isCategoryFilterActive(['2']), 'is-current-category': isCurrentRoomCategory(['2'])}" ng-click="selectCategory(['2'])"><i class="material-icons">apartment</i><span>Städte<br>&amp; Länder</span></button>
+			<button type="button" ng-class="{'is-filter-active': isCategoryFilterActive(['2','6','7','9','10','15']), 'is-current-category': isCurrentRoomCategory(['2','6','7','9','10','15'])}" ng-click="selectCategory(['2','6','7','9','10','15'])"><i class="material-icons">apartment</i><span>Städte<br>&amp; Länder</span></button>
 			<button type="button" ng-class="{'is-filter-active': isCategoryFilterActive(['3','4','5','14']), 'is-current-category': isCurrentRoomCategory(['3','4','5','14'])}" ng-click="selectCategory(['3','4','5','14'])"><i class="material-icons">storefront</i><span>Bar<br>&amp; Café</span></button>
 			<button type="button" ng-class="{'is-filter-active': isCategoryFilterActive(['11']), 'is-current-category': isCurrentRoomCategory(['11'])}" ng-click="selectCategory(['11'])"><i class="material-icons">music_note</i><span>Club<br>&amp; Disco</span></button>
-			<button type="button" ng-class="{'is-filter-active': isCategoryFilterActive(['16','17']), 'is-current-category': isCurrentRoomCategory(['16','17'])}" ng-click="selectCategory(['16','17'])"><i class="material-icons">account_balance</i><span>Bildung<br>&amp; Uni</span></button>
-			<button type="button" ng-class="{'is-filter-active': isCategoryFilterActive(['12','13','18']), 'is-current-category': isCurrentRoomCategory(['12','13','18'])}" ng-click="selectCategory(['12','13','18'])"><i class="material-icons">menu_book</i><span>Kultur<br>&amp; Hilfe</span></button>
+			<button type="button" ng-class="{'is-filter-active': isCategoryFilterActive(['8','12','16','17']), 'is-current-category': isCurrentRoomCategory(['8','12','16','17'])}" ng-click="selectCategory(['8','12','16','17'])"><i class="material-icons">menu_book</i><span>Bildung<br>&amp; Kultur</span></button>
+			<button type="button" ng-class="{'is-filter-active': isCategoryFilterActive(['13','18','19','20']), 'is-current-category': isCurrentRoomCategory(['13','18','19','20'])}" ng-click="selectCategory(['13','18','19','20'])"><i class="material-icons">sports_soccer</i><span>Sport<br>&amp; Freizeit</span></button>
 		</div>
 
 		<div class="location-rail" aria-label="{{'LOCATIONS'|translate}}">
