@@ -3163,7 +3163,9 @@ md-list.usernavigation .presence-actions .usericon {
 
 /* Keep the category response, remove the visible circuit. The discovery strip
    stays calm while the matching seal still gives the user orientation. */
-.nearby .location-categories button::after { display:none !important; }
+.nearby .location-categories button::after { display:block !important; opacity:0; transform:scaleX(0); transform-origin:center; transition:transform 190ms cubic-bezier(.2,.85,.25,1),opacity 120ms ease-out; }
+.nearby .location-categories button.is-current-category::after { opacity:1; transform:scaleX(1); }
+@media (prefers-reduced-motion:reduce) { .nearby .location-categories button::after { transition:none; } }
 .nearby .slickit::before,
 .nearby .slickit::after { content:none; display:none; }
 .nearby md-content.greybg:has(.location-categories button:nth-child(1).active):has(.slickit .slick-current .room-category-hero[class*="category-"]) .location-categories button:not(:nth-child(1)) {
