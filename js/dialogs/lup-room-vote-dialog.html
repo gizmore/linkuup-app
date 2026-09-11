@@ -17,12 +17,12 @@
 		<p class="vote-dialog-note" ng-if="data.comment">{{'LUP_VOTE_UPDATE_NOTE'|translate}}</p>
 		<section class="vote-rating-panel">
 		  <div class="vote-rating-head"><span>{{'LUP_VOTE_RATING'|translate}}</span><b>{{data.rating || 0}}<small>/ 10</small></b></div>
-		  <jk-rating-stars max-rating="10" rating="data.rating" reset-allowed="false"></jk-rating-stars>
+		  <jk-rating-stars max-rating="10" rating="data.rating" reset-allowed="false" on-rating="setRating(rating)"></jk-rating-stars>
 		  <div class="vote-rating-scale" aria-hidden="true"><span>ehrlich</span><span>besonders</span></div>
 		</section>
       
         <md-input-container flex>
-		  <label>{{'LUP_VOTE_COMMENT'|translate}}</label>
+		  <label>{{'LUP_VOTE_COMMENT'|translate}} (optional)</label>
           <textarea ng-model="data.comment" rows="4" placeholder="{{'LUP_VOTE_PLACEHOLDER'|translate}}" style="width: 100%;" flex>
           </textarea>
         </md-input-container>

@@ -246,8 +246,17 @@ angular.module('LUP').config(function($routeProvider) {
 				$mdDialog.cancel();
 			};
 			$scope.vote = function() {
+				// The rating component has an isolate scope. Keep the selected value
+				// explicitly on this dialog scope before it is destroyed.
+				$scope.data.rating = Number($scope.data.rating) || 0;
+				if ($scope.data.rating < 1 || $scope.data.rating > 10) {
+					return;
+				}
 				$mdDialog.cancel();
 				scope.onRoomVoteComment($scope.data.rating, $scope.data.comment);
+			};
+			$scope.setRating = function(rating) {
+				$scope.data.rating = Number(rating) || 0;
 			};
 		}];
 		
@@ -271,11 +280,14 @@ angular.module('LUP').config(function($routeProvider) {
 
 	$scope.onRoomVoteComment = function(rating, commentText) {
 		console.log('LocationCtrl.onRoomVoteComment()', rating, commentText);
+		commentText = (commentText || '').trim();
 		$scope.data.rating = rating;
 		$scope.data.commentInput = commentText;
 		return $scope.onVoteRoom(rating).then(function() {
-			return CommentSrvc.saveComment($scope.data.room, commentText);
-		}).then($scope.savedComment, ErrorSrvc.websocketError)['catch']($scope.catchUnknown);
+			// A rating is useful on its own. Only create/update a comment when the
+			// visitor actually wrote one; an empty review must not block voting.
+			return commentText ? CommentSrvc.saveComment($scope.data.room, commentText) : null;
+		}).then($scope.savedComment)['catch'](ErrorSrvc.websocketError);
 	};
 	
 
@@ -283,7 +295,7 @@ angular.module('LUP').config(function($routeProvider) {
 		console.log('LocationCtrl.onVoteRoom()', rating);
 		var roomId = $scope.data.room.id();
 		var gwsMessage = new GWS_Message().cmd(0x1120).sync().write32(roomId).write8(rating);
-		return WebsocketSrvc.sendBinary(gwsMessage).then($scope.onVoted, ErrorSrvc.websocketJSONError)['catch']($scope.catchUnknown);
+		return WebsocketSrvc.sendBinary(gwsMessage).then($scope.onVoted);
 	};
 	
 	$scope.onVoted = function(gwsMessage) {
