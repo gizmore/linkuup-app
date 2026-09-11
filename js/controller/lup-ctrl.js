@@ -2,7 +2,7 @@
  * Base controller that catches some nav/auth/connection events.
  */
 angular.module('LUP').
-controller('LUPCtrl', function($scope, $rootScope, $q, $timeout, $interval, $location, $mdMedia, $mdSidenav, $mdToast, $translate,
+controller('LUPCtrl', function($scope, $rootScope, $q, $timeout, $interval, $location, $mdMedia, $mdSidenav, $mdToast, $mdDialog, $translate,
 		WebsocketSrvc, RequestSrvc, LoadingSrvc, PositionSrvc, ErrorSrvc,
 		UserSrvc, RoomSrvc, ChatSrvc, EnumSrvc, TypeSrvc,
 		SettingsSrvc, ConfigSrvc, FXSrvc, DialogSrvc,
@@ -28,6 +28,7 @@ controller('LUPCtrl', function($scope, $rootScope, $q, $timeout, $interval, $loc
 	
 	$scope.V = window.LUP_BUILD;
 	$scope.LUP_CONFIG = window.LUP_CONFIG;
+	$scope.ConfigSrvc = ConfigSrvc;
 
 	// Hook DialogSrvc in main scope
 	$scope.DialogSrvc = DialogSrvc;
@@ -425,6 +426,25 @@ controller('LUPCtrl', function($scope, $rootScope, $q, $timeout, $interval, $loc
 	$scope.gotoBuyCredits = function() {
 		window.location.href = window.LUP_CONFIG.server + 'index.php?_mo=PaymentCredits&_me=OrderCredits';
 	};
+	$scope.openShout = function() {
+		var cost = ConfigSrvc.shoutCost();
+		return $mdDialog.show($mdDialog.prompt()
+			.title('Shout')
+			.textContent('An alle aktuell besetzten Locations senden. Kosten: ' + cost + ' Credits.')
+			.placeholder('Dein Shout')
+			.ariaLabel('Shout')
+			.ok('Senden')
+			.cancel('Abbrechen'))
+		.then(function(text) {
+			text = (text || '').trim();
+			if (!text) {
+				return;
+			}
+			return ChatSrvc.sendShout(text).then(function(result) {
+				return ErrorSrvc.showMessage('Gesendet an ' + result.locations + ' Locations (' + result.recipients + ' Empfänger).', 'Shout');
+			}, ErrorSrvc.websocketError);
+		})['catch'](angular.noop);
+	};
 	$scope.gotoAddRoom = function() {
 		if (!window.GWF_USER.isVIP()) {
 			return ErrorSrvc.showError($translate.instant('ERR_VIP_ONLY'), $translate.instant('TITLE_ADD_ROOM'));
@@ -801,6 +821,18 @@ controller('LUPCtrl', function($scope, $rootScope, $q, $timeout, $interval, $loc
 		var room = RoomSrvc.getOrCreate(gwsMessage.read32());
 		room.addUser(user);
 		var message = room.addMessage(time, user, room, gwsMessage.readString());
+		message.effect = 'blubble';
+		FXSrvc.onChat(user, room);
+		$rootScope.$broadcast('lup-room-message', room, message);
+	};
+
+	$scope.cmd_1167 = function shoutMessage(gwsMessage) {
+		console.log('LUPCtrl.shoutMessage()', gwsMessage.dump());
+		var time = gwsMessage.read32();
+		var user = UserSrvc.getOrCreate(gwsMessage.read32());
+		var room = RoomSrvc.getOrCreate(gwsMessage.read32());
+		var message = room.addMessage(time, user, room, gwsMessage.readString());
+		message.shout = true;
 		message.effect = 'blubble';
 		FXSrvc.onChat(user, room);
 		$rootScope.$broadcast('lup-room-message', room, message);

@@ -103,6 +103,10 @@ service('ConfigSrvc', function(RequestSrvc) {
 		return unit > 0 ? unit : .5;
 	};
 
+	ConfigSrvc.shoutCost = function() {
+		return Number((ConfigSrvc.CACHE.LinkUUp || {}).shout_cost || 0);
+	};
+
 	ConfigSrvc.roomCreationCost = function(viewRadius) {
 		var radius = Math.max(0, Number(viewRadius) || 0);
 		var viewCost = radius * ConfigSrvc.roomViewCost() / ConfigSrvc.roomViewCostUnit();

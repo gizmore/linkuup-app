@@ -26,7 +26,7 @@ angular.module('LUP').config(function($routeProvider) {
 	});
 }).controller('LocationCtrl', function($scope, $location, $route, $routeParams, $mdDialog, $translate, $timeout,
 		RoomSrvc, CommentSrvc, ChatSrvc, UserSrvc, AuthSrvc, LikeSrvc, FriendSrvc,
-		WebsocketSrvc, ErrorSrvc, DialogSrvc, HelpSrvc, PositionSrvc) {
+		WebsocketSrvc, ErrorSrvc, DialogSrvc, HelpSrvc, PositionSrvc, ConfigSrvc) {
 	
 	$scope.LikeSrvc = LikeSrvc;
 	$scope.FriendSrvc = FriendSrvc;
@@ -376,6 +376,26 @@ angular.module('LUP').config(function($routeProvider) {
 		jQuery('.chatbottom button').removeClass('sendmessage');
 		$scope.data.message = '';
 		$scope.scrollChatToBottom(true);
+	};
+
+	$scope.sendShout = function() {
+		var message = ($scope.data.message || '').trim();
+		var cost = ConfigSrvc.shoutCost();
+		if (!message) {
+			return;
+		}
+		return DialogSrvc.show($mdDialog.confirm()
+			.title('An alle Locations senden?')
+			.textContent('Der Shout wird an alle aktuell besetzten Locations gesendet. Kosten: ' + cost + ' Credits.')
+			.ariaLabel('Shout senden')
+			.ok('Senden')
+			.cancel('Abbrechen'))
+		.then(function() {
+			return ChatSrvc.sendShout(message).then(function(result) {
+				$scope.data.message = '';
+				return ErrorSrvc.showMessage('Gesendet an ' + result.locations + ' Locations (' + result.recipients + ' Empfänger).', 'Shout');
+			}, ErrorSrvc.websocketError);
+		});
 	};
 
 	$scope.onMessageRead = function(lupMessage) {
