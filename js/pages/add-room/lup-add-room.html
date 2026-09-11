@@ -19,11 +19,14 @@
         <label>{{'LABEL_ROOM_INFO'|translate}}</label>
         <textarea ng-model="data.room.info" maxlength="512" rows="3"></textarea>
       </md-input-container>
-      <div class="lup-radius-input">
-        <label>{{'LABEL_ROOM_RADIUS'|translate}}: {{data.room.radius}} m</label>
-        <md-slider ng-model="data.room.radius" min="150" max="500" step="10" aria-label="{{'LABEL_ROOM_RADIUS'|translate}}"></md-slider>
-      </div>
-      <md-button class="md-raised md-primary" type="submit" ng-disabled="addRoomForm.$invalid">{{'BTN_CREATE_ROOM'|translate}}</md-button>
+      <section class="lup-add-room-map-section" aria-label="{{'TITLE_ROOM_AREA'|translate}}">
+        <h3>{{'TITLE_ROOM_AREA'|translate}}</h3>
+        <p>{{'INFO_ROOM_AREA'|translate}}</p>
+        <div id="lup-add-room-map" class="lup-add-room-map" role="application"></div>
+        <p class="lup-add-room-view-radius">{{'LABEL_ROOM_VIEW_RADIUS'|translate}}: {{data.room.viewRadius | number:2}} km</p>
+        <p class="lup-add-room-map-status" ng-bind="data.mapStatus"></p>
+      </section>
+      <md-button class="md-raised md-primary" type="submit" ng-disabled="addRoomForm.$invalid || !data.mapReady">{{'BTN_CREATE_ROOM'|translate}}</md-button>
     </form>
   </md-content>
 </section>

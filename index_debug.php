@@ -13,6 +13,10 @@ $v = sprintf("?v=%s-local-ui294", LUPConfig::$VERSION);
 $min = LUPConfig::$MIN;
 $publicBase = 'https://app.www.linkuup.de';
 $shareImage = "{$publicBase}/images/lup-wapp-icon.png";
+/* Browser Maps keys must be referrer-restricted. The app uses the same key as
+ * the Maps module, keeping local and deployed editors consistent. */
+$mapsKeyFile = rtrim(LUPConfig::$GDO_PATH, '/') . '/GDO/Maps/apikey.php';
+$googleMapsApiKey = is_file($mapsKeyFile) ? trim((string)include($mapsKeyFile)) : '';
 ?>
 <!DOCTYPE html>
 <html lang="de" translate="no">
@@ -81,6 +85,7 @@ $shareImage = "{$publicBase}/images/lup-wapp-icon.png";
   <link rel="stylesheet" href="js/pages/profile/lup-profile.css<?=$v?>">
   <link rel="stylesheet" href="js/pages/recovery/lup-recovery.css<?=$v?>">
   <link rel="stylesheet" href="js/pages/settings/lup-settings.css<?=$v?>">
+  <link rel="stylesheet" href="js/pages/add-room/lup-add-room.css<?=$v?>">
   <link rel="stylesheet" href="js/pages/sidenav/lup-sidenav.css<?=$v?>">
   <link rel="stylesheet" href="css/linkuup-design-system.css<?=$v?>">
   <link rel="stylesheet" href="css/linkuup-discovery-v2.css<?=$v?>">
@@ -104,6 +109,7 @@ $shareImage = "{$publicBase}/images/lup-wapp-icon.png";
 
 <script type="text/javascript">
 window.LUP_BUILD = <?=json_encode(LUPConfig::$VERSION . '-local-ui294')?>;
+window.LUP_GOOGLE_MAPS_API_KEY = <?=json_encode($googleMapsApiKey)?>;
 </script>
 
   <script src="node_modules/jquery/dist/jquery.js<?=$v?>"></script>
