@@ -390,6 +390,16 @@ angular.module('LUP').config(function($routeProvider) {
 		$scope.scrollChatToBottom(true);
 	};
 
+	$scope.leaveChat = function() {
+		var room = $scope.data.room;
+		if (!room || !room.id() || !ChatSrvc.CHATROOM || ChatSrvc.CHATROOM.id() !== room.id()) {
+			return $location.path('/locations');
+		}
+		return ChatSrvc.part(room).then(function() {
+			$location.path('/locations');
+		})['catch']($scope.catchUnknown);
+	};
+
 	$scope.sendShout = function() {
 		var message = ($scope.data.message || '').trim();
 		var cost = ConfigSrvc.shoutCost();
@@ -428,48 +438,6 @@ angular.module('LUP').config(function($routeProvider) {
 			$scope.scrollChatToBottom(false);
 		}
 	});
-	var leaveHandled = false;
-	var isSameLocationPath = function(path) {
-		return new RegExp('^/location/' + $scope.data.room.id() + '(?:/(?:chat|visitors))?$').test(path);
-	};
-	var routeFromUrl = function(url) {
-		var marker = '#!';
-		var index = url.indexOf(marker);
-		return index >= 0 ? url.substring(index + marker.length) : '';
-	};
-	$scope.$on('$locationChangeStart', function(event, nextUrl) {
-		var room = $scope.data.room;
-		if (leaveHandled || !room || !room.id() ||
-			!ChatSrvc.CHATROOM || ChatSrvc.CHATROOM.id() !== room.id()) {
-			return;
-		}
-		var nextPath = routeFromUrl(nextUrl);
-		if (!nextPath || isSameLocationPath(nextPath)) {
-			return;
-		}
-		// The physical door is the explicit entry gesture. Leaving should be just
-		// as direct: navigate away and part the live room without a second dialog.
-		leaveHandled = true;
-		ChatSrvc.part(room)['catch']($scope.catchUnknown);
-	});
-	$scope.$on('$destroy', function() {
-		// Switching between Location, Chat and Online recreates this controller in
-		// Angular. That is still the same physical place, so it must not emit PART
-		// between the join and the first typed message.
-		var sameLocationView = isSameLocationPath($location.path());
-		if (sameLocationView) {
-			return;
-		}
-		if (leaveHandled) {
-			return;
-		}
-		// Navigating away really does mean leaving the live-presence room.
-		// The server broadcasts the part event, removing the mini avatar at once.
-		if (ChatSrvc.CHATROOM && ChatSrvc.CHATROOM.id() === $scope.data.room.id()) {
-			ChatSrvc.part($scope.data.room);
-		}
-	});
-
 	//////////
 	// Maps //
 	//////////

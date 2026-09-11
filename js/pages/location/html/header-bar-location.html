@@ -15,6 +15,10 @@
 				<span ng-if="!data.room.isSelfInRoom() || !inChatRange()"><i class="material-icons">place</i> Ort ansehen</span>
 			</div>
 		</div>
+
+		<md-button class="md-icon-button" ng-if="data.room.isSelfInRoom()" ng-click="leaveChat()" aria-label="Chat verlassen" title="Chat verlassen">
+			<i class="material-icons">logout</i>
+		</md-button>
     
         <ng-include src="'js/pages/topnav/lup-topnav-notifications.html?v='+V"></ng-include>
 
