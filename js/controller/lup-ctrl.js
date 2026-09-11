@@ -380,11 +380,21 @@ controller('LUPCtrl', function($scope, $rootScope, $q, $timeout, $interval, $loc
 		$scope.data.ownUser = window.GWF_USER;
 		$scope.data.authenticated = window.GWF_USER.authenticated(true);
 		UserSrvc.loggedIn(window.GWF_USER);
-		$rootScope.$broadcast('lup-menu-refresh', window.GWF_USER);
 		var path = $scope.data.initialUrl || '/locations';
 		$scope.data.initialUrl = undefined;
 		$scope.data.authRedirectPending = true;
-		SettingsSrvc.withConfig().then(function(){
+		// The login reply only contains the generic core user JSON. Refresh the
+		// LinkUUp user payload as well, otherwise trophy fields such as lup_vip
+		// stay at their pre-login value until the next page reload.
+		UserSrvc.withUser(window.GWF_USER.id(), true).then(function(user) {
+			$scope.data.user = user;
+			$scope.data.ownUser = user;
+			return SettingsSrvc.withConfig();
+		}, function(error) {
+			console.warn('LUP: Could not refresh the authenticated user.', error);
+			return SettingsSrvc.withConfig();
+		}).then(function(){
+			$rootScope.$broadcast('lup-menu-refresh', window.GWF_USER);
 			console.log('redirects to ' + path);
 			$location.path(path);
 		})['finally'](function() {
