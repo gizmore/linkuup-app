@@ -75,6 +75,21 @@ angular.module('LUP').config(function($routeProvider) {
 		return winner;
 	}
 
+	function stopMapDoubleClick(event) {
+		if (!event) { return; }
+		if (typeof event.stop === 'function') { event.stop(); }
+		const domEvent = event.domEvent;
+		if (domEvent) {
+			domEvent.preventDefault();
+			if (typeof domEvent.stopImmediatePropagation === 'function') {
+				domEvent.stopImmediatePropagation();
+			}
+			else {
+				domEvent.stopPropagation();
+			}
+		}
+	}
+
 	function loadMapScript() {
 		if ($window.google && $window.google.maps) { return Promise.resolve(); }
 		if (mapLoader) { return mapLoader; }
@@ -121,6 +136,13 @@ angular.module('LUP').config(function($routeProvider) {
 			setOrigin(event.latLng, false);
 			$scope.$applyAsync();
 		});
+		// A double-click on the origin marker belongs to the marker, not to the
+		// map underneath it. Otherwise Maps also receives it and resets the
+		// editable hexagon as though the user had double-clicked free map space.
+		marker.addListener('dblclick', function(event) {
+			stopMapDoubleClick(event);
+			return false;
+		});
 		map.addListener('click', function(event) {
 			if (originChosen) { return; }
 			originChosen = true;
@@ -135,8 +157,7 @@ angular.module('LUP').config(function($routeProvider) {
 			$scope.$applyAsync();
 		});
 		polygon.addListener('dblclick', function(event) {
-			event.domEvent && event.domEvent.preventDefault();
-			event.domEvent && event.domEvent.stopPropagation();
+			stopMapDoubleClick(event);
 			polygon.getPath().insertAt(nearestSegment(polygon.getPath(), event.latLng) + 1, event.latLng);
 			return false;
 		});
