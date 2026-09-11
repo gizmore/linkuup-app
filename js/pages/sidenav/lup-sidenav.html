@@ -57,7 +57,7 @@
 
 	  <md-list-item class="md-1-line nav-add-room" ng-click="gotoAddRoom()" ng-if="data.ownUser.isAuthed()" ng-class="{'lup-vip-locked': !data.ownUser.isVIP()}">
 	    <i class="material-icons nav-icon">add_circle_outline</i>
-		<p>[+] {{'TITLE_ADD_ROOM'|translate}}</p>
+		<p>{{'TITLE_ADD_ROOM'|translate}}</p>
 	  </md-list-item>
 
 	  <md-list-item class="md-1-line nav-logout" ng-click="logout()" ng-if="data.ownUser.isAuthed()">
