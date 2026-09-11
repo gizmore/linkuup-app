@@ -412,6 +412,9 @@ controller('LUPCtrl', function($scope, $rootScope, $q, $timeout, $interval, $loc
 	$scope.gotoHome = function() { $scope.goto('/home'); };
 	$scope.gotoDebug = function() { $scope.goto('/debug'); };
 	$scope.gotoBackend = function() { window.location.href = window.LUP_CONFIG.server; };
+	$scope.gotoBuyCredits = function() {
+		window.location.href = window.LUP_CONFIG.server + 'index.php?_mo=PaymentCredits&_me=OrderCredits';
+	};
 	$scope.gotoAddRoom = function() {
 		if (!window.GWF_USER.isVIP()) {
 			return ErrorSrvc.showError($translate.instant('ERR_VIP_ONLY'), $translate.instant('TITLE_ADD_ROOM'));

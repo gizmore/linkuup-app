@@ -6,13 +6,37 @@ angular.module('LUP').config(function($routeProvider) {
 		params: { authCheck: true },
 	});
 }).controller('AddRoomCtrl', function($scope, $location, $translate, $timeout, $window,
-		CategorySrvc, PositionSrvc, RoomSrvc, WebsocketSrvc, ErrorSrvc) {
+		CategorySrvc, ConfigSrvc, PositionSrvc, RoomSrvc, WebsocketSrvc, ErrorSrvc) {
 	$scope.data.title = 'TITLE_ADD_ROOM';
 	$scope.data.categories = [];
-	$scope.data.room = { name: '', category: '', info: '', viewRadius: 1.5 };
+	$scope.data.room = { name: '', category: '', info: '', viewRadius: 1.5, cost: 0 };
 	$scope.data.mapStatus = $translate.instant('INFO_ROOM_AREA_LOADING');
 	$scope.data.mapReady = false;
-	let map, polygon, marker, viewCircle, position, mapLoader;
+	let map, polygon, marker, viewCircle, position, mapLoader, originChosen = false;
+
+	function updateCost() {
+		$scope.data.room.cost = ConfigSrvc.roomCreationCost($scope.data.room.viewRadius);
+	}
+
+	function setOrigin(latLng, movePolygon) {
+		const oldPosition = position;
+		position = {lat: latLng.lat(), lng: latLng.lng()};
+		marker.setPosition(latLng);
+		viewCircle.setCenter(latLng);
+		/* While choosing the initial place, map clicks must not be swallowed by
+		 * the preview hexagon. It becomes editable after that first choice. */
+		if (originChosen) {
+			/* Keep the preview transparent to the second click of a double-click. */
+			$timeout(function() { polygon.setOptions({clickable: true}); }, 300, false);
+		}
+		if (movePolygon && oldPosition) {
+			const latDelta = position.lat - oldPosition.lat;
+			const lngDelta = position.lng - oldPosition.lng;
+			polygon.getPath().forEach(function(point, index) {
+				polygon.getPath().setAt(index, new google.maps.LatLng(point.lat() + latDelta, point.lng() + lngDelta));
+			});
+		}
+	}
 
 	function defaultPolygon(lat, lng, radiusMeters) {
 		const points = [];
@@ -82,7 +106,8 @@ angular.module('LUP').config(function($routeProvider) {
 		polygon = new google.maps.Polygon({
 			paths: defaultPolygon(center.lat, center.lng, 150),
 			strokeColor: '#7c63ff', strokeOpacity: 1, strokeWeight: 3,
-			fillColor: '#7c63ff', fillOpacity: .30, editable: true, draggable: false, map: map,
+			fillColor: '#7c63ff', fillOpacity: .30, editable: true, draggable: false,
+			clickable: false, map: map,
 		});
 		marker = new google.maps.Marker({position: center, draggable: true, map: map, title: $translate.instant('LABEL_ROOM_ORIGIN')});
 		viewCircle = new google.maps.Circle({
@@ -93,8 +118,20 @@ angular.module('LUP').config(function($routeProvider) {
 			editable: true, draggable: false, clickable: false, zIndex: 0, map: map,
 		});
 		marker.addListener('dragend', function(event) {
-			position = {lat: event.latLng.lat(), lng: event.latLng.lng()};
-			viewCircle.setCenter(event.latLng);
+			setOrigin(event.latLng, false);
+			$scope.$applyAsync();
+		});
+		map.addListener('click', function(event) {
+			if (originChosen) { return; }
+			originChosen = true;
+			setOrigin(event.latLng, true);
+			$scope.$applyAsync();
+		});
+		map.addListener('dblclick', function(event) {
+			/* A double-click on free map space starts a clean, six-corner room area. */
+			originChosen = true;
+			setOrigin(event.latLng, false);
+			polygon.setPath(defaultPolygon(position.lat, position.lng, 150));
 			$scope.$applyAsync();
 		});
 		polygon.addListener('dblclick', function(event) {
@@ -110,6 +147,7 @@ angular.module('LUP').config(function($routeProvider) {
 		});
 		viewCircle.addListener('radius_changed', function() {
 			$scope.data.room.viewRadius = viewCircle.getRadius() / 1000;
+			updateCost();
 			$scope.$applyAsync();
 		});
 		$scope.data.mapStatus = $translate.instant('INFO_ROOM_AREA_EDIT');
@@ -122,6 +160,7 @@ angular.module('LUP').config(function($routeProvider) {
 			ErrorSrvc.showError($translate.instant('ERR_VIP_ONLY'), $translate.instant('TITLE_ADD_ROOM'));
 			return $location.path('/locations');
 		}
+		updateCost();
 		CategorySrvc.withCategories().then(function(response) {
 			var categories = response.data ? response.data.data : response;
 			$scope.data.categories = Object.keys(categories).map(function(id) { return categories[id]; });

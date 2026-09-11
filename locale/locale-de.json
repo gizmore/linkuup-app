@@ -220,6 +220,7 @@
 
 "TITLE_ACCOUNT": "Ihr Konto",
 "TITLE_ADD_ROOM": "Raum hinzufügen",
+	"TITLE_CREDITS": "Credits",
 "ERR_VIP_ONLY": "Das ist nur für VIP Nutzer",
 "INFO_ADD_ROOM_GPS": "Die aktuelle GPS-Position wird automatisch als Standort übernommen.",
 "LABEL_ROOM_NAME": "Name des Raums",
@@ -227,6 +228,7 @@
 "LABEL_ROOM_INFO": "Kurze Beschreibung",
 "LABEL_ROOM_RADIUS": "Chatradius",
 "LABEL_ROOM_VIEW_RADIUS": "Sichtbarkeitsradius",
+	"LABEL_ROOM_COST": "Kosten",
 "TITLE_ROOM_AREA": "Ortsfläche",
 "INFO_ROOM_AREA": "Ziehe die Eckpunkte um den Ort; der Marker setzt den Ursprung. Doppelklick fügt einen Punkt hinzu, Rechtsklick entfernt einen.",
 "INFO_ROOM_AREA_LOADING": "Karte wird vorbereitet …",

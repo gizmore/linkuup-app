@@ -4,7 +4,6 @@
     <ng-include src="'js/pages/locations/header-bar-locations.html?v='+V"></ng-include>
     <form name="addRoomForm" class="settings-form" ng-submit="create()" novalidate>
       <h2>{{'TITLE_ADD_ROOM'|translate}}</h2>
-      <p>{{'INFO_ADD_ROOM_GPS'|translate}}</p>
       <md-input-container class="md-block">
         <label>{{'LABEL_ROOM_NAME'|translate}}</label>
         <input ng-model="data.room.name" maxlength="64" required autofocus>
@@ -24,6 +23,7 @@
         <p>{{'INFO_ROOM_AREA'|translate}}</p>
         <div id="lup-add-room-map" class="lup-add-room-map" role="application"></div>
         <p class="lup-add-room-view-radius">{{'LABEL_ROOM_VIEW_RADIUS'|translate}}: {{data.room.viewRadius | number:2}} km</p>
+		<p class="lup-add-room-cost">{{'LABEL_ROOM_COST'|translate}}: {{data.room.cost}} {{'TITLE_CREDITS'|translate}}</p>
         <p class="lup-add-room-map-status" ng-bind="data.mapStatus"></p>
       </section>
       <md-button class="md-raised md-primary" type="submit" ng-disabled="addRoomForm.$invalid || !data.mapReady">{{'BTN_CREATE_ROOM'|translate}}</md-button>

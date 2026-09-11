@@ -219,6 +219,7 @@
 
 "TITLE_ACCOUNT": "Your account",
 "TITLE_ADD_ROOM": "Add room",
+	"TITLE_CREDITS": "Credits",
 "ERR_VIP_ONLY": "This is only available to VIP users",
 "INFO_ADD_ROOM_GPS": "Your current GPS position is used automatically as the location.",
 "LABEL_ROOM_NAME": "Room name",
@@ -226,6 +227,7 @@
 "LABEL_ROOM_INFO": "Short description",
 "LABEL_ROOM_RADIUS": "Chat radius",
 "LABEL_ROOM_VIEW_RADIUS": "Visibility radius",
+	"LABEL_ROOM_COST": "Cost",
 "TITLE_ROOM_AREA": "Location area",
 "INFO_ROOM_AREA": "Drag the corners around the place; the marker sets the origin. Double-click adds a point; right-click removes one.",
 "INFO_ROOM_AREA_LOADING": "Preparing map …",
