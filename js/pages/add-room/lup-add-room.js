@@ -9,7 +9,7 @@ angular.module('LUP').config(function($routeProvider) {
 		CategorySrvc, ConfigSrvc, PositionSrvc, RoomSrvc, WebsocketSrvc, ErrorSrvc) {
 	$scope.data.title = 'TITLE_ADD_ROOM';
 	$scope.data.categories = [];
-	$scope.data.room = { name: '', category: '', info: '', viewRadius: 1.5, cost: 0 };
+	$scope.data.room = { name: '', category: '', info: '', viewRadius: .28, cost: 0 };
 	$scope.data.mapStatus = $translate.instant('INFO_ROOM_AREA_LOADING');
 	$scope.data.mapReady = false;
 	let map, polygon, marker, viewCircle, position, mapLoader, originChosen = false;

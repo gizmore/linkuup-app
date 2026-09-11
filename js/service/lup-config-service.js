@@ -104,8 +104,9 @@ service('ConfigSrvc', function(RequestSrvc) {
 	};
 
 	ConfigSrvc.roomCreationCost = function(viewRadius) {
-		var units = Math.ceil(Math.max(0, Number(viewRadius) || 0) / ConfigSrvc.roomViewCostUnit());
-		return ConfigSrvc.roomCost() + (units * ConfigSrvc.roomViewCost());
+		var radius = Math.max(0, Number(viewRadius) || 0);
+		var viewCost = radius * ConfigSrvc.roomViewCost() / ConfigSrvc.roomViewCostUnit();
+		return ConfigSrvc.roomCost() + Math.ceil(viewCost);
 	};
 	
 	ConfigSrvc.singleACL = function() {
