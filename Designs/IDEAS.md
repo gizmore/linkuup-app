@@ -16,7 +16,8 @@ giz
 - PM in textconnector ermöglichen.
 - unclegame with 100 uniques, 50 hi, mid, lo. all chances are real in mob, you start with lo mid card. 
 - Set languagae to channel language for hooks'n'reply'n'stuff.
-- 
+- botfight.cc - people buy pygdo instances and have to install a root agent that takes prompts (copy protection!) then they get dyndns added to the network.
+
 
 
 ## Bugs
