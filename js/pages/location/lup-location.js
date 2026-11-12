@@ -103,13 +103,42 @@ angular.module('LUP').config(function($routeProvider) {
 	
     var gastroDestroyed = false;
     $scope.data.gastroAvailable = false;
+    $scope.data.gastroState = 'idle';
+    var gastroSequence = 0;
+    $scope.refreshGastro = function() {
+        var sequence = ++gastroSequence, room = $scope.data.room, rid = String(room.id());
+        $scope.data.gastroAvailable = false;
+        if (!['app.localhost','localhost','127.0.0.1'].includes(location.hostname)) {
+            $scope.data.gastroState = 'unavailable'; return Promise.resolve();
+        }
+        $scope.data.gastroState = 'loading';
+        var abort = new AbortController(), timer = setTimeout(function(){abort.abort();},10000);
+        function current(){return !gastroDestroyed && sequence===gastroSequence && String($scope.data.room.id())===rid;}
+        return fetch('/backend/index.php?_mo=LinkUUp&_me='+($scope.data.authenticated===false?'GastroMenu':'GastroLocal')+'&_fmt=json&_ajax=1&room='+encodeURIComponent(rid),{credentials:'same-origin',signal:abort.signal})
+            .then(function(r){if(!r.ok)throw new Error('Gastro request failed');return r.json();})
+            .then(function(raw){var g=raw && (raw.data||raw);if(!g || typeof g.canManage!=='boolean')throw new Error('Invalid Gastro response');
+                $scope.$evalAsync(function(){if(!current())return;
+                    $scope.data.gastroAvailable=!!(g.canManage||g.menuPublished||g.orderingEnabled||(Array.isArray(g.orders)&&g.orders.length));
+                    $scope.data.gastroState='ready';
+                    $scope.$emit('lup-gastro-context',$scope.data.gastroAvailable?{id:rid,name:room.name(),canManage:g.canManage}:null);
+                });
+            }).catch(function(){$scope.$evalAsync(function(){if(current())$scope.data.gastroState='error';});})
+            .finally(function(){clearTimeout(timer);});
+    };
     function notifyGastro(frame, message) {
         if (!gastroDestroyed && frame && frame.contentWindow) frame.contentWindow.postMessage(message, location.origin);
     }
-    $scope.openGastro = function() {
+    $scope.openGastro = function(review, operator) {
+        review=review===true;
         if (gastroDestroyed) return;
-        if (!$scope.data.gastroAvailable) return $mdDialog.show({
-            controller: ['$scope', '$mdDialog', function(dialogScope, dialog) { dialogScope.close = function() { dialog.hide(); }; }],
+        if (!review && ($scope.data.gastroState !== 'ready' || !$scope.data.gastroAvailable)) return $mdDialog.show({
+            locals: {cardData:$scope.data, retryCard:function(){return $scope.refreshGastro();}},
+            controller: ['$scope', '$mdDialog', 'cardData', 'retryCard', function(dialogScope, dialog, cardData, retryCard) {
+                dialogScope.cardData=cardData;
+                dialogScope.close=function(){dialog.hide();};
+                dialogScope.retry=function(){return retryCard();};
+                dialogScope.openCard=function(){dialog.hide();$scope.openGastro();};
+            }],
             templateUrl: 'js/dialogs/lup-no-menu-dialog.html?v='+window.LUP_BUILD,
             parent: angular.element(document.body),
             clickOutsideToClose: true,
@@ -123,22 +152,25 @@ angular.module('LUP').config(function($routeProvider) {
             var close=document.createElement('button');close.textContent='×';close.className='lup-gastro-close';close.setAttribute('aria-label',$translate.instant('GASTRO_CLOSE'));close.onclick=function(){d.close()};
             var frame=document.createElement('iframe');frame.title=$translate.instant('GASTRO_CARD');frame.addEventListener('load',function(){notifyGastro(frame,{type:'gastro-visibility',visible:d.open});if(d.open)notifyGastro(frame,{type:'gastro-refresh'})});d.addEventListener('close',function(){notifyGastro(frame,{type:'gastro-visibility',visible:false})});d.appendChild(close);d.appendChild(frame);document.body.appendChild(d);
         }
-        if(d.dataset.room!==id){d.dataset.room=id;d.querySelector('iframe').src='preview/gastro/embed.html?room='+encodeURIComponent(id);}
+        var mode=review?'review':operator===true?'operator':'public';
+        if(d.dataset.room!==id || d.dataset.mode!==mode){d.dataset.room=id;d.dataset.mode=mode;d.querySelector('iframe').src='preview/gastro/embed.html?room='+encodeURIComponent(id)+'&mode='+mode+'&v='+encodeURIComponent(window.LUP_BUILD||'gastro-equal-tabs424');}
         d.showModal();
         notifyGastro(d.querySelector('iframe'),{type:'gastro-refresh',visible:true});
     };
     $scope.$on('$routeChangeStart',function(){gastroDestroyed=true;});
-    $scope.$on('lup-open-gastro',function(event,id){if($scope.data.room && String($scope.data.room.id())===String(id))$scope.openGastro();});
-    $scope.$on('$destroy',function(){gastroDestroyed=true;var d=document.getElementById('lup-gastro-sheet');if(d)d.remove();});
+    $scope.$on('lup-open-gastro',function(event,id){if($scope.data.room && String($scope.data.room.id())===String(id))$scope.openGastro(false,true);});
+    function closeGastroFromFrame(event) {
+        var d=document.getElementById('lup-gastro-sheet');
+        var frame=d && d.querySelector('iframe');
+        if(!gastroDestroyed && event.origin===location.origin && frame && event.source===frame.contentWindow && event.data && event.data.type==='gastro-close') d.close();
+    }
+    window.addEventListener('message',closeGastroFromFrame);
+    $scope.$on('$destroy',function(){gastroDestroyed=true;window.removeEventListener('message',closeGastroFromFrame);var d=document.getElementById('lup-gastro-sheet');if(d)d.remove();});
 	$scope.loadedRoom = function(room) {
 		console.log('LocationCtrl.loadedRoom()', room);
 		$scope.data.room = room;
 		$scope.data.roomReady = true;
-        $scope.data.gastroAvailable=false;
-        if(['app.localhost','localhost','127.0.0.1'].includes(location.hostname)){
-            var rid=String(room.id());
-            fetch('/backend/index.php?_mo=LinkUUp&_me=GastroLocal&_fmt=json&_ajax=1&room='+encodeURIComponent(rid),{credentials:'same-origin'}).then(function(r){return r.json()}).then(function(raw){var g=raw.data||raw;$scope.$evalAsync(function(){if(!gastroDestroyed && String($scope.data.room.id())===rid){$scope.data.gastroAvailable=typeof g.canManage==='boolean' && !!(g.canManage||g.menuPublished||g.orderingEnabled||(Array.isArray(g.orders)&&g.orders.length));$scope.$emit('lup-gastro-context',$scope.data.gastroAvailable?{id:rid,name:room.name(),canManage:g.canManage}:null);}});}).catch(angular.noop);
-        }
+        $scope.refreshGastro();
 		$scope.afterLoadedRoom();
 	};
 	
@@ -562,17 +594,22 @@ angular.module('LUP').config(function($routeProvider) {
 	$scope.mapsHref = function(room) {
 //		console.log("LocationCtrl.mapsHref()", room);
 		var destination = $scope.mapsDestination(room);
+		if (!destination) return undefined;
 		return "https://www.google.com/maps/dir/?api=1&dir_action=navigate&travelmode=walking&destination=" + encodeURIComponent(destination);
 	};
 	
 	$scope.mapsDestination = function(room) {
 //		console.log("LocationCtrl.mapsDestination()", room);
-		var lat = Number(room.lat());
-		var lng = Number(room.lng());
-		if (Number.isFinite(lat) && Number.isFinite(lng)) {
+		if (!room) return null;
+		var rawLat = room.lat(), rawLng = room.lng();
+		var lat = Number(rawLat), lng = Number(rawLng);
+		var supplied = function(value) { return value !== null && value !== undefined && String(value).trim() !== ''; };
+		// 0,0 is an unset-coordinate sentinel in current LinkUUp imports/test venues.
+		if (supplied(rawLat) && supplied(rawLng) && Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180 && !(lat === 0 && lng === 0)) {
 			return lat + "," + lng;
 		}
-		return [room.street(), room.zip(), room.city()].filter(Boolean).join(', ');
+		var street = String(room.street() || '').trim(), zip = String(room.zip() || '').trim(), city = String(room.city() || '').trim();
+		return street && (zip || city) ? [street, zip, city].filter(Boolean).join(', ') : null;
 	};
 
 	/////////////////////

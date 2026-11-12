@@ -447,9 +447,11 @@ controller('LUPCtrl', function($scope, $rootScope, $q, $timeout, $interval, $loc
     $scope.gastroNav = null;
     $scope.gastroVenues = [];
     $scope.gastroVenuesState = 'idle';
+    $scope.gastroCanReview = false;
     var gastroRequest = 0, gastroPending = null;
     $scope.refreshGastroVenues = function() {
         var request = ++gastroRequest;
+        $scope.gastroCanReview = false;
         if (!$scope.data.authenticated || !['app.localhost','localhost','127.0.0.1'].includes(location.hostname)) {
             $scope.gastroVenues = []; $scope.gastroVenuesState = 'unavailable'; return $q.when([]);
         }
@@ -460,9 +462,12 @@ controller('LUPCtrl', function($scope, $rootScope, $q, $timeout, $interval, $loc
             var data=raw.data||raw;
             if(!Array.isArray(data.venues)) throw new Error('Betriebe konnten nicht geladen werden');
             if(request!==gastroRequest)return [];
-            $scope.gastroVenues=data.venues; $scope.gastroVenuesState='ready'; return data.venues;
+            $scope.gastroVenues=data.venues; $scope.gastroCanReview=data.canReviewMenus===true; $scope.gastroVenuesState='ready'; return data.venues;
         })['catch'](function(error){if(request===gastroRequest){$scope.gastroVenues=[];$scope.gastroVenuesState='error';}throw error;});
     };
+    $scope.$watch('data.authenticated', function(current, previous) {
+        if (current !== previous || current) $scope.refreshGastroVenues()['catch'](angular.noop);
+    });
     $scope.$on('lup-gastro-context', function(event, context) {
         $scope.gastroNav = context;
         if(!context || !context.canManage)gastroPending=null;
